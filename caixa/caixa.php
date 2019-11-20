@@ -1,0 +1,369 @@
+<?php require_once "../include/topo_interno2.php";
+
+require_once "../include/funcoes.php";
+
+require_once "../include/ler_credencial.php";
+	
+	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
+	$credencial_ver = 0;
+	$credencial_incluir = 0;
+	$credencial_editar = 0;
+	$credencial_excluir = 0;
+	
+	for ($x=0; $x<$totalcredencial;$x+=1) {
+		if ($credenciais[$x] == "caixa_ver") {
+			$credencial_ver = 1;
+			break;
+		}
+	}
+	
+	for ($x=0; $x<$totalcredencial;$x+=1) {
+		if ($credenciais[$x] == "caixa_incluir") {
+			$credencial_incluir = 1;
+			break;
+		}
+	}
+	
+	for ($x=0; $x<$totalcredencial;$x+=1) {
+		if ($credenciais[$x] == "caixa_editar") {
+			$credencial_editar = 1;
+			break;
+		}
+	}
+	
+	for ($x=0; $x<$totalcredencial;$x+=1) {
+		if ($credenciais[$x] == "caixa_excluir") {
+			$credencial_excluir = 1;
+			break;
+		}
+	}
+	
+if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �REA
+	
+	if (isset($_REQUEST['sucesso'])) { $sucesso = $_REQUEST['sucesso']; } else { $sucesso = ''; }
+	if (isset($_REQUEST['pergunta'])) { $pergunta = $_REQUEST['pergunta']; } else { $pergunta = ''; }
+	if (isset($_REQUEST['excluir'])) { $excluir = $_REQUEST['excluir']; } else { $excluir = ''; }
+	
+	if ($excluir != '') {
+		//$sql = "delete from caixa where cod_caixa = ". $excluir;
+		//mysql_query($sql);
+		
+		//$excluir = '1';
+	}
+	
+	//FUN��O QUE RETORNA O TOTAL DE PAGINAS E QUANTIDADE DE REGISTRO POR PAGINAS
+	$sql = "Select COUNT(cod_grupo_produto) as total from grupo_produtos ";
+	if (isset($_REQUEST['acao'])){
+		if ($_REQUEST['acao'] == "buscar"){
+			if ($_REQUEST['nome'] != ""){
+				$sql = $sql . " where descricao like '%".$_REQUEST['nome']."%' ";
+			}
+		}
+	}	
+	$query = mysql_query($sql);
+	$registros = mysql_num_rows($query);
+	if ($registros > 0) {
+		if ($rs = mysql_fetch_array($query)) {
+			$totalregistro = $rs['total'];
+		}
+	}
+	
+	
+  	// Calcula a quantidade de paginas
+	$registrosPagina = 30; // Define a quantidade de registro por Paginas
+	$paginas = $totalregistro / $registrosPagina; // Calcula o total de paginas
+	$resto = $totalregistro % $registrosPagina; // Pega o resto da divis�o
+	$paginas = intval($paginas); // Converte o resultado para inteiro
+	if ($resto > 0) { $paginas = $paginas + 1; } // Se o resto maior do que 0, soma a var paginas para a pagina��o ficar correta
+	
+	if (isset($_REQUEST['pagina'])) {
+		$pagina = $_REQUEST['pagina']; // recupera a pagina
+	} else { // Primeira pagina
+		$pagina = 1;
+	}
+	
+   $inicio = ( $pagina - 1 ) * $registrosPagina; //Defini o inicio da lista
+   $final = $registrosPagina + $inicio; //Define o final da lista
+   $contador = 0; //Seta variavel de Contador
+   
+   // Converte para inteiro
+   $pagina = intval($pagina);	
+	
+	$cod_empresa = $_SESSION['cod_empresa'];
+
+?>
+        <div id="wrapper">
+            <div id="layout-static">
+				<?php include('menu.php');?>
+                <div class="static-content-wrapper">
+                    <div class="static-content">
+                        <div class="page-content">
+                            <ol class="breadcrumb">
+								<li><a href="#">Principal</a></li>
+								<li class="active"><a href="caixa.php">Gaveta do Caixa</a></li>
+                            </ol>
+							
+                            <div class="page-heading">            
+                                <h1>Gaveta do Caixa</h1>
+                                <div class="options">
+						  	  <?php 
+							  if ($credencial_incluir == '1') {
+							  ?>								
+								<a class="btn btn-default btn-label" href="caixa_info.php"><i class="fa fa-plus-circle"></i> Novo</a>
+							  <?php
+							  }
+							  ?>								
+								</div>
+                            </div>
+                            <div class="container-fluid">
+								<script language="JavaScript">
+									function paginacao () {
+								  		document.forms[0].action = "grupo_produtos.php";
+									  	document.forms[0].submit();
+									}
+								</script>
+							
+								<?php
+								if ($sucesso == '1') {
+								?>
+								<div class="alert alert-dismissable alert-success">
+									<i class="fa fa-fw fa-check"></i>&nbsp; <strong>Dados gravados com sucesso!</strong>
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								</div>
+								<?php
+								} else if ($sucesso == '2') {
+								?>
+								<div class="alert alert-dismissable alert-success">
+									<i class="fa fa-fw fa-check"></i>&nbsp; <strong>Dados alterados com sucesso!</strong>
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								</div>				
+								<?php
+								}
+								
+								if ($pergunta != '') {
+								?>
+								<div class="alert alert-dismissable alert-info">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+									<strong>Deseja realmente excluir o código número <?php echo $pergunta; ?> ?</strong><br>
+									<br><a class="btn btn-success" href="grupo_produtos.php?excluir=<?php echo $pergunta;?>">Sim</a>&nbsp;&nbsp;&nbsp; <a class="btn btn-danger" href="grupo_produtos.php">Não</a>
+								</div>				
+								<?php
+								}
+								
+								if ($excluir != '') {
+								?>
+								<div class="alert alert-dismissable alert-danger">
+									<i class="fa fa-fw fa-times"></i>&nbsp; <strong>Registro excluido com sucesso!</strong>
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								</div>				
+								<?php
+								}
+								?>
+
+<form action="grupo_produtos.php" class="form-horizontal row-border" name='frm' method="post">
+
+	<input type='hidden' name='acao' value='buscar'>
+
+	<div class="row">
+
+	    <div class="col-sm-12">
+
+			<div class="panel panel-sky">
+				<div class="panel-heading">
+					<h2>Filtros</h2>
+				</div>
+				<div class="panel-body">
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Data Inicial</label>
+						<div class="col-sm-2">
+
+							<input type="text" class="form-control mask" 
+								id="dt_inicial" 
+								name="dt_inicial" 
+								data-inputmask-alias="dd/mm/yyyy" 
+								data-inputmask="'alias': 'date'" 
+								data-val="true" 
+								data-val-required="Required" 
+								placeholder="dd/mm/yyyy"
+								value="<?php if (isset($_REQUEST['dt_inicial'])){ if ($_REQUEST['dt_inicial'] != ""){ echo $_REQUEST['dt_inicial']; } }?>"
+								>
+
+						</div>
+						<label class="col-sm-2 control-label">Data Final</label>
+						<div class="col-sm-2">
+
+							<input type="text" class="form-control mask" 
+								id="dt_final" 
+								name="dt_final" 
+								data-inputmask-alias="dd/mm/yyyy" 
+								data-inputmask="'alias': 'date'" 
+								data-val="true" 
+								data-val-required="Required" 
+								placeholder="dd/mm/yyyy"
+								value="<?php if (isset($_REQUEST['dt_final'])){ if ($_REQUEST['dt_final'] != ""){ echo $_REQUEST['dt_final']; } }?>"
+								>
+
+						</div>
+					</div>
+
+					<div class="panel-footer">
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2">
+								<button class="btn-primary btn" onclick="javascript:document.forms['frm'].submit();">Buscar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</form>
+
+        <div class="panel panel-sky">
+            <div class="panel-heading">
+                <h2>Extrato da Gaveta</h2>
+				<p align='right'>
+				<select name='pagina' class="form-control" style="width: 60px;" onChange="javascript:paginacao();">
+				  	<?php for ($i=1; $i<=$paginas; $i++) {?>
+					<option value="<?php echo $i; ?>" <?php if ($pagina == $i) { echo " Selected"; }?>><?php echo $i;?></option>
+					<?php
+						  }
+					?>
+				</select>
+				</p>
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table" border="1" bordercolor="#EEEEEE">
+                    <thead>
+                        <tr>
+                            <th width="10">CÓDIGO</th>
+							<th width="100">Data/Hora</th>
+							<th width="100">Descricao</th>
+							<th width="100">Envolvido</th>
+							<th width="100">Dinheiro</th>
+							<th width="100">C. Debito</th>
+							<th width="100">C. Credito</th>
+							<th width="100">Ch. Vista</th>
+							<th width="100">Ch. Prazo</th>
+							<th width="100">Fiado</th>
+							<th width="100">Opcoes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    <?php
+		//CARREGA LISTA
+	$sql = "
+	select 		c.cod_caixa, c.descricao, c.dt_abertura, u.nome, c.dinheiro, c.c_debito, c.c_credito, c.ch_vista, c.ch_prazo, c.fiado
+	from 		caixa c
+	inner join 	usuarios u on u.cod_usuario = c.cod_usuario
+	where		c.cod_empresa = ".$cod_empresa."
+	";
+	
+	if (isset($_REQUEST['acao'])){
+		if ($_REQUEST['acao'] == "buscar"){
+			
+			if ($_REQUEST['nome'] != ""){
+				$sql = $sql . " and descricao like '%".$_REQUEST['nome']."%' ";
+			}
+
+		}
+	}
+	$sql .= "
+	order by 	dt_abertura desc;
+	";
+	$query = mysql_query($sql);
+
+	$registros = mysql_num_rows($query);
+	
+	if ($registros > 0) {
+		while (($rs = mysql_fetch_array($query)) && ($contador<$final)){ 
+			$contador = $contador + 1; //Contador
+	    	if ($contador>$inicio) { //Condi�ao para mostrar somente os registros maiores
+		?>
+                        <tr>
+                            <td align="left"><?php echo $rs['cod_caixa'];?></td>
+							<td align="left"><?php echo $rs['dt_abertura'];?></td>
+							<td align="left"><?php echo $rs['descricao'];?></td>
+							<td align="left"><?php echo $rs['nome'];?></td>
+							<td align="left"><?php echo $rs['dinheiro'];?></td>
+							<td align="left"><?php echo $rs['c_debito'];?></td>
+							<td align="left"><?php echo $rs['c_credito'];?></td>
+							<td align="left"><?php echo $rs['ch_vista'];?></td>
+							<td align="left"><?php echo $rs['ch_prazo'];?></td>
+							<td align="left"><?php echo $rs['fiado'];?></td>
+
+                            <td align='center'>
+
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        Dropdown <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Separated link</a></li>
+                                    </ul>
+                                </div>
+
+
+						  	  <?php 
+							  //if ($credencial_editar == '1') {
+							  ?>							
+								<!--a class="btn btn-success btn-label" href="conta_info.php?acao=alterar&id=<?php echo $rs['cod_conta'];?>"><i class="fa fa-edit"></i> Editar</a>&nbsp;
+						  	  <?php 
+							  //}
+							  //if ($credencial_excluir == '1') {
+							  ?>
+								<a class="btn btn-danger btn-label" href="conta.php?pergunta=<?php echo $rs['cod_conta'];?>"><i class="fa fa-times-circle"></i> Excluir</a>
+							  <?php
+							  //}
+							  ?>	
+							<a class="btn btn-info btn-label" href="conta_ver.php?id=<?php echo $rs['cod_conta'];?>"><i class="fa fa-eye"></i> Ver</a-->
+							</td>
+                        </tr>
+    <?php
+			} // Contador
+		} // while
+	?>
+                        <tr>
+                            <td align="right" colspan="7"><b>Total de registro: <?php echo $totalregistro; ?></b></td>
+                        </tr>
+
+<?php
+	} else { // registro
+	?>
+                        <tr>
+                            <td align="center" colspan="7">Não tem nenhum registro!</td>
+                        </tr>
+<?php
+	}
+?>		
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+</form>
+                            </div> <!-- .container-fluid -->
+                        </div> <!-- #page-content -->
+                    </div>
+<?php 
+} // VER
+include('../include/rodape_interno2.php');
+?>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	  $(":input[data-inputmask-mask]").inputmask();
+	  $(":input[data-inputmask-alias]").inputmask();
+	  $(":input[data-inputmask-regex]").inputmask("Regex");
+	});
+</script>
