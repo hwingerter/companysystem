@@ -246,18 +246,19 @@ function ComboLicenca($cod_licenca)
 	";
 	$query = mysql_query($sql);
 	$registros = mysql_num_rows($query);
-	if ($registros > 0) {
-		echo "<select name='cod_licenca' class='form-control' id='cod_licenca'>";
-		echo "<option value=''>Selecione...</option>";
-		while ($rs = mysql_fetch_array($query)){ 
+	echo "<select name='cod_licenca' class='form-control' id='cod_licenca'>";
+	echo "<option value=''>Selecione...</option>";
+	if ($registros > 0) 
+	{		
+		while ($rs = mysql_fetch_array($query))
+		{ 
 			echo "<option value='". $rs['cod_licenca'] ."'";
 			$retVal = ($rs['cod_licenca'] == $cod_licenca) ? " selected " : "" ;
 			echo $retVal.">".$rs['descricao']." (".$rs['valor'].")". "</option>";	
-
 		}
-		echo "</select>";
+		
 	}
-	
+	echo "</select>";
 }
 
 function ComboLicencaRenovacao($cod_licenca_atual) {

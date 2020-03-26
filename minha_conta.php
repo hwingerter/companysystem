@@ -17,6 +17,8 @@ if (isset($_REQUEST['acao'])){
 		
 		$Erro = "";
 
+		$cod_usuario = $_SESSION['cod_usuario'];
+
 		//validações
 		if(($senha != "") || ($confirmar_senha != ""))
 		{
@@ -36,7 +38,7 @@ if (isset($_REQUEST['acao'])){
 				$senha = md5($senha);
 				$sql .= ", senha = '". $senha ."'"; 
 			}
-			$sql .= " where cod_usuario = ". $_SESSION['usuario_id'];
+			$sql .= " where cod_usuario = ". $cod_usuario;
 			//echo $sql;die;
 			mysql_query($sql);
 			
@@ -47,7 +49,7 @@ if (isset($_REQUEST['acao'])){
 	
 }
 
-	$sql = "Select * from usuarios where cod_usuario = " . $_SESSION['usuario_id'];
+	$sql = "Select * from usuarios where cod_usuario = " . $_SESSION['cod_usuario'];
 	$query = mysql_query($sql);
 	$registros = mysql_num_rows($query);
 	if ($registros > 0) {

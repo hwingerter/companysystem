@@ -1,14 +1,10 @@
 <?php
-//session_start();
+session_start();
 
-/*
-if ($_SESSION['usuario_id'] == '') {
+if ($_SESSION['cod_usuario'] == '') {
 	header("location:login.php"); 
 } else {
-	header("location:usuarios/usuarios.php"); 
+	header("location:inicio.php"); 
 }
-*/
-
-header("location:login.php"); 
 
 ?>

@@ -1,0 +1,17 @@
+INSERT INTO `claudio_company`.`area` (`nome`) VALUES ('Agenda');
+INSERT INTO `claudio_company`.`area` (`nome`) VALUES ('Estoque');
+INSERT INTO `claudio_company`.`area` (`nome`) VALUES ('Salários e Comissões');
+INSERT INTO `claudio_company`.`area` (`nome`) VALUES ('Relatórios');
+
+
+
+
+UPDATE `claudio_company`.`area` SET `ordem` = '9' WHERE (`cod_area` = '1');
+UPDATE `claudio_company`.`area` SET `ordem` = '1' WHERE (`cod_area` = '2');
+UPDATE `claudio_company`.`area` SET `ordem` = '2' WHERE (`cod_area` = '6');
+UPDATE `claudio_company`.`area` SET `ordem` = '3' WHERE (`cod_area` = '3');
+UPDATE `claudio_company`.`area` SET `ordem` = '4' WHERE (`cod_area` = '4');
+UPDATE `claudio_company`.`area` SET `ordem` = '5' WHERE (`cod_area` = '7');
+UPDATE `claudio_company`.`area` SET `ordem` = '6' WHERE (`cod_area` = '5');
+UPDATE `claudio_company`.`area` SET `ordem` = '7' WHERE (`cod_area` = '8');
+UPDATE `claudio_company`.`area` SET `ordem` = '8' WHERE (`cod_area` = '9');

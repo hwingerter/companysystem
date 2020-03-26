@@ -6,10 +6,7 @@ require_once "../include/funcoes.php";
 require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	$credencial_ver = 0;
-	$credencial_incluir = 0;
-	$credencial_editar = 0;
-	$credencial_excluir = 0;
+
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "empresa_ver") {
@@ -104,7 +101,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 
 	$cod_usuario	= $_SESSION['usuario_id'];
 	$cod_grupo		= $_SESSION['cod_grupo'];
-	$cod_empresa	= $_SESSION['cod_empresa'];
+	$cod_empresa_principal	= 1;
 
 ?>
 
@@ -223,20 +220,16 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
                     <tbody>
     <?php
 		//CARREGA LISTA
+	$where = 0;
+
+	
 	$sql = "
 	select		e.cod_empresa, e.empresa, e.endereco, e.bairro
 	from 		empresas e
-	left join	usuarios_grupos_empresas uge on uge.cod_empresa = e.cod_empresa ";
+	inner join 	usuarios_empresas ge on ge.cod_empresa = e.cod_empresa
+	where 		e.cod_empresa <> ".$cod_empresa_principal."
+	";
 
-	$where = 0;
-	if($_SESSION['usuario_conta'] != 1){ 
-
-		$sql .= "where uge.cod_usuario = ".$cod_usuario." ";
-
-	}else{
-		//$sql .= "where uge.cod_empresa = ".$cod_empresa." ";
-		$where = 1;
-	}
 
 	if (isset($_REQUEST['acao'])){
 		if ($_REQUEST['acao'] == "buscar"){
@@ -244,14 +237,14 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 				if($where == 0){
 					$sql = $sql . "and  empresa like '%".$_REQUEST['nome']."%' ";
 				}else{
-					$sql = $sql . "where  empresa like '%".$_REQUEST['nome']."%' ";
+					$sql = $sql . "and empresa like '%".$_REQUEST['nome']."%' ";
 				}
 			}
 		}
 	}
 	$sql .= "
 	group by	e.cod_empresa, e.empresa
-	order by cod_empresa asc";
+	order by 	e.cod_empresa asc";
 	
 	//echo $sql;
 

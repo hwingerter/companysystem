@@ -91,6 +91,8 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			and 	cod_servico = ".$cod_servico."
 			";
 
+			//echo $sql;die;
+
 			$query = mysql_query($sql);
 			$total = mysql_num_rows($query);
 
@@ -383,7 +385,7 @@ if (isset($_REQUEST['acao'])){
 	}
 	
 }
-	
+
 
 $cod_empresa	= $_SESSION['cod_empresa'];
 $nome 			= $_REQUEST["nome"];
@@ -504,15 +506,6 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 													</div>
 
 													<div class="form-group">
-														<label class="col-sm-2 control-label"><b>Valor Unitário</b></label>
-														<div class="col-sm-2">
-															<label id="lblCarregandoValorUnitario" style="display:none;" class="label label-primary">Carregando...</label>
-															<label id="lblValorUnitario" class="control-label">R$ 0,00</label>
-														</div>
-													</div>
-
-
-													<div class="form-group">
 														<label class="col-sm-2 control-label"><b>Quantidade</b></label>
 														<div class="col-sm-1">
 															<select name="quantidade" id="quantidade" class="form-control" onChange="CalcularSubTotal();">
@@ -536,22 +529,11 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 													</div>
 
 													<div class="form-group">
-														<label class="col-sm-2 control-label"><b>SubTotal</b></label>
-
-														<?php if ($acao=="alterar"){?>
-
-
-
-									              		<?php }else{?>
-
-															<div class="col-sm-1">
-																<label id="CarregandoSubTotal" style="display:none;" class="label label-primary">Carregando...</label>
-																<label id="SubTotal" class="control-label">R$ 0,00</label>
-															</div>
-
-									              		<?php } ?>	
-
-
+														<label class="col-sm-2 control-label"><b>Valor Unitário</b></label>
+														<div class="col-sm-2">
+															<label id="lblCarregandoValorUnitario" style="display:none;" class="label label-primary">Carregando...</label>
+															<label id="lblValorUnitario" class="control-label">R$ 0,00</label>
+														</div>
 													</div>
 
 													<div class="form-group">

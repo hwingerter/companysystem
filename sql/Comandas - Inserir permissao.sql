@@ -1,0 +1,1 @@
+insert into permissoes (descricao, permissao) values ('Comanda', 'comanda');

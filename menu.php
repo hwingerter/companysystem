@@ -1,17 +1,15 @@
 <?php
 
-if (($_SESSION['usuario_conta'] == 1) && ($_SESSION['empresa'] == "")){
-	$nome_empresa = "Master";
-}else{
-	$nome_empresa = $_SESSION['empresa'];
-}
-
-$tipo_conta 	= $_SESSION['usuario_conta'];
+$usuario_nome 	= $_SESSION['usuario_nome'];
+$tipo_conta		= $_SESSION['tipo_conta'];
 $cod_empresa 	= $_SESSION['cod_empresa'];
 
+$nome_empresa 	= $_SESSION['empresa'];
+$perfil 		= $_SESSION['tipo_conta_descricao'];
+
+$texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
+
 ?>
-
-
 
 <div class="static-sidebar-wrapper sidebar-midnightblue">
     <div class="static-sidebar">
@@ -20,8 +18,7 @@ $cod_empresa 	= $_SESSION['cod_empresa'];
 		        <div class="widget-body welcome-box tabular">
 		            <div class="tabular-row">
 		                <div class="tabular-cell welcome-options">
-		                    <span class="welcome-text">Acesso à empresa,</span>
-		                    <?php echo $nome_empresa; ?>
+		                    <span class="welcome-text"><?php echo $texto_bem_vindo;?></span>
 		                </div>
 		            </div>
 		        </div>
@@ -29,28 +26,31 @@ $cod_empresa 	= $_SESSION['cod_empresa'];
 			<div class="widget stay-on-collapse" id="widget-sidebar">
 				<nav role="navigation" class="widget-body">
 					<ul class="acc-menu">
-						<li class="nav-separator">Menu</li>
-						<li><a href="<?php echo sistema; ?>inicio.php"><i class="fa fa-building"></i><span>Início</span></a></li>
+						
+						<li><a href="<?php echo sistema; ?>inicio.php"><span>Início</span></a></li>
+						
+						<?php
 
-				  			<?php
-
-							  if (($tipo_conta == "1") && ($cod_empresa == "") )
-							  {
-							  ?>		
-							  <li><a href="javascript:;"><i class="fa fa-cog"></i><span>Administração</span></a>
+							if ($cod_empresa == "1")
+							{
+							?>		
+							<li><a href="javascript:;"><i class="fa fa-cog"></i><span>Controle de Acesso</span></a>
 								<ul class="acc-menu">
-								<li><a href="<?php echo sistema; ?>trocar_empresa.php"><span>Acessar Empresa</span></a></li>
-								<!--li><a href="<?php echo sistema; ?>grupos_empresas/grupos.php"><span>Grupos de Empresas</span></a></li-->
-								<li><a href="<?php echo sistema; ?>adm_empresa/empresas.php"><span>Empresas</span></a></li>
-								<li><a href="<?php echo sistema; ?>licenca/licencas.php"><span>Licenças</span></a></li>
-								<li><a href="<?php echo sistema; ?>tipo_conta/adm_perfil.php"><span>Tipos de Conta</span></a></li>
-								<li><a href="<?php echo sistema; ?>gestao_usuarios/adm_usuarios.php"><span>Usuários</span></a></li>
+									<li><a href="<?php echo sistema; ?>tipo_conta/adm_perfil.php"><span>Tipo de Conta</span></a></li>
+									<li><a href="<?php echo sistema; ?>gestao_usuarios/adm_usuarios.php"><span>Usuários</span></a></li>								
 								</ul>
-							  </li>
+							<li><a href="javascript:;"><i class="fa fa-list"></i><span>Cadastros</span></a>
+								<ul class="acc-menu">
+									<li><a href="<?php echo sistema; ?>empresa/empresas.php"><span>Empresas</span></a></li>
+								</ul>
+							</li>
 
 							<?php
 
-							}elseif (($tipo_conta == "1") && ($cod_empresa != "") ){
+							}
+							
+							/*
+							elseif (($tipo_conta == "1") && ($cod_empresa != "") ){
 							?>
 							  <li><a href="javascript:;"><i class="fa fa-cog"></i><span>Administração</span></a>
 								<ul class="acc-menu">
@@ -63,136 +63,157 @@ $cod_empresa 	= $_SESSION['cod_empresa'];
 							// Para ver os menu abaixo e obrigatorio escolher uma empresa.
 							if ($cod_empresa != "") 
 							{ 
-	 					    ?>
-							<li><a href="javascript:;"><i class="fa fa-television"></i><span>Sistema</span></a>
-							<ul class="acc-menu">			
+
+								if ($acesso_minha_empresa == 1)
+								{
+									?>							 
+									<li><a href="javascript:;"><i class="fa fa-television"></i><span>Minha Empresa</span></a>
+										<ul class="acc-menu">			
+										<?php 
+
+											if ( ($_SESSION['usuario_conta'] != '1') && ($_SESSION['TotalEmpresas'] > 1) ){ ?>
+												<li><a href="<?php echo sistema; ?>trocar_empresa.php"><span>Filiais</span></a></li>
+											<?php
+											}							
+
+											for ($i = 0; $i <= $totalcredencial-1; $i++) {
+												if ($credenciais[$i] == 'tipo_conta_ver') {
+											?>										
+												<li><a href="<?php echo sistema; ?>perfil/tipo_contas.php"><span>Tipos de Contas</span></a></li>
+											<?php
+													break;
+												}
+											}
+
+											for ($i = 0; $i <= count($credenciais); $i++) {
+												if ($credenciais[$i] == 'usuario_ver') {
+												?>										
+												<li><a href="<?php echo sistema; ?>usuarios/usuarios.php"><span>Usuários</span></a></li>
+												<?php
+													break;
+												}
+											}
+
+											?>
+
+											<li><a href="<?php echo sistema; ?>preferencias/preferencias.php"><span>Minhas Preferências</span></a></li>
+
+											<?php							
+											for ($i = 0; $i <= $totalcredencial-1; $i++) {
+												if ($credenciais[$i] == 'credencial_ver') {
+												?>										
+													<li><a href="<?php echo sistema; ?>credenciais/credenciais.php"><span>Credenciais</span></a></li>
+												<?php
+												break;
+												}
+											}
+										?>
+										</ul>
+									</li>
+								<?php 
+								}
+
+
+							if ($acesso_cadastros == 1)
+							{
+
+							?>
+								<li><a href="javascript:;"><i class="fa fa-list"></i><span>Cadastros</span></a>
+									<ul class="acc-menu">
+									<?php
+									for ($i = 0; $i <= $totalcredencial-1; $i++) {
+										if ($credenciais[$i] == 'empresa_ver') {
+									?>										
+										<li><a href="<?php echo sistema; ?>empresa/empresas.php"><span>Empresas</span></a></li>
+									<?php
+											break;
+										}
+									}
+									
+									for ($i = 0; $i <= $totalcredencial-1; $i++) {
+										if ($credenciais[$i] == 'cliente_ver') {
+									?>										
+										<li><a href="<?php echo sistema; ?>cliente/clientes.php"><span>Clientes</span></a></li>
+									<?php
+											break;
+										}
+									}
+									
+									for ($i = 0; $i <= $totalcredencial-1; $i++) {
+										if ($credenciais[$i] == 'fornecedor_ver') {
+									?>										
+										<li><a href="<?php echo sistema; ?>fornecedor/fornecedores.php"><span>Fornecedores</span></a></li>
+									<?php
+											break;
+										}
+									}
+									
+									for ($i = 0; $i <= $totalcredencial-1; $i++) {
+										if ($credenciais[$i] == 'produto_ver') {
+									?>										
+										<li><a href="<?php echo sistema; ?>produto/produtos.php"><span>Produtos</span></a></li>
+									<?php
+											break;
+										}
+									}
+									
+									for ($i = 0; $i <= $totalcredencial-1; $i++) {
+										if ($credenciais[$i] == 'grupo_produto_ver') {
+									?>										
+										<li><a href="<?php echo sistema; ?>grupo_produtos/grupo_produtos.php"><span>Grupo de Produtos</span></a></li>
+									<?php
+											break;
+										}
+									}
+									
+									for ($i = 0; $i <= $totalcredencial-1; $i++) {
+										if ($credenciais[$i] == 'profissional_ver') {
+									?>										
+										<li><a href="<?php echo sistema; ?>profissional/profissionais.php"><span>Profissionais</span></a></li>
+									<?php
+											break;
+										}
+									}									  
+
+									for ($i = 0; $i <= $totalcredencial-1; $i++) {
+										if ($credenciais[$i] == 'tiposervico_ver') {
+									?>										
+										<li><a href="<?php echo sistema; ?>tipo_servico/tipo_servicos.php"><span>Tipo de Serviço</span></a></li>
+									<?php
+											break;
+										}
+									}	
+
+									for ($i = 0; $i <= $totalcredencial-1; $i++) {
+										if ($credenciais[$i] == 'servico_ver') {
+									?>										
+										<li><a href="<?php echo sistema; ?>servicos/servicos.php"><span>Serviços</span></a></li>
+									<?php
+											break;
+										}
+									}	
+
+									for ($i = 0; $i <= $totalcredencial-1; $i++) {
+										if ($credenciais[$i] == 'cartao_ver') {
+									?>										
+										<li><a href="<?php echo sistema; ?>cartao/cartao.php"><span>Cartão</span></a></li>
+									<?php
+											break;
+										}
+									}	
+									?>											
+									
+									</ul>
+								</li>	
+
 							<?php 
-								if ( ($_SESSION['usuario_conta'] != '1') && ($_SESSION['TotalEmpresas'] > 1) ){ ?>
-									<li><a href="<?php echo sistema; ?>trocar_empresa.php"><span>Acessar Filial</span></a></li>
-								<?php } ?>
-
-								<li><a href="<?php echo sistema; ?>preferencias/preferencias.php"><span>Preferências</span></a></li>
-							  <?php
-
-						  
-							  for ($i = 0; $i <= $totalcredencial-1; $i++) {
-								if ($credenciais[$i] == 'tipo_conta_ver') {
-							  ?>										
-								<li><a href="<?php echo sistema; ?>perfil/tipo_contas.php"><span>Tipo de Conta</span></a></li>
-							  <?php
-							  		break;
-							  	}
-							  }
-							  
-							  for ($i = 0; $i <= $totalcredencial-1; $i++) {
-								if ($credenciais[$i] == 'credencial_ver') {
-							  ?>										
-								<li><a href="<?php echo sistema; ?>credenciais/credenciais.php"><span>Credenciais</span></a></li>
-							  <?php
-							  		break;
-							  	}
-							  }
-
-							  for ($i = 0; $i <= count($credenciais); $i++) {
-								if ($credenciais[$i] == 'usuario_ver') {
-							  	?>										
-								<li><a href="<?php echo sistema; ?>usuarios/usuarios.php"><span>Usuários</span></a></li>
-							  	<?php
-							  		break;
-							  	}
-							  }
-
-								?>
-							  </ul>
-							</li>
-
-							<li><a href="javascript:;"><i class="fa fa-list"></i><span>Cadastros</span></a>
-								<ul class="acc-menu">
-								  <?php
-								  for ($i = 0; $i <= $totalcredencial-1; $i++) {
-									if ($credenciais[$i] == 'empresa_ver') {
-								  ?>										
-									<li><a href="<?php echo sistema; ?>empresa/empresas.php"><span>Empresas</span></a></li>
-								  <?php
-								  		break;
-								  	}
-								  }
-								  
-								  for ($i = 0; $i <= $totalcredencial-1; $i++) {
-									if ($credenciais[$i] == 'cliente_ver') {
-								  ?>										
-									<li><a href="<?php echo sistema; ?>cliente/clientes.php"><span>Clientes</span></a></li>
-								  <?php
-								  		break;
-								  	}
-								  }
-								  
-							  for ($i = 0; $i <= $totalcredencial-1; $i++) {
-								if ($credenciais[$i] == 'fornecedor_ver') {
-							  ?>										
-								<li><a href="<?php echo sistema; ?>fornecedor/fornecedores.php"><span>Fornecedores</span></a></li>
-							  <?php
-							  		break;
-							  	}
-							  }
-							  
-							  for ($i = 0; $i <= $totalcredencial-1; $i++) {
-								if ($credenciais[$i] == 'produto_ver') {
-							  ?>										
-								<li><a href="<?php echo sistema; ?>produto/produtos.php"><span>Produtos</span></a></li>
-							  <?php
-							  		break;
-							  	}
-							  }
-							  
-							  for ($i = 0; $i <= $totalcredencial-1; $i++) {
-								if ($credenciais[$i] == 'grupo_produto_ver') {
-							  ?>										
-								<li><a href="<?php echo sistema; ?>grupo_produtos/grupo_produtos.php"><span>Grupo de Produtos</span></a></li>
-							  <?php
-							  		break;
-							  	}
-							  }
-							  
-							  for ($i = 0; $i <= $totalcredencial-1; $i++) {
-								if ($credenciais[$i] == 'profissional_ver') {
-							  ?>										
-								<li><a href="<?php echo sistema; ?>profissional/profissionais.php"><span>Profissionais</span></a></li>
-							  <?php
-							  		break;
-							  	}
-							  }									  
-
-							  for ($i = 0; $i <= $totalcredencial-1; $i++) {
-								if ($credenciais[$i] == 'tiposervico_ver') {
-							  ?>										
-								<li><a href="<?php echo sistema; ?>tipo_servico/tipo_servicos.php"><span>Tipo de Serviço</span></a></li>
-							  <?php
-							  		break;
-							  	}
-							  }	
-
-							  for ($i = 0; $i <= $totalcredencial-1; $i++) {
-								if ($credenciais[$i] == 'servico_ver') {
-							  ?>										
-								<li><a href="<?php echo sistema; ?>servicos/servicos.php"><span>Serviços</span></a></li>
-							  <?php
-							  		break;
-							  	}
-							  }	
-
-							  for ($i = 0; $i <= $totalcredencial-1; $i++) {
-								if ($credenciais[$i] == 'cartao_ver') {
-							  ?>										
-								<li><a href="<?php echo sistema; ?>cartao/cartao.php"><span>Cartão</span></a></li>
-							  <?php
-							  		break;
-							  	}
-							  }	
-								  ?>											
-								
-								</ul>
-							</li>					
+							
+							}
+							
+							
+							if ($acesso_agenda == 1)
+							{						
+							?>				
 
 							<li><a href="javascript:;"><i class="fa fa-list"></i><span>Agenda</span></a>
 								<ul class="acc-menu">
@@ -200,7 +221,14 @@ $cod_empresa 	= $_SESSION['cod_empresa'];
 									<li><a href="<?php echo sistema; ?>agenda/localizar_reserva.php"><span>Localizar Reserva</span></a></li>
 									<li><a href="<?php echo sistema; ?>agenda/agendamentos.php"><span>Relatório de Agendamentos</span></a></li>
 								</ul>
-							</li>				  
+							</li>	
+
+							<?php 
+							}
+
+							if ($acesso_caixa == 1)
+							{
+							?>			  
 							
 							  <li>
 							  	<a href="javascript:;"><i class="fa fa-money"></i><span>Caixa</span></a>
@@ -210,15 +238,28 @@ $cod_empresa 	= $_SESSION['cod_empresa'];
 
 							  </li>
 
+							<?php 
+							}
+
+							if ($acesso_vendas == 1)
+							{
+							?>
 
 							  <li>
-							  	<a href="javascript:;"><i class="fa fa-money"></i><span>Comanda</span></a>
+							  	<a href="javascript:;"><i class="fa fa-money"></i><span>Vendas</span></a>
 								<ul class="acc-menu">
-									<li><a href="<?php echo sistema; ?>comanda/comanda.php"><span>Comanda</span></a></li>
+									<li><a href="<?php echo sistema; ?>comanda/comanda.php"><span>Vendas</span></a></li>
 									<li><a href="<?php echo sistema; ?>comanda/comanda_historico_vendas.php"><span>Histórico de Vendas</span></a></li>
 									<li><a href="<?php echo sistema; ?>comanda/comanda_historico_itens_vendidos.php"><span>Histórico de Itens Vendidos</span></a></li>
 								</ul>
 							  </li>
+
+							<?php 
+							}
+
+							if ($acesso_estoque == 1)
+							{
+							?>
 
 							  <li>
 							  	<a href="javascript:;"><i class="fa fa-money"></i><span>Estoque</span></a>
@@ -228,6 +269,13 @@ $cod_empresa 	= $_SESSION['cod_empresa'];
 										<li><a href="<?php echo sistema; ?>estoque/lancar_compra.php"><span>Compra/Movimentação</span></a></li>
 									</ul>
 							  </li>
+
+							<?php 
+							}
+
+							if ($acesso_financeiro == 1)
+							{
+							?>
 
 							  <li>
 							  	<a href="javascript:;"><i class="fa fa-money"></i><span>Financeiro</span></a>
@@ -245,6 +293,14 @@ $cod_empresa 	= $_SESSION['cod_empresa'];
 								</li>
 								
 							  <li>
+
+							<?php 
+							}
+
+							if ($acesso_salarios_comissoes == 1)
+							{
+							?>
+
 							  	<a href="javascript:;"><i class="fa fa-money"></i><span>Salários e Comissões</span></a>
 								<ul class="acc-menu">
 									<li><a href="<?php echo sistema; ?>salarios_comissoes/profissionais.php"><span>Salários, Décimo e Férias</span></a></li>
@@ -253,6 +309,13 @@ $cod_empresa 	= $_SESSION['cod_empresa'];
 									<li><a href="<?php echo sistema; ?>salarios_comissoes/pagamentos_realizados.php"><span>Pagamentos Realizados</span></a></li>
 								</ul>
 							  </li>
+
+							<?php 
+							}
+
+							if ($acesso_relatorio == 1)
+							{
+							?>
 
 								<li><a href="javascript:;"><i class="fa fa-money"></i>Relatórios</a>
 									<ul class="acc-menu">
@@ -330,12 +393,15 @@ $cod_empresa 	= $_SESSION['cod_empresa'];
 								</li>
 
 							  <?php
+
+							}
 							
 						 
-							 } // session cod_empresa
-							  ?>
+					} // session cod_empresa
+					*/
 
-								
+					?>
+						
 							  										
 								<li><a href="<?php echo sistema; ?>logout.php"><i class="fa fa-sign-out"></i><span>Sair</span></a></li>
 

@@ -1,0 +1,36 @@
+﻿HAKK SOFTWARES
+--------------------------------------------
+
+
+//	 // //   //
+//	 // //  //
+/////// /////
+//	 // // //
+// 	 // //  //
+
+--------------------------------------------
+
+CHEKOUT PAGASEGURO TRANSPARENTE 1.0 2016 | 2017
+--------------------------------------------
+
+As configurações do checkout estão todas no arquivo index.php
+Basta apenas configurar seu email e token de acesso ao pagseguro, e url de notificação (serviço não incluso)
+A alteração de valores dos produtos, inclusão de frete, ou outras configurações devem ser feitas diretamente no index.php (serviço não incluso)
+
+
+
+SANDBOX
+_____________
+	Caso use o sistema em SandBox, basta comentar as linhas de chamado do JS do pagseguro e descomentar as linhas de chamada comentada
+	Acesse também o arquivo '_checkout_validate.php' e descomente a linha da variavel $url e comente a outra. Simples.
+
+	
+
+
+Agradecemos sua compra
+
+
+
+Abraço
+https://www.hakk.com.br
+

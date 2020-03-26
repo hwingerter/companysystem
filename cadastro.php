@@ -8,9 +8,12 @@
 
 	require_once "licenca/licenca.inc.php";
 
+	require_once "include/email.php";
+
 	$flgEnviaEmail = "0";
 	$erro = '0';
 
+	if (isset($_REQUEST['cod_licenca'])) { $cod_licenca = $_REQUEST['cod_licenca']; } else { $cod_licenca = '';	}
 	if (isset($_REQUEST['empresa'])) { $empresa = $_REQUEST['empresa']; } else { $empresa = '';	}
 	if (isset($_REQUEST['celular'])) { $celular = $_REQUEST['celular']; } else { $celular = '';	}
 	if (isset($_REQUEST['telefone'])) { $telefone = $_REQUEST['telefone']; } else { $telefone = '';	}
@@ -30,24 +33,23 @@
 	if (isset($_REQUEST['senha2'])) { $senha2 = $_REQUEST['senha2']; } else { $senha2 = '';	}
 	
 	
-if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "cadastrar")){
-	
+if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "cadastrar"))
+{
+
 	if ($email == "")
 	{
 		$erro = "5";
 	}
 	else
 	{
-
-		$cod_licenca = trim(limpa($_REQUEST['cod_licenca']));
 		
-		$nome 	= limpa($nome);
-		$email  = limpa($email);
-		$senha  = limpa($senha);
-		$senha2  = limpa($senha2);
+		$nome 	= limpa(trim($nome));
+		$email  = limpa(trim($email));
+		$senha  = limpa(trim($senha));
+		$senha2  = limpa(trim($senha2));
 		
 		// VERIFICA SE O E-MAIL EXISTE
-		$sql = "Select count(*) as existe from usuarios where email='". $email ."'";
+		$sql = "Select count(*) as existe from usuarios where email='".$email."'";
 		//echo $sql;die;
 		$query = mysql_query($sql);
 		$rs = mysql_fetch_array($query);
@@ -124,7 +126,7 @@ if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "cadastrar")){
 					$cod_tipo_conta = $rs1['cod_tipo_conta'];
 
 					//INSERIR usuario na empresa
-					$sql = "insert into usuarios_grupos_empresas (cod_usuario, cod_empresa) values ('".limpa($cod_usuario_cadastro)."', ".$cod_empresa.")";
+					$sql = "insert into usuarios_empresas (cod_usuario, cod_empresa) values ('".limpa($cod_usuario_cadastro)."', ".$cod_empresa.")";
 					mysql_query($sql);
 
 					//VINCULAR A usuario AO tipo conta
@@ -144,74 +146,73 @@ if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "cadastrar")){
 		
 
 					//CRIAR LICENÇA
-					LicenciarEmpresa($cod_empresa, $cod_licenca);
+					LicenciarEmpresa_30Dias($cod_empresa, $cod_licenca);
 	
 
+					/******************************************************
+					//ENVIANDO E-MAIL
+					******************************************************/
 					if ($flgEnviaEmail == "1") 
 					{
+						$assunto = "Novo cliente cadastrado";
 
-						/******************************************************
-						//ENVIANDO E-MAIL
-						******************************************************/
-			
-						$corpo = "<b>Novo usuário cadastrado! </b><br><br>";
-						$corpo .= "<b>Nome:</b> " . $nome . "<br><br>"; 
-						$corpo .= "<b>Email:</b> " . $email . "<br><br>"; 
-						$corpo .= "<b>Empresa:</b> " . $empresa . "<br><br>";
-						$corpo .= "<b>Telefone:</b> " . str_replace("'", "",$telefone) . "<br><br>";
-						$corpo .= "<b>Celular:</b> " . str_replace("'","",$celular) . "<br><br>";
-						$corpo .= "<b>Licença:</b> " . $descricao_licenca . "<br><br>";
-			
-						require 'PHPMailerAutoload.php';
-						require 'class.phpmailer.php';
-			
-						$mailer = new PHPMailer;
-			
-						//$mailer->SMTPDebug = 2;                               
-			
-						$mailer->isSMTP();                                      // funcao mailer para usar SMTP
-			
-						$mailer->SMTPOptions = array(
-							'ssl' => array(
-								'verify_peer' => false,
-								'verify_peer_name' => false,
-								'allow_self_signed' => true
-							)
-						);
-			
-			
-						//$mailer->Host = 'plesk12l0016.hospedagemdesites.ws'; // Servidor smtp
-						$mailer->Host = 'smtp.companysystem.net.br'; // Servidor smtp
-						//Para cPanel: 'mail.dominio.com.br' ou 'localhost';
-						//Para Plesk 7 / 8 : 'smtp.dominio.com.br';
-						//Para Plesk 11 / 12.5: 'smtp.dominio.com.br' ou host do servidor exemplo : 'pleskXXXX.hospedagemdesites.ws';
-			
-						$mailer->CharSet = 'UTF-8';
-						$mailer->SMTPAuth = true;                                   // Habilita a autenticaâ”œÐ·â”œÐ³o do form
-						$mailer->IsSMTP();
-						$mailer->isHTML(true);                                      // Formato de email HTML
-						$mailer->Port = 587;									    // Porta de conexâ”œÐ³o
-			
-						$mailer->Username = 'contato@companysystem.net.br';                  // Conta de e-mail que realizarâ”œÐ± o envio
-						$mailer->Password = 'F!jht999';                                   // Senha da conta de e-mail - Ja está configurado com a senha e o e-mail correto.
-			
-						// email do destinatario
-						$address = "contato@companysystem.net.br"; // Quando for esqueci minha senha manda para o e-mail do dono da conta. Quando for a pagina de contato manda para contato@companysystem.net.br
-			
-						$mailer->AddAddress($address);        // email do destinatario
-						//$mailer->addCC("hwingerter@gmail.com"); // copia
-						$mailer->From = 'contato@companysystem.net.br';             //Obrigatâ”œâ”‚rio ser a mesma caixa postal indicada em "username"
-						$mailer->Sender = 'contato@companysystem.net.br';
-						$mailer->FromName = $nome;          // seu nome
-						$mailer->Subject = "Novo Cadastro";             // assunto da mensagem
-						$mailer->MsgHTML($corpo);             // corpo da mensagem
-						//$mailer->AddAttachment($arquivo['tmp_name'], $arquivo['name']  );      // anexar arquivo   -   "caso nâ”œÐ³o queira essa opâ”œÐ·â”œÐ³o basta comentar"
-			
-						if(!$mailer->Send()) {
-						echo "Erro: " . $mailer->ErrorInfo; 
-						} else {
-						$enviou = '1';
+						switch ($cod_licenca) {
+							case '1':
+								$descricao_licenca = "Individual";
+								break;
+							case '2':
+								$descricao_licenca = "Empresa Sem Filial";
+								break;
+							case '3':
+								$descricao_licenca = "Empresa Com Filial";
+								break;
 						}
+
+						$mensagem = "
+						<!DOCTYPE html>
+						<html lang='en'>
+						<head>
+							<meta charset='UTF-8'>
+							<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+							<meta http-equiv='X-UA-Compatible' content='ie=edge'>
+							<title>Company System</title>
+							<style>
+							#titulo{
+									font-size: 14px;
+									font-weight: bold;
+									font-family: Verdana, Geneva, Tahoma, sans-serif;
+								}
+								#resposta{
+									font-size: 14px;
+									font-family: Verdana, Geneva, Tahoma, sans-serif;
+								}
+							</style>
+						</head>
+						<body>
+							<div style='padding:2px;'>
+								<div><img src='http://www.companysystem.net.br/sistema/assets/img/COMPANY_SYSTEM_LOGO.png' style='width:120px;' alt=''></div>
+								<div>
+									<p id='resposta'>Novo cliente cadastrado!</p>
+									<p id='titulo'>Licença</p>
+									<p id='resposta'>$descricao_licenca</p>
+									<p id='titulo'>Empresa</p>
+									<p id='resposta'>$empresa</p>
+									<p id='titulo'>Usuário / E-mail</p>
+									<p id='resposta'> $nome / $email</p>
+									<p id='titulo'>Informações de Contato</p>
+									<p id='resposta'>Telefone: $telefone / Celular: $celular</p>
+								</div>
+
+							</div>
+						</body>
+						</html>
+						";
+			
+						$retorno = Email($assunto, $mensagem);	
+
+						$parametros = "?sucesso=1";
+
+						header("Location: login.php".$parametros);
 			
 					}
 					else
@@ -229,7 +230,6 @@ if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "cadastrar")){
 		}
 
 	}
-
 
 }
 
@@ -250,8 +250,8 @@ function CriarCredencial($cod_licenca, $cod_tipo_conta)
 }
 
 
-if ($sucesso == '1'){
-	echo '
+if ($sucesso == '1')
+{	echo '
 		<script>
 			location.href = "login.php?sucesso=2";
 		</script>
@@ -259,8 +259,6 @@ if ($sucesso == '1'){
 	die;
 }
 
-
-	$cod_licenca = $_REQUEST['cod_licenca'];
 
 	//LICENCA SELECIONADA
 	$sql = "select descricao from licencas where cod_licenca = '".limpa($cod_licenca)."';";
@@ -301,13 +299,14 @@ if ($sucesso == '1'){
     
 	<script type="text/javascript" src="cadastro.js"></script>
 	
-    </head>
+</head>
 
-    <body class="focused-form">
+<body class="focused-form">
         
 	<?php 
 
-		if ($enviou == '1') {
+		if ($enviou == '1') 
+		{
 		?>
 
 			<div class="alert alert-dismissable alert-success">
@@ -317,7 +316,9 @@ if ($sucesso == '1'){
 
 		<?php
 
-		}else if ($erro == "1"){
+		}
+		else if ($erro == "1")
+		{
 		?>
 
 			<div class="alert alert-dismissable alert-warning">
@@ -327,7 +328,9 @@ if ($sucesso == '1'){
 
 
 		<?php
-		}else if ($erro == "2"){
+		}
+		else if ($erro == "2")
+		{
 		?>
 
 			<div class="alert alert-dismissable alert-warning">
@@ -336,7 +339,9 @@ if ($sucesso == '1'){
 			</div>
 
 		<?php
-		}else if ($erro == "3"){
+		}
+		else if ($erro == "3")
+		{
 		?>
 
 			<div class="alert alert-dismissable alert-warning">
@@ -346,7 +351,9 @@ if ($sucesso == '1'){
 
 		<?php		
 
-		} else if ($erro == '4') {
+		} 
+		else if ($erro == '4') 
+		{
 
 		?>
 			<div class="alert alert-dismissable alert-warning">
@@ -354,14 +361,18 @@ if ($sucesso == '1'){
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			</div>
 	<?php
-		} else if ($erro == '5') {
+		} 
+		else if ($erro == '5')
+		{
 	?>
 			<div class="alert alert-dismissable alert-danger">
 				<i class="fa fa-fw fa-check"></i>&nbsp; <strong>Erro ao tentar cadastrar.</strong> <br>(Favor inserir os dados corretamente.)
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			</div>
 
-	<?php } ?>
+	<?php 
+		} 
+	?>
 
 <div class="container" id="registration-form">
 	
@@ -377,22 +388,26 @@ if ($sucesso == '1'){
 						<input type="hidden" name="cod_licenca" value="<?php echo $cod_licenca; ?>">						
 
 						<div class="form-group">
-
-							<?php if ($cod_licenca != "") 
+							<label for="Empresa" class="col-xs-4 control-label">Licença:</label>
+							<?php 
+							if ($cod_licenca != "") 
 							{
 							?>
-								<label for="Empresa" class="col-xs-4 control-label">Licença:</label>
-								<div class="col-xs-8"><label class="control-label"><b><?php echo $descricao_licenca; ?></b></label></div>
+								<div class="col-xs-8">
+									<label class="control-label"><b><?php echo $descricao_licenca; ?></b></label>
+								</div>
 							<?php 
-							} else {
+							} 
+							else 
+							{
 							?>
-							<label for="Empresa" class="col-xs-4 control-label">Licença:</label>
 							<div class="col-xs-8">
-								<?php
-									ComboLicenca('');
-								}
-								?>
+								<?php ComboLicenca(''); ?>
 							</div>
+							
+							<?php
+							}
+							?>
 
 						</div>
 
@@ -461,55 +476,22 @@ if ($sucesso == '1'){
 	</div>
 </div>
 
-    
-    
-    <!-- Load site level scripts -->
 
-<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script> -->
 
-<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script> 							<!-- Load jQuery -->
-<script type="text/javascript" src="assets/js/jqueryui-1.9.2.min.js"></script> 							<!-- Load jQueryUI -->
+	<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script> 							<!-- Load jQuery -->
+	<script type="text/javascript" src="assets/js/jqueryui-1.9.2.min.js"></script> 							<!-- Load jQueryUI -->
 
-<script type="text/javascript" src="assets/js/bootstrap.min.js"></script> 								<!-- Load Bootstrap -->
+	<script type="text/javascript" src="assets/js/bootstrap.min.js"></script> 								<!-- Load Bootstrap -->
 
-<script type="text/javascript" src="assets/plugins/easypiechart/jquery.easypiechart.js"></script> 		<!-- EasyPieChart-->
-<script type="text/javascript" src="assets/plugins/sparklines/jquery.sparklines.min.js"></script>  		<!-- Sparkline -->
-<script type="text/javascript" src="assets/plugins/jstree/dist/jstree.min.js"></script>  				<!-- jsTree -->
+	<script type="text/javascript" src="js/jquery.mask.min.js"></script>
 
-<script type="text/javascript" src="assets/plugins/codeprettifier/prettify.js"></script> 				<!-- Code Prettifier  -->
-<script type="text/javascript" src="assets/plugins/bootstrap-switch/bootstrap-switch.js"></script> 		<!-- Swith/Toggle Button -->
+	<script>
+		$(document).ready(function(){
+			$('#telefone').mask('(99)99999-9999');
+			$('#celular').mask('(99)99999-9999');
+		});
+	</script>
 
-<script type="text/javascript" src="assets/plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js"></script>  <!-- Bootstrap Tabdrop -->
+	</body>
 
-<script type="text/javascript" src="assets/plugins/iCheck/icheck.min.js"></script>     					<!-- iCheck -->
-
-<script type="text/javascript" src="assets/js/enquire.min.js"></script> 									<!-- Enquire for Responsiveness -->
-
-<script type="text/javascript" src="assets/plugins/bootbox/bootbox.js"></script>							<!-- Bootbox -->
-
-<script type="text/javascript" src="assets/plugins/simpleWeather/jquery.simpleWeather.min.js"></script> <!-- Weather plugin-->
-
-<script type="text/javascript" src="assets/plugins/nanoScroller/js/jquery.nanoscroller.min.js"></script> <!-- nano scroller -->
-
-<script type="text/javascript" src="assets/plugins/jquery-mousewheel/jquery.mousewheel.min.js"></script> 	<!-- Mousewheel support needed for jScrollPane -->
-
-<script type="text/javascript" src="assets/js/application.js"></script>
-<script type="text/javascript" src="assets/demo/demo.js"></script>
-<script type="text/javascript" src="assets/demo/demo-switcher.js"></script>
-
-<script type="text/javascript" src="js/jquery.mask.min.js"></script>
-
-<script>
-	$(document).ready(function(){
-		$('#telefone').mask('(99) 9999-9999');
-		$('#celular').mask('(99) 99999-9999');
-	});
-</script>
-
-<!-- End loading site level scripts -->
-    <!-- Load page level scripts-->
-    
-    <!-- End loading page level scripts-->
-    </body>
 </html>

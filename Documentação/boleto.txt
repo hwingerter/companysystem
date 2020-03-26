@@ -1,0 +1,5 @@
+
+BANCO
+
+ALTER TABLE `claudio_company`.`empresas_licenca` 
+ADD COLUMN `boleto` VARCHAR(100) NULL AFTER `flg_situacao`;

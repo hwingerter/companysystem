@@ -1,0 +1,20 @@
+CREATE TABLE `clientes` (
+`cod_cliente` int(11) NOT NULL AUTO_INCREMENT,
+`cod_empresa` int(11) DEFAULT NULL,
+`apelido` char(200) CHARACTER SET utf8 DEFAULT NULL,
+`nome` char(100) COLLATE utf8_swedish_ci DEFAULT NULL,
+`telefone` char(100) COLLATE utf8_swedish_ci DEFAULT NULL,
+`celular` char(100) COLLATE utf8_swedish_ci DEFAULT NULL,
+`email` char(200) COLLATE utf8_swedish_ci DEFAULT NULL,
+`dia_aniversario` int(11) DEFAULT NULL,
+`mes_aniversario` int(11) DEFAULT NULL,
+`cep` char(10) COLLATE utf8_swedish_ci DEFAULT NULL,
+`endereco` char(200) COLLATE utf8_swedish_ci DEFAULT NULL,
+`numero` char(10) COLLATE utf8_swedish_ci DEFAULT NULL,
+`complemento` char(200) COLLATE utf8_swedish_ci DEFAULT NULL,
+`bairro` char(200) COLLATE utf8_swedish_ci DEFAULT NULL,
+`cidade` int(11) DEFAULT NULL,
+`estado` int(11) DEFAULT NULL,
+`obs` text COLLATE utf8_swedish_ci,
+  PRIMARY KEY (`cod_cliente`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;

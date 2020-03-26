@@ -50,14 +50,10 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 		
 		$acao = '';
 
+		$cod_empresa = 1;
+
 		if (isset($_REQUEST['nome'])) { $nome = $_REQUEST['nome']; } else { $nome = ''; }
 	
-		if ( (isset($_REQUEST['cod_empresa'])) && ($_REQUEST['cod_empresa'] != "")) { $cod_empresa = $_REQUEST['cod_empresa']; 
-	
-		} else { 
-			$cod_empresa = 'NULL'; 
-		}
-
 		if ($_REQUEST['acao'] == "incluir"){
 			
 			$sql = "insert into tipo_conta (cod_empresa, descricao) values (".limpa($cod_empresa).", '".limpa($nome)."')";
@@ -68,7 +64,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			
 		}else if ($_REQUEST['acao'] == "atualizar"){
 			
-			$sql = "update tipo_conta set descricao='".limpa($nome)."', cod_empresa = ".limpa($cod_empresa)." where cod_tipo_conta = ".$_REQUEST['id'];
+			$sql = "update tipo_conta set descricao='".limpa($nome)."' where cod_tipo_conta = ".$_REQUEST['id'];
 			mysql_query($sql);
 			
 			echo "<script language='javascript'>window.location='adm_perfil.php?sucesso=2';</script>";
@@ -93,7 +89,6 @@ if (isset($_REQUEST['acao'])){
 		if ($registros > 0) {
 			if ($rs = mysql_fetch_array($query)){
 				$nome 		= $rs['descricao'];
-				$cod_empresa	= $rs['cod_empresa'];
 			}
 		}
 	
@@ -146,40 +141,6 @@ if (isset($_REQUEST['acao'])){
 
 				</div>
 
-					<div class="row">
-
-						<div class="form-group">
-
-							<label class="col-sm-2 control-label"><b>Empresa</b></label>
-
-							<div class="col-sm-8">
-
-								<?php 
-								$sql = "select cod_empresa, empresa from empresas order by empresa asc; ";
-
-								$query = mysql_query($sql);
-
-								?>
-
-								<select name='cod_empresa' class="col-sm-8 form-control">
-
-									<option value="">Selecione...</option>
-
-									<?php 
-
-									while ($rs = mysql_fetch_array($query)){
-
-									 ?>
-
-									<option value="<?php echo $rs['cod_empresa']; ?>" <?php if ($cod_empresa == $rs['cod_empresa']) { echo ' selected '; } ?> ><?php echo $rs['empresa']; ?></option>
-
-									<?php
-									}
-									?>
-								</select>
-							</div>
-						</div>
-					</div>
 			</form>
 			<div class="panel-footer">
 				<div class="row">

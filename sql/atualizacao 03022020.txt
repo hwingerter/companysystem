@@ -1,0 +1,57 @@
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Ver' WHERE (`cod_credencial` = '1');
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Incluir' WHERE (`cod_credencial` = '2');
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Editar' WHERE (`cod_credencial` = '3');
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Excluir' WHERE (`cod_credencial` = '4');
+
+
+
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Ver' WHERE (`cod_credencial` = '9');
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Editar' WHERE (`cod_credencial` = '10');
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Ver' WHERE (`cod_credencial` = '11');
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Incluir' WHERE (`cod_credencial` = '12');
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Editar' WHERE (`cod_credencial` = '13');
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Excluir' WHERE (`cod_credencial` = '14');
+
+
+
+
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Ver' WHERE (`cod_credencial` = '5');
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Incluir' WHERE (`cod_credencial` = '6');
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Editar' WHERE (`cod_credencial` = '7');
+UPDATE `claudio_company`.`credenciais` SET `descricao` = 'Excluir' WHERE (`cod_credencial` = '8');
+
+
+
+
+ALTER TABLE `claudio_company`.`permissoes` 
+ENGINE = InnoDB ;
+
+
+ALTER TABLE `claudio_company`.`area` 
+ENGINE = InnoDB ;
+
+
+ALTER TABLE `claudio_company`.`permissoes` 
+ADD INDEX `area_idx` (`cod_area` ASC);
+;
+ALTER TABLE `claudio_company`.`permissoes` 
+ADD CONSTRAINT `area`
+  FOREIGN KEY (`cod_area`)
+  REFERENCES `claudio_company`.`area` (`cod_area`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+
+ALTER TABLE `claudio_company`.`credenciais` 
+ENGINE = InnoDB ,
+ADD INDEX `permissao_idx` (`cod_permissao` ASC);
+;
+ALTER TABLE `claudio_company`.`credenciais` 
+ADD CONSTRAINT `permissao`
+  FOREIGN KEY (`cod_permissao`)
+  REFERENCES `claudio_company`.`permissoes` (`cod_permissao`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+

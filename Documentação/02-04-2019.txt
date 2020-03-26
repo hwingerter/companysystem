@@ -1,0 +1,28 @@
+Retirar Trocar Empresa
+
+Adminstração
+
+>> Acessar Empresa
+
+Retirar do boneco
+
+Rever o caixa para todos os usuários.
+
+Criar tabela com Comandas abertas
+
+criar tabela com comandas fechadas
+
+retirar tabela filtro em comandas.
+
+6° Quesito: Quando clico em remover &quot;Descontos e Acréscimos&quot; está sumindo também
+os dados já inseridos na comanda.
+
+
+---------------
+
+
+Relatório de lucros e seleciona o profissional para pagar.
+
+Criar um login caixa para acesso dos profissionais.
+
+

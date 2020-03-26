@@ -206,7 +206,6 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 			$dia_vencimento = strtotime($rs['dt_vencimento']);
 
 			$DiasRenovacao = ($dia_vencimento - $dt_inicio) / 86400;
-
 			$contador = $contador + 1; //Contador
 
 	    	if ($contador>$inicio) { //Condi�ao para mostrar somente os registros maiores
@@ -218,14 +217,17 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 							<td align="left"><?php echo DataMysqlPhp($rs['dt_vencimento']);?></td>
 							<td align="left">
 								<?php 
-								if ($DiasRenovacao == 0) {
-									echo "<span style='color:red;'>Renove seu plano!</span>";
-								}
-								else{
-									echo $DiasRenovacao;
-								}
+									if ($DiasRenovacao > 0) {
+										echo $DiasRenovacao;
+									}
+									elseif ($DiasRenovacao == 0) {
+										echo "<span style='color:red;'>Renove o seu plano!</span>";
+									}
+									elseif ($DiasRenovacao < 0) {
+										echo "<span style='color:red;'>Plano Vencido! Favor renovar.</span>";
+									}
 								?>
-								</td>
+							</td>
 							<td align="left"><?php echo $rs['situacao'];?></td>
                             <td align='center'>
 					  	  <?php 

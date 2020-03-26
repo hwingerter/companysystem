@@ -1,3 +1,11 @@
+<?php
+
+if(isset($conexao)) 
+{   
+    mysql_close($conexao);
+}
+
+?>
 
     </div>
 
@@ -47,7 +55,3 @@
     </body>
 
 </html>
-
-<?
-mysql_close();
-?>
