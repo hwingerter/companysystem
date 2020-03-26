@@ -40,6 +40,8 @@ require_once "../include/ler_credencial.php";
 		}
 	}
 	
+$voltar = $_REQUEST['voltar'];
+
 if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica se o usu�rio tem a credencial de incluir ou editar
 	
 	$acao = '';
@@ -56,7 +58,11 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			//echo $sql;die;
 			mysql_query($sql);
 			
-			echo "<script language='javascript'>window.location='tipo_contas.php?sucesso=1';</script>";
+			if ($voltar != "") {
+				echo "<script language='javascript'>window.location='".$voltar."';</script>";
+			} else {
+				echo "<script language='javascript'>window.location='tipo_contas.php?sucesso=1';</script>";
+			}
 			
 		}else if ($_REQUEST['acao'] == "atualizar"){
 			
@@ -92,6 +98,8 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 		}
 		
 	}
+
+	
 	
 ?>
 				<div class="static-content-wrapper">
@@ -119,6 +127,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 		</div>
 		<div class="panel-body">
 			<form action="tipo_conta_info.php" class="form-horizontal row-border" name='frm' method="post">
+				<input type="hidden" name="voltar" value="<?php echo $voltar;?>">
               <?php if ($acao=="alterar"){?>
               <input type="hidden" name="id" value="<?php echo $_REQUEST['id']; ?>">
               <input type="hidden" name="acao" value="atualizar">
@@ -136,7 +145,17 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
 						<button class="btn-primary btn" onclick="javascript:document.forms['frm'].submit();">Gravar</button>
-						<button class="btn-default btn" onclick="javascript:window.location='tipo_contas.php';">Cancel</button>
+
+					<?php if ($voltar != "") { ?>
+
+						<button class="btn-default btn" onclick="javascript:window.location='<?php echo $voltar?>';">Voltar</button>
+
+					<?php }else{?>
+
+						<button class="btn-default btn" onclick="javascript:window.location='tipo_contas.php';">Voltar</button>
+
+					<?php }?>
+
 					</div>
 				</div>
 			</div>

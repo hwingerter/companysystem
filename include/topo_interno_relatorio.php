@@ -1,14 +1,16 @@
 <?php
 
 session_start();
-    
+
+if(empty($_SESSION['usuario_id'])){ echo "<script>location.href='login.php';</script>";}
+
 require_once "../../config/ambiente.php";
 
 require_once "../../config/conexao.php";
 
-require_once '../../include/ler_credencial.php';
+require_once "../../include/ler_credencial.php";
 
-if ($_SESSION['usuario_id'] == '') { header("location:../../login.php"); }
+require_once "../../include/funcoes.php";
 	
 ?>
 <!DOCTYPE html>

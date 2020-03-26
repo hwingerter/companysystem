@@ -1,0 +1,12 @@
+ALTER TABLE `claudio_company`.`comanda` 
+ADD COLUMN `flg_divida_excluida` CHAR(1) NULL DEFAULT 'N' AFTER `valor_recebido`;
+
+
+
+ALTER TABLE `claudio_company`.`comanda_pagamento` 
+ADD COLUMN `flg_cheque_devolvido` CHAR(1) NULL DEFAULT 'N' AFTER `cod_usuario_pagamento`;
+
+
+ALTER TABLE `claudio_company`.`comanda_pagamento` 
+ADD COLUMN `obs` TEXT NULL AFTER `flg_cheque_devolvido`;
+

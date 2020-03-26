@@ -1,5 +1,9 @@
 <?php
-include("conexao.php");
+
+require_once "config/conexao.php";
+
+require_once "include/funcoes.php";
+
 	
 if (isset($_REQUEST["email"])) 
 { 
@@ -20,6 +24,11 @@ if (isset($_REQUEST["email"]))
 		$existe = 0;
 	}
 
+}
+
+if(isset($conexao)) 
+{   
+    mysql_close($conexao);
 }
 
 ?>

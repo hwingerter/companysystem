@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if(empty($_SESSION['usuario_id'])){ echo "<script>location.href='login.php';</script>";}
+if(empty($_SESSION['cod_usuario'])){ echo "<script>location.href='./login.php';</script>";}
 require_once "../config/ambiente.php";
 
 require_once "../config/conexao.php";
@@ -22,8 +22,8 @@ require_once "ler_credencial.php";
     <meta name="description" content="Deltario Tecnologia">
     <meta name="author" content="KaijuThemes">
 
-    <link href='http://fonts.googleapis.com/css?family=RobotoDraft:300,400,400italic,500,700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,400italic,600,700' rel='stylesheet' type='text/css'>
+    <!--link href='http://fonts.googleapis.com/css?family=RobotoDraft:300,400,400italic,500,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,400italic,600,700' rel='stylesheet' type='text/css'-->
 
     <link type="text/css" href="../assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">        <!-- Font Awesome -->
     

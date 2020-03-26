@@ -7,10 +7,10 @@
 	require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	$credencial_ver = 0;
-	$credencial_incluir = 0;
-	$credencial_editar = 0;
-	$credencial_excluir = 0;
+	$credencial_ver = 1;
+	$credencial_incluir = 1;
+	$credencial_editar = 1;
+	$credencial_excluir = 1;
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "empresa_ver") {
@@ -231,13 +231,14 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 								$sql = "
 								select		e.cod_empresa, e.empresa, e.telefone, e.situacao, date_format(e.dt_cadastro, '%d/%m/%Y') as dt_cadastro
 								from 		empresas e
+								where 		cod_empresa <> 1
 								";
 
 								if (isset($_REQUEST['acao'])){
 								if ($_REQUEST['acao'] == "buscar"){
 
 									if ($_REQUEST['nome'] != ""){
-										$sql = $sql . "where  e.empresa like '%".$_REQUEST['nome']."%' ";
+										$sql = $sql . "and  e.empresa like '%".$_REQUEST['nome']."%' ";
 										$where = 1;
 									}else{
 										$where = 0;
@@ -245,7 +246,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 
 									if ($_REQUEST['situacao'] != ""){
 										if($where == 0){
-											$sql = $sql . "where  e.situacao = '".$_REQUEST['situacao']."' ";
+											//$sql = $sql . "where  e.situacao = '".$_REQUEST['situacao']."' ";
 										}else{
 											$sql = $sql . "and  e.situacao = '".$_REQUEST['situacao']."' ";
 										}
@@ -309,9 +310,11 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 											?>	
 												<a class="btn btn-info btn-label" href="empresa_ver.php?id=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Ver</a>
 
-												<a class="btn btn-default btn-label" href="empresa_licenca.php?cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Licenças</a>
+												<!--a class="btn btn-default btn-label" href="empresa_licenca.php?cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Licenças</a-->
 
-												<a class="btn btn-default btn-label" href="empresas_filiais.php?cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Filiais</a>
+												<!--a class="btn btn-default btn-label" href="empresas_filiais.php?cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Filiais</a-->
+
+												<a class="btn btn-default btn-label" href="../login_empresa.php?acao=trocar_empresa&cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Acessar Empresa</a>
 
 												</td>
 											</tr>

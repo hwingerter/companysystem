@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
+    <!--link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'-->
     <link type="text/css" href="assets/plugins/iCheck/skins/minimal/blue.css" rel="stylesheet">
     <link type="text/css" href="assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link type="text/css" href="assets/css/styles.css" rel="stylesheet">
@@ -25,6 +25,7 @@
 </head>
 
 <?php
+$sucesso = $_REQUEST['sucesso'];
 $erro = $_REQUEST['erro'];
 ?>
 
@@ -69,6 +70,15 @@ $erro = $_REQUEST['erro'];
 	</div>				
 	<?php
 	}
+
+	if ($sucesso == '4') {
+		?>
+		<div class="alert alert-dismissable alert-success">
+			<i class="fa fa-fw fa-times"></i>&nbsp; <strong>Uma mensagem foi enviada para o seu e-mail!</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		</div>				
+		<?php
+		}
 
 	?>
 

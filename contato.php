@@ -1,7 +1,7 @@
 
 <?php 
 
-include('funcoes.php');
+require_once "include/funcoes.php";
 
 if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "contato")){
 	
@@ -74,7 +74,7 @@ if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "contato")){
 	$mailer->Port = 587;									    // Porta de conexâ”œÐ³o
 	
 	$mailer->Username = 'contato@companysystem.net.br';                  // Conta de e-mail que realizarâ”œÐ± o envio
-	$mailer->Password = 'F!jht999';                                   // Senha da conta de e-mail - Ja está configurado com a senha e o e-mail correto.
+	$mailer->Password = 'mudar@123';                                   // Senha da conta de e-mail - Ja está configurado com a senha e o e-mail correto.
 	
 	// email do destinatario
 	$address = "contato@companysystem.net.br"; // Quando for esqueci minha senha manda para o e-mail do dono da conta. Quando for a pagina de contato manda para contato@companysystem.net.br

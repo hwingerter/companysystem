@@ -6,10 +6,10 @@
 	require_once "../include/ler_credencial.php";
 
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	$credencial_ver = 0;
-	$credencial_incluir = 0;
-	$credencial_editar = 0;
-	$credencial_excluir = 0;
+	$credencial_ver = 1;
+	$credencial_incluir = 1;
+	$credencial_editar = 1;
+	$credencial_excluir = 1;
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "usuario_ver") {

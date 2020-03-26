@@ -1,0 +1,27 @@
+ALTER TABLE `claudio_company`.`comanda` 
+ENGINE = InnoDB ;
+
+
+ALTER TABLE `claudio_company`.`clientes` 
+ENGINE = InnoDB ;
+
+
+
+CREATE TABLE `clientes_credito` (
+  `cod_credito` int(11) NOT NULL AUTO_INCREMENT,
+  `cod_cliente` int(11) DEFAULT NULL,
+  `cod_comanda` int(11) DEFAULT NULL,
+  `cod_empresa` int(11) DEFAULT NULL,
+  `valor` decimal(10,0) DEFAULT NULL,
+  `data` datetime DEFAULT CURRENT_TIMESTAMP,
+  `movimentacao` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`cod_credito`),
+  KEY `cod_empresa_idx` (`cod_empresa`),
+  KEY `cod_cliente_idx` (`cod_cliente`),
+  KEY `cod_comanda_idx` (`cod_comanda`),
+  CONSTRAINT `cod_empresa` FOREIGN KEY (`cod_empresa`) REFERENCES `empresas` (`cod_empresa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `cod_cliente` FOREIGN KEY (`cod_cliente`) REFERENCES `clientes` (`cod_cliente`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `cod_comanda` FOREIGN KEY (`cod_comanda`) REFERENCES `comanda` (`cod_comanda`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+

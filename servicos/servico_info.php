@@ -54,7 +54,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 		if (isset($_REQUEST["cod_tipo_servico"])) { $cod_tipo_servico = $_REQUEST["cod_tipo_servico"]; } else { $cod_tipo_servico = ""; }
 		if (isset($_REQUEST["nome"])) { $nome = $_REQUEST["nome"]; } else { $nome = ""; }
 		if (isset($_REQUEST["custo_produtos"])) { $custo_produtos = $_REQUEST["custo_produtos"]; } else { $custo_produtos = "0"; }
-		if (isset($_REQUEST["preco_venda"])) { $preco_venda = $_REQUEST["preco_venda"]; } else { $preco_venda = "0"; }
+		if (isset($_REQUEST["preco_venda"])) { $preco_venda = ValorPhpMysql($_REQUEST["preco_venda"]); } else { $preco_venda = "0"; }
 		if (isset($_REQUEST["desconto_maximo"])) { $desconto_maximo = $_REQUEST["desconto_maximo"]; } else { $desconto_maximo = "0"; }
 		if (isset($_REQUEST["desconto_promocional"])) { $desconto_promocional = $_REQUEST["desconto_promocional"]; } else { $desconto_promocional = "0"; }
 		if (isset($_REQUEST["duracao_aproximada"])) { $duracao_aproximada = $_REQUEST["duracao_aproximada"]; } else { $duracao_aproximada = "0"; }
@@ -197,7 +197,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 					$cod_tipo_servico = $rs["cod_tipo_servico"];
 					$nome = $rs["nome"];
 					$custo_produtos = $rs["custo_produtos"];
-					$preco_venda = $rs["preco_venda"];
+					$preco_venda = number_format($rs['preco_venda'], 2, ',', '.');
 					$desconto_maximo = $rs["desconto_maximo"];
 					$desconto_promocional = $rs["desconto_promocional"];
 					$duracao_aproximada = $rs["duracao_aproximada"];
@@ -360,7 +360,7 @@ $voltar = urlencode("servicos/servico_info.php");
 						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2">
 								<button class="btn-primary btn" onclick="javascript:document.forms['frm'].submit();">Gravar</button>
-								<button class="btn-default btn" onclick="javascript:location.href='servicos.php';">Cancel</button>
+								<button class="btn-default btn" onclick="javascript:location.href='servicos.php';">Voltar</button>
 							</div>
 						</div>
 					</div>

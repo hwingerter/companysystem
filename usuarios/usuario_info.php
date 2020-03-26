@@ -137,6 +137,15 @@ if (isset($_REQUEST['acao'])){
 }
 
 	$cod_grupo = $_SESSION['cod_grupo'];
+
+	if ($_REQUEST['acao'] == ""){
+		$voltar = urlencode("../usuarios/usuario_info.php");
+	}
+	else {
+		$voltar = urlencode("../usuarios/usuario_info.php?acao=alterar&id=".$usuario);
+	}
+
+
 	
 ?>
 				<div class="static-content-wrapper">
@@ -169,7 +178,19 @@ if (isset($_REQUEST['acao'])){
               <input type="hidden" name="acao" value="atualizar">
               <?php }else{?>
               <input type="hidden" name="acao" value="incluir">
-              <?php } ?>				
+			  <?php } ?>				
+			  
+			  <div class="form-group">
+					<label class="col-sm-2 control-label"><b>Tipo Conta</b></label>
+					<div class="col-sm-8">
+						<?php
+							ComboTipoConta($cod_empresa, $tipo_conta);
+						?>						
+					</div>
+					<div class="col-sm-2">
+							<button class="btn-primary btn" type="button" onclick="javascript:location.href='../perfil/tipo_conta_info.php?voltar=<?php echo $voltar;?>';">+</button>
+						</div>
+				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Nome</b></label>
 					<div class="col-sm-8">
@@ -190,15 +211,7 @@ if (isset($_REQUEST['acao'])){
 					<!--div class="col-sm-4">
 						<button class="btn-danger btn" onclick="javascript:document.forms['frm'].submit();">Resetar Senha</button>
 					</div-->
-				</div>				
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Tipo Conta</b></label>
-					<div class="col-sm-8">
-						<?php
-							ComboTipoConta($cod_empresa, $tipo_conta);
-						?>						
-					</div>
-				</div>				
+				</div>								
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Status</b></label>
 					<div class="col-sm-8">

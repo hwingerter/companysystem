@@ -1,0 +1,48 @@
+
+ALTER TABLE `claudio_company`.`profissional_comissao` 
+ENGINE = InnoDB ;
+
+ALTER TABLE `claudio_company`.`tipo_comissao` 
+ENGINE = InnoDB ;
+
+ALTER TABLE `claudio_company`.`comanda_item` 
+ENGINE = InnoDB ;
+
+
+
+ALTER TABLE `claudio_company`.`comanda_item` 
+
+ADD COLUMN `cod_tipo_comissao` INT(11) NULL AFTER `valor_acrescimo`
+,
+CHANGE COLUMN `comissao` `valor_comissao` FLOAT(10,2) NULL DEFAULT NULL ;
+
+
+
+
+
+ALTER TABLE `claudio_company`.`comanda_item` 
+
+ADD CONSTRAINT `tipo_comissao`
+  FOREIGN KEY (`cod_tipo_comissao`)
+  
+REFERENCES `claudio_company`.`tipo_comissao` (`cod_tipo_comissao`)
+  
+ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+
+
+ALTER TABLE `claudio_company`.`profissional_comissao` 
+CHANGE COLUMN `comissao_percentual` `comissao_percentual` FLOAT(10,2) NULL DEFAULT NULL ;
+
+
+ALTER TABLE `claudio_company`.`comanda_item` 
+
+ADD COLUMN `flg_comissao_paga` CHAR(1) NULL DEFAULT 'N' AFTER `valor_comissao`,
+
+ADD COLUMN `dt_pagamento_comissao` DATETIME NULL AFTER `flg_comissao_paga`;
+
+
+
+

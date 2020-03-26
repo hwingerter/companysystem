@@ -11,11 +11,13 @@ $cod_empresa = $_SESSION['cod_empresa'];
 	
 if ($_SESSION['usuario_conta'] == 1)
 {
+	$EhMaster = true;
 	$titulo_pagina = "Empresa";
 }
 else
 {
-	$titulo_pagina = "Filial";
+	$EhMaster = false;
+	$titulo_pagina = "Minhas Filiais";
 }
 
 
@@ -43,11 +45,25 @@ else
 				
 					<?php 
 
-					$sql = "
-					select		e.cod_empresa, e.empresa
-					from 		empresas e 
-					order by	e.empresa
-					";
+					if ($EhMaster == true) {
+
+						$sql = "
+						select		e.cod_empresa, e.empresa
+						from 		empresas e 
+						order by	e.empresa
+						";
+
+					} else {
+
+						$sql ="
+						select		e.cod_empresa, e.empresa
+						from 		empresas e
+						inner join 	usuarios_grupos_empresas uge on uge.cod_empresa = e.cod_empresa
+						inner join 	usuarios u on u.cod_usuario = uge.cod_usuario
+						where 		u.cod_usuario = ".$cod_usuario."
+						";
+
+					}
 
 					$query = mysql_query($sql);
 					$registros = mysql_num_rows($query);
@@ -62,19 +78,23 @@ else
 						</thead>
 						<tbody>
 
-							<tr>
-								<td><b>MASTER</b></td>
-								<td><a href="login_empresa.php?acao=trocar_empresa&cod_empresa=" class="btn btn-primary">Acessar</a></td>
-							</tr>
-							<?php
-							while ($rs = mysql_fetch_array($query)) {
-							?>
-							<tr>
-								<td><?php echo $rs['empresa'];?></td>
-								<td><a href="login_empresa.php?acao=trocar_empresa&cod_empresa=<?php echo $rs['cod_empresa'];?>" class="btn btn-primary">Acessar</a></td>
-							</tr>
+							<?php if ($EhMaster) { ?>
+								<tr>
+									<td><b>MASTER</b></td>
+									<td><a href="login_empresa.php?acao=trocar_empresa&cod_empresa=" class="btn btn-primary">Acessar</a></td>
+								</tr>
 							<?php
 							}
+	
+								while ($rs = mysql_fetch_array($query)) {
+									?>
+									<tr>
+										<td><?php echo $rs['empresa'];?></td>
+										<td><a href="login_empresa.php?acao=trocar_empresa&cod_empresa=<?php echo $rs['cod_empresa'];?>" class="btn btn-primary">Acessar</a></td>
+									</tr>
+									<?php
+									}
+	
 							?>
 						</tbody>
 					</table>

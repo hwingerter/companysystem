@@ -31,7 +31,10 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 	{
 		if ($_REQUEST['cod_empresa'] != "") 
 		{
+			
 			$cod_empresa = limpa($_REQUEST['cod_empresa']);
+	
+			$_SESSION['cod_licenca'] = ObterLicencaAtual($cod_empresa);
 
 			$sql = "
 			select 		e.empresa, g.cod_grupo
@@ -68,7 +71,7 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 		inner join 	grupo_empresas g on g.cod_empresa = e.cod_empresa
 		where 		e.cod_empresa = ".$cod_empresa."
 		";
-		echo $sql;die;
+		//echo $sql;die;
 		$query = mysql_query($sql);
 		$rs = mysql_fetch_array($query);
 
@@ -76,8 +79,7 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 		$_SESSION['cod_grupo'] 		= $rs['cod_grupo'];
 		$_SESSION['cod_empresa']	= $cod_empresa;
 		$_SESSION['empresa'] 		= $rs['empresa'];
-
-		echo "entrei2";die;
+		$_SESSION['cod_licenca'] 	= ObterLicencaAtual($cod_empresa);
 
 		echo "<script language='javascript'>window.location='inicio.php';</script>";die();
 
@@ -85,35 +87,6 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 
 }
 
-/*
-If(($_SESSION['usuario_conta'] != 1) && (!UsuarioTemMaisDeUmaEmpresa($cod_usuario)))
-{
-	echo "<script>location.href='inicio.php';</script>";die;
-}
-
-
-function UsuarioTemMaisDeUmaEmpresa($cod_usuario)
-{
-
-	$sql = "
-	select		count(*) as TotalEmpresa
-	from 		empresas e
-	left join	usuarios_grupos_empresas uge on uge.cod_empresa = e.cod_empresa
-	inner join 	grupos g on g.cod_grupo = uge.cod_grupo
-	where		uge.cod_usuario = ".$cod_usuario."
-	";
-
-	$query 	= mysql_query($sql);
-	$rs 	= mysql_fetch_array($query);
-
-	if ($rs['TotalEmpresa'] > 1){
-		return true;
-	}else{
-		return false;
-	}
-
-}
-*/
 
 ?>
 <!DOCTYPE html>
@@ -179,16 +152,21 @@ function UsuarioTemMaisDeUmaEmpresa($cod_usuario)
 
 									<?php 
 
-									$sql = "
-									select		e.cod_empresa, e.empresa
-									from 		empresas e 
-									inner join	usuarios_grupos_empresas uge on uge.cod_empresa = e.cod_empresa
-									";
-
-									if ($_SESSION['usuario_conta'] != 1)
+									if ($_SESSION['usuario_conta'] == 1)
 									{
-										$sql = $sql. "								
-											where		uge.cod_usuario =  ".$cod_usuario."
+										$sql = "
+										select		e.cod_empresa, e.empresa
+										from 		empresas e 
+										";
+									}
+									else
+									{									
+										$sql ="
+										select		e.cod_empresa, e.empresa
+										from 		empresas e
+										inner join 	usuarios_grupos_empresas uge on uge.cod_empresa = e.cod_empresa
+										inner join 	usuarios u on u.cod_usuario = uge.cod_usuario
+										where 		u.cod_usuario = ".$cod_usuario."
 										";
 									}
 
@@ -201,7 +179,6 @@ function UsuarioTemMaisDeUmaEmpresa($cod_usuario)
 
 										$query = mysql_query($sql);
 										$registros = mysql_num_rows($query);
-
 
 										echo "<select name='cod_empresa' class='form-control' id='cod_empresa'>";
 

@@ -1,0 +1,21 @@
+CREATE TABLE `profissional` (
+  `cod_profissional` int(11) NOT NULL AUTO_INCREMENT,
+  `cod_empresa` int(11) NOT NULL,
+  `apelido` char(200) CHARACTER SET utf8 DEFAULT NULL,
+  `nome` char(100) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `cpf` char(15) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `telefone` char(100) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `celular` char(100) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `email` char(200) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `dia_aniversario` char(10) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `mes_aniversario` int(11) DEFAULT NULL,
+  `cep` char(10) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `endereco` char(200) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `bairro` char(200) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `cidade` int(11) DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL,
+  `obs` text COLLATE utf8_swedish_ci DEFAULT NULL,
+  `mostrar_agenda` int(11) DEFAULT NULL,
+  `agendamento_online` int(11) DEFAULT NULL,
+  PRIMARY KEY (`cod_profissional`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;

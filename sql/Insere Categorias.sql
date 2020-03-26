@@ -1,0 +1,10 @@
+insert into categoria (nome) values('Barba');
+insert into categoria (nome) values('Cabelo');
+insert into categoria (nome) values('Depilação');
+insert into categoria (nome) values('Estética Corporal');
+insert into categoria (nome) values('Estética Facial');
+insert into categoria (nome) values('Manicure e Pedicure');
+insert into categoria (nome) values('Maquiagem');
+insert into categoria (nome) values('Massagem');
+insert into categoria (nome) values('Podologia');
+insert into categoria (nome) values('Outros');

@@ -1,0 +1,57 @@
+
+ALTER TABLE `claudio_company`.`usuarios` 
+ENGINE = InnoDB ,
+DROP COLUMN `cod_grupo`;
+
+
+
+
+ALTER TABLE `claudio_company`.`clientes_credito` 
+DROP FOREIGN KEY `cod_empresa`;
+ALTER TABLE `claudio_company`.`clientes_credito` 
+DROP INDEX `cod_empresa_idx` ;
+;
+
+
+
+
+ALTER TABLE `claudio_company`.`empresas_licenca` 
+DROP FOREIGN KEY `empresa`;
+ALTER TABLE `claudio_company`.`empresas_licenca` 
+DROP INDEX `empresa` ;
+;
+
+
+
+ALTER TABLE `claudio_company`.`empresas_preferencias` 
+DROP FOREIGN KEY `empresa_presenca`;
+
+
+
+ALTER TABLE `claudio_company`.`tipo_movimentacao` 
+DROP FOREIGN KEY `movimentacao_empresa`;
+ALTER TABLE `claudio_company`.`tipo_movimentacao` 
+DROP INDEX `tipo_movimentacao_empresa_idx` ;
+;
+
+
+
+ALTER TABLE `claudio_company`.`tipo_conta` 
+DROP COLUMN `cod_grupo`;
+
+
+
+ALTER TABLE `claudio_company`.`tipo_conta` 
+ENGINE = InnoDB ;
+
+
+ALTER TABLE `claudio_company`.`usuarios_grupos_empresas` 
+DROP COLUMN `cod_grupo` ENGINE = InnoDB ;
+
+
+
+
+
+ALTER TABLE `claudio_company`.`usuarios_grupos_empresas` 
+RENAME TO  `claudio_company`.`usuarios_empresas` ;
+

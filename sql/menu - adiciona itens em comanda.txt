@@ -1,0 +1,2 @@
+UPDATE `claudio_company`.`permissoes` SET `descricao`='Histórico de Vendas' WHERE `cod_permissao`='16';
+UPDATE `claudio_company`.`permissoes` SET `descricao`='Histórico de Itens Vendidos' WHERE `cod_permissao`='17';

@@ -19,11 +19,11 @@ require_once "../include/ler_credencial.php";
 if ($credencial_editar == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �REA
 	
 	$acao = '';
+	$cod_empresa = 1;
 	
 	if (isset($_REQUEST['nome'])) { $nome = $_REQUEST['nome']; } else { $nome = ''; }
 	if (isset($_REQUEST['email'])) { $email = $_REQUEST['email']; } else { $email = '';	}
-	if (isset($_REQUEST['cod_empresa'])) { $cod_empresa = $_REQUEST['cod_empresa']; } else { $cod_empresa = '';	}
-	if (isset($_REQUEST['cod_tipo_conta'])) { $tipo_conta = $_REQUEST['cod_tipo_conta']; } else { $tipo_conta = '';	}
+	if (isset($_REQUEST['tipo_conta'])) { $tipo_conta = $_REQUEST['tipo_conta']; } else { $tipo_conta = '';	}
 	if (isset($_REQUEST['senha'])) { $senha = $_REQUEST['senha']; } else { $senha = '';	}
 	if (isset($_REQUEST['status'])) { $status = $_REQUEST['status']; } else { $status = ''; }
 
@@ -32,7 +32,7 @@ if (isset($_REQUEST['acao'])){
 	if ($_REQUEST['acao'] == "incluir")
 	{	
 
-		$cod_usuario_cadastro = $_SESSION['usuario_id'];
+		$cod_usuario_cadastro = $_SESSION['cod_usuario'];
 		$dt_cadastro = date('Y-m-d');
 
 		$sql = "insert into usuarios (nome, email, status, tipo_conta ";
@@ -59,7 +59,7 @@ if (isset($_REQUEST['acao'])){
 		$cod_usuario_cadastrado = $rs['cod_usuario'];
 
 		//inserir usuário na empresa
-		$sql = "insert into	usuarios_grupos_empresas (cod_usuario, cod_empresa) values (". limpa($cod_usuario_cadastrado) .", ".limpa($cod_empresa).");";
+		$sql = "insert into	usuarios_empresas (cod_usuario, cod_empresa) values (". limpa($cod_usuario_cadastrado) .", ".limpa($cod_empresa).");";
 		//echo $sql;die;
 		mysql_query($sql);
 
@@ -82,6 +82,7 @@ if (isset($_REQUEST['acao'])){
 
 		mysql_query($sql);
 
+		/*
 		$sql = "Select cod_usuario from usuarios_grupos_empresas where cod_usuario = ".$cod_usuario."";
 		//echo $sql;die;
 		$query = mysql_query($sql);
@@ -91,6 +92,7 @@ if (isset($_REQUEST['acao'])){
 			$sql = "insert into	usuarios_grupos_empresas (cod_usuario, cod_empresa) values (". limpa($cod_usuario) .", ".limpa($cod_empresa).");";
 			mysql_query($sql);
 		}
+		*/
 		
 		echo "<script language='javascript'>window.location='adm_usuarios.php?sucesso=2';</script>";
 	
@@ -194,6 +196,12 @@ function EmpresaCarregaTipoConta(cod_empresa, cod_tipo_conta)
               <input type="hidden" name="acao" value="incluir">
               <?php } ?>				
 
+			  <div class="form-group">
+					<label class="col-sm-2 control-label"><b>Tipo Conta</b></label>
+					<div class="col-sm-8">
+						<?php AdmComboTipoConta($cod_empresa, $cod_tipo_conta);?>
+					</div>
+				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Nome</b></label>
 					<div class="col-sm-8">
@@ -211,22 +219,7 @@ function EmpresaCarregaTipoConta(cod_empresa, cod_tipo_conta)
 					<div class="col-sm-8">
 						<input type="password" class="form-control" value="" name="senha" maxlength="10"> 
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Empresa</b></label>
-					<div class="col-sm-8">
-						<?php
-							
-							ComboAdmEmpresa($cod_empresa);
-						?>						
-					</div>
-				</div>			
-				<div class="form-group" id="QuadroTipoConta" style="display:none;">
-					<label class="col-sm-2 control-label"><b>Tipo Conta</b></label>
-					<div class="col-sm-8" id="DivTipoConta">
-						<label id="lblCarregandoTipoConta" style="display:none;" class="label label-primary">Carregando...</label>
-					</div>
-				</div>
+				</div>	
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Status</b></label>
 					<div class="col-sm-8">

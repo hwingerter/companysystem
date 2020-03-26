@@ -1,0 +1,11 @@
+scripts 2501
+
+UPDATE `area` SET `nome` = 'Minha Empresa' WHERE (`cod_area` = '1');
+
+
+UPDATE .`permissoes` SET `descricao` = 'Tipos de Contas' WHERE (`cod_permissao` = '2');
+
+
+INSERT INTO .`permissoes` (`cod_area`, `descricao`, `permissao`) VALUES ('1', 'Minhas Preferências', 'minhas_preferencias');
+
+INSERT INTO .`permissoes` (`cod_area`, `descricao`, `permissao`) VALUES ('1', 'Filiais', 'filiais');

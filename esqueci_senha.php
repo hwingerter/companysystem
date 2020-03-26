@@ -1,15 +1,17 @@
 <?php
-include('conexao.php');
 
-require 'PHPMailerAutoload.php';
-require 'class.phpmailer.php';
+require_once "config/conexao.php";
+
+require_once "include/funcoes.php";
+
+require_once "include/email.php";
 
 $existe = '1';
 
 if (isset($_REQUEST["email"])) 
 { 
 
-	$email = $_REQUEST["email"];
+	$email = trim($_REQUEST["email"]);
 
 	$sql = "SELECT * FROM usuarios where email = '".$email."'";
 	$query = mysql_query($sql);
@@ -27,60 +29,58 @@ if (isset($_REQUEST["email"]))
 	if ($existe == 1) {
 		
 		$assunto = 'Esqueci minha senha';
-		$corpo = 'Prezado(a), '. $nome . '.<br><br>';
-		$corpo .= "Para gerar uma nova senha clique nesse <a href='http://www.companysystem.net.br/atualizar_senha.php?id=". $cod_usuario ."&email=". $email ."'>Link</a>.<br><br>";
-		$corpo .= "Atenciosamente,<br>Equipe Company System.";
-		
-		$mailer = new PHPMailer;
-				
-		//$mailer->SMTPDebug = 2;                               
-		
-		$mailer->isSMTP();                                      // funcao mailer para usar SMTP
-		
-		$mailer->SMTPOptions = array(
-		    'ssl' => array(
-		        'verify_peer' => false,
-		        'verify_peer_name' => false,
-		        'allow_self_signed' => true
-		    )
-		);
-		
-		
-		$mailer->Host = 'plesk12l0016.hospedagemdesites.ws'; // Servidor smtp
-		//Para cPanel: 'mail.dominio.com.br' ou 'localhost';
-		//Para Plesk 7 / 8 : 'smtp.dominio.com.br';
-		//Para Plesk 11 / 12.5: 'smtp.dominio.com.br' ou host do servidor exemplo : 'pleskXXXX.hospedagemdesites.ws';
-		
-		$mailer->SMTPAuth = true;                                   // Habilita a autentica├з├гo do form
-		$mailer->IsSMTP();
-		$mailer->isHTML(true);                                      // Formato de email HTML
-		$mailer->Port = 587;									    // Porta de conex├гo
-		
-		$mailer->Username = 'contato@companysystem.net.br';                  // Conta de e-mail que realizar├б o envio
-		$mailer->Password = 'F!jht999';                                   // Senha da conta de e-mail				
-		
-		// email do destinatario
-		$address = $email;
-		
-		$mailer->AddAddress($address);        // email do destinatario
-		//$mailer->addCC("gustavodsg@gmail.com"); // copia
-		$mailer->From = 'contato@companysystem.net.br';             //Obrigat├│rio ser a mesma caixa postal indicada em "username"
-		$mailer->Sender = 'contato@companysystem.net.br';
-		$mailer->FromName = 'Company System';          // seu nome
-		$mailer->Subject = $assunto;             // assunto da mensagem
-		$mailer->MsgHTML($corpo);             // corpo da mensagem
-		//$mailer->AddAttachment($arquivo['tmp_name'], $arquivo['name']  );      // anexar arquivo   -   "caso n├гo queira essa op├з├гo basta comentar"
-		
-		if(!$mailer->Send()) {
-		   echo "Erro: " . $mailer->ErrorInfo; 
-		   $sucesso = '0';
-		} else {
-		   $sucesso = '1';
-		   //echo "Mensagem enviada com sucesso!";
-		}		
-		
+
+		$mensagem = "
+			<!DOCTYPE html>
+			<html lang='en'>
+			<head>
+				<meta charset='UTF-8'>
+				<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+				<meta http-equiv='X-UA-Compatible' content='ie=edge'>
+				<title>Company System</title>
+				<style>
+				#titulo{
+						font-size: 14px;
+						font-weight: bold;
+						font-family: Verdana, Geneva, Tahoma, sans-serif;
+					}
+					#resposta{
+						font-size: 14px;
+						font-family: Verdana, Geneva, Tahoma, sans-serif;
+					}
+				</style>
+			</head>
+			<body>
+				<div style='padding:2px;'>
+					<div><img src='http://www.companysystem.net.br/sistema/assets/img/COMPANY_SYSTEM_LOGO.png' style='width:120px;' alt=''></div>
+					<div>
+						<p id='resposta'>Prezado(a), $nome</p>
+						<p id='resposta'>Para gerar uma nova senha, <a href='http://www.companysystem.net.br/sistema/atualizar_senha.php?id=$cod_usuario&email=$email'>Clique Aqui</a>.</p>
+						<p id='resposta'>Caso não tenha solicitado este procedimento, pedimos que descarte.</p>
+						<p id='resposta'>Atenciosamente,<br>Equipe Company System.</p>
+					</div>
+				</div>
+			</body>
+			</html>
+		";
+
+		//echo $mensagem;die;
+
+		$retorno = EmailEsqueciMinhaSenha($email, $assunto, $mensagem);	
+		//$retorno = Email($assunto, trim($mensagem));	
+
+		$parametros = "?sucesso=4";
+
+		header("Location: login.php".$parametros);
+
+		$sucesso = 1;		
 		
 	}
+}
+
+if(isset($conexao)) 
+{   
+    mysql_close($conexao);
 }
 
 ?>

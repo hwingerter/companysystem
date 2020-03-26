@@ -268,15 +268,18 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 							<td align="left"><?php echo DataMysqlPhp($rs['dt_inicio']); ?></td>
 							<td align="left"><?php echo DataMysqlPhp($rs['dt_vencimento']);?></td>
 							<td align="left">
-								<?php 
-								if ($DiasRenovacao == 0) {
-									echo "<span style='color:red;'>Renove seu plano!</span>";
-								}
-								else{
-									echo $DiasRenovacao;
-								}
+							<?php 
+									if ($DiasRenovacao > 0) {
+										echo $DiasRenovacao;
+									}
+									elseif ($DiasRenovacao == 0) {
+										echo "<span style='color:red;'>Renove o seu plano!</span>";
+									}
+									elseif ($DiasRenovacao < 0) {
+										echo "<span style='color:red;'>Plano Vencido! Favor renovar.</span>";
+									}
 								?>
-								</td>
+							</td>
 							<td align="left"><?php echo $rs['situacao'];?></td>
                             <td align='center'>
 					  	  <?php 

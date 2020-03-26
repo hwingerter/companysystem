@@ -7,10 +7,6 @@ require_once "../include/funcoes.php";
 require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	$credencial_ver = 1;
-	$credencial_incluir = 1;
-	$credencial_editar = 1;
-	$credencial_excluir = 1;
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "empresa_ver") {
@@ -140,8 +136,6 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1'))
 			
 			$acao = $_REQUEST['acao'];
 		
-			//select 		e.empresa, date_format(el.dt_inicio, '%d/%m/%Y') as dt_inicio, date_format(el.dt_vencimento, '%d/%m/%Y') as dt_vencimento, el.flg_situacao
-
 			$sql = "
 			select 		e.empresa, el.dt_inicio, el.dt_vencimento, el.flg_situacao
 						, date_format(el.dt_inicio, '%d/%m/%Y') as dt_inicio_formatada, date_format(el.dt_vencimento, '%d/%m/%Y') as dt_vencimento_formatada
@@ -149,8 +143,8 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1'))
 			from 		empresas_licenca el
 			inner join 	empresas e on e.cod_empresa = el.cod_empresa
 			inner join licencas l on l.cod_licenca = el.cod_licenca
-			where 		el.cod_empresa = ".$cod_empresa."
-			order by 	el.cod_licenca desc
+			where 		e.cod_empresa = ".$cod_empresa."
+			order by 	el.dt_vencimento desc
 			limit 1
 			";
 

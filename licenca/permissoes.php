@@ -47,12 +47,13 @@ if (isset($_REQUEST['acao'])){
 		for($i=1; $i<=$totalcred;$i++) {
 			if (isset($_REQUEST['area'.$i])) {
 				if ($_REQUEST['area'.$i] != '') {
-					$sql = "Insert into licenca_permissao (cod_licenca,cod_permissao) values (". $licenca .",". $_REQUEST['area'.$i] .")";
+					$sql = "Insert into licenca_permissao (cod_licenca,cod_permissao) values (". $licenca .",". $_REQUEST['area'.$i] .");";
+					//echo $sql."<br>";
 					mysql_query($sql);
 				}
 			}
 		}
-		
+	
 		echo "<script language='javascript'>window.location='licencas.php?sucesso=2';</script>";
 		die();
 	
@@ -99,6 +100,9 @@ if (isset($_REQUEST['acao'])){
 }
 	
 ?>
+
+<script language="javascript" src="js/licenca.js"></script>
+
 				<div class="static-content-wrapper">
                     <div class="static-content">
                         <div class="page-content">
@@ -130,7 +134,7 @@ if (isset($_REQUEST['acao'])){
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Licença</b></label>
 					<div class="col-sm-8">
-						<label class="col-sm-2 control-label"><?php echo ExibeLicenca($_REQUEST['id']); ?></label>
+						<label class="col-sm-4 control-label"><?php echo ExibeLicenca($_REQUEST['id']); ?></label>
 					</div>
 				</div>
 
@@ -157,7 +161,7 @@ if (isset($_REQUEST['acao'])){
 				$sql = "
 				select 		a.cod_area, a.nome
 				from 		area a
-				order by 	a.ordem;";
+				order by 	a.ordem; ";
 
 				$query = mysql_query($sql);
 
@@ -167,6 +171,9 @@ if (isset($_REQUEST['acao'])){
 
 					<div class="panel-heading">
 						<h2><?php echo $rs['nome']; ?></h2>
+						<span style="padding-left:5px;">
+							<input type="checkbox" name="area1" id="<?php echo $rs['cod_area']; ?>" onClick="SelecionaTodos(this.id, this.checked);"> Todos
+						</span>
 					</div>	
 
 
@@ -182,8 +189,8 @@ if (isset($_REQUEST['acao'])){
 					from 		permissoes p
 					inner join	area a on a.cod_area = p.cod_area
 					where 		a.cod_area = ".$rs['cod_area']."
-					order by 	cod_permissao;";
-
+					order by 	p.descricao asc;";
+					//echo $sql2;die;
 					$query2 = mysql_query($sql2);
 
 					while ($rs2 = mysql_fetch_array($query2))
@@ -191,15 +198,15 @@ if (isset($_REQUEST['acao'])){
 					?>
 
 					<div class="form-group">
-						<label class="col-sm-2 control-label"><b><?php echo $rs2['descricao']; ?></b></label>
+						<label class="col-sm-3 control-label"><b><?php echo $rs2['descricao']; ?></b></label>
 						<div class="col-sm-8">
-							<label class="checkbox-inline icheck">
-								<input type="checkbox" name="area<?php echo $rs2['cod_permissao']; ?>" id="area<?php echo $rs2['cod_permissao']; ?>" value="<?php echo $rs2['cod_permissao']; ?>"
+							<label class="checkbox">
+								<input type="checkbox" name="area<?php echo $rs2['cod_permissao']; ?>" id="area_<?php echo $rs['cod_area']; ?>" value="<?php echo $rs2['cod_permissao']; ?>"
 								<?php 
 									if ($rs2['TemPermissao'] == "S"){ echo " checked "; }
 								?>							
 								> 
-								Permite
+								Permitir
 							</label>
 						</div>
 					</div>

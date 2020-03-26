@@ -1,0 +1,7 @@
+hwingerter@gmail.com
+
+
+
+1 - Ao abrir o caixa ir direto para a pagina de comanda. ok
+2 - Ao clicar em comanda e estiver com caixa fechado, ir direto para o caixa. ok
+3 - Nova comanda, o campo valor vai para baixo do campo quantidade. ok

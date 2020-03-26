@@ -1,6 +1,8 @@
 <?php
-include("funcoes.php");
-include("conexao.php");
+
+require_once "config/conexao.php";
+
+require_once "include/funcoes.php";
 	
 if (isset($_REQUEST["nova_senha"])) 
 { 

@@ -51,9 +51,8 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 	}
 		
 	$sql = "
-	select		t.descricao, g.nome as grupo 
+	select		t.descricao
 	from 		tipo_conta t 
-	left join 	grupos g on g.cod_grupo = t.cod_grupo 
 	where 		t.cod_tipo_conta = ".$tipo.";";
 	$query = mysql_query($sql);
 	$registros = mysql_num_rows($query);
@@ -99,19 +98,6 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 														</div>
 													</div>
 
-												</div>
-
-												<div class="row">
-
-													<div class="form-group">
-
-														<label class="col-sm-2 control-label"><b>Grupo</b></label>
-
-														<div class="col-sm-8">
-															<label class="control-label"><?php echo $grupo;?></label>
-														</div>
-
-													</div>
 												</div>
 
 											</form>

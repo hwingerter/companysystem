@@ -2,7 +2,7 @@
 
 function EhAdministrador()
 {
-	if($_SESSION['usuario_conta'] == 1) return True;
+	if($_SESSION['tipo_conta'] == 1) return True;
 }
 
 function RetornaEmpresasDoGrupo($grupo)
