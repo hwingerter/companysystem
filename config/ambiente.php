@@ -6,7 +6,7 @@
 	{
 		define ("site", "http://localhost/belezasoft_site/");
 
-		define ("sistema", "http://localhost/belezasoft/");
+		define ("sistema", "http://127.0.0.1/companysystem/");
 	}
 	 else 
 	{
