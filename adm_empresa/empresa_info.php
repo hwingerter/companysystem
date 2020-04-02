@@ -11,10 +11,6 @@ require_once "../licenca/licenca.inc.php";
 require_once "../preferencias/preferencias_inc.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	$credencial_ver = 0;
-	$credencial_incluir = 0;
-	$credencial_editar = 0;
-	$credencial_excluir = 0;
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "empresa_ver") {
@@ -91,7 +87,7 @@ if ($atualizar != '1') {
 
 		$situacao = "A";
 		$dt_cadastro = date('Y-m-d');
-		$cod_usuario_cadastro = $_SESSION['usuario_id'];
+		$cod_usuario_cadastro = $_SESSION['cod_usuario'];
 		$cod_grupo = $_SESSION['cod_grupo'];
 
 		$Erro = "0";
@@ -126,9 +122,18 @@ if ($atualizar != '1') {
 				$rs1 = mysql_fetch_array($query);
 				$cod_empresa = $rs1['cod_empresa'];
 
-				LicenciarEmpresa($cod_empresa, $cod_licenca);
+				//VINCULAR A EMPRESA
+				$sql = "insert into grupo_empresas (cod_empresa) values ('".limpa($cod_empresa)."');";
+				mysql_query($sql);
+	
+				//INSERIR TIPO CONTA
+				$descricao_tipoConta = "Administrador";		
+				$sql = "insert into tipo_conta (descricao, cod_empresa) values ('".limpa($descricao_tipoConta)."', ".$cod_empresa.")";
+				mysql_query($sql);
 
-				CriarPreferencias($cod_empresa, $empresa, $telefone, '', '');
+				//LicenciarEmpresa($cod_empresa, $cod_licenca);
+
+				//CriarPreferencias($cod_empresa, $empresa, $telefone, '', '');
 
 				echo "<script language='javascript'>window.location='empresas.php?sucesso=1';</script>";
 			}

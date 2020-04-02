@@ -310,7 +310,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 											}
 											if ($credencial_excluir == '1') {
 											?>
-												<a class="btn btn-danger btn-label" href="adm_empresa/empresas.php?pergunta=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-times-circle"></i> Excluir</a>
+												<a class="btn btn-danger btn-label" href="empresas.php?pergunta=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-times-circle"></i> Excluir</a>
 											<?php
 											}
 											?>	
