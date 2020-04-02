@@ -84,4 +84,4 @@ require_once "include/ler_credencial.php";
 
     <div id="layout-static">
 
-        <?php include('./menu.php');?>
+        <?php include('./'.MontaMenu());?>

@@ -29,26 +29,11 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 						
 						<li><a href="<?php echo sistema; ?>inicio.php"><span>Início</span></a></li>
 						
+						<li><a href="<?php echo sistema; ?>login_empresa.php?acao=trocar_empresa&cod_empresa=1"><i class="fa fa-mail-reply"></i><span>Retornar Company System</span></a></li>
+
 						<?php
 
-							if ($cod_empresa == "1")
-							{
-							?>		
-							<li><a href="javascript:;"><i class="fa fa-cog"></i><span>Controle de Acesso</span></a>
-								<ul class="acc-menu">
-									<li><a href="<?php echo sistema; ?>tipo_conta/adm_perfil.php"><span>Tipo de Conta</span></a></li>
-									<li><a href="<?php echo sistema; ?>gestao_usuarios/adm_usuarios.php"><span>Usuários</span></a></li>								
-								</ul>
-							<li><a href="javascript:;"><i class="fa fa-list"></i><span>Cadastros</span></a>
-								<ul class="acc-menu">
-									<li><a href="<?php echo sistema; ?>empresa/empresas.php"><span>Empresas</span></a></li>
-								</ul>
-							</li>
-
-							<?php
-
-							}
-							
+						
 							/*
 							elseif (($tipo_conta == "1") && ($cod_empresa != "") ){
 							?>

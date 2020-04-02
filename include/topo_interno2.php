@@ -1,12 +1,14 @@
 <?php
 
 session_start();
+
 if(empty($_SESSION['cod_usuario'])){ echo "<script>location.href='./login.php';</script>";}
+
 require_once "../config/ambiente.php";
 
 require_once "../config/conexao.php";
 
-require_once "ler_credencial.php";
+require_once "../include/ler_credencial.php";
 
 ?>
 
@@ -85,6 +87,4 @@ require_once "ler_credencial.php";
 
     <div id="layout-static">
 
-        <?php 
-            include('../menu.php');
-        ?>
+    <?php include('../'.MontaMenu());?>

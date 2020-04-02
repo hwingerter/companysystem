@@ -6,10 +6,10 @@ require_once "include/funcoes.php";
 
 session_start();
 
-$cod_usuario = $_SESSION['usuario_id'];
+$cod_usuario = $_SESSION['cod_usuario'];
 $cod_empresa = $_SESSION['cod_empresa'];
 	
-if ($_SESSION['usuario_conta'] == 1)
+if ($_SESSION['cod_empresa'] == 1)
 {
 	$EhMaster = true;
 	$titulo_pagina = "Empresa";
@@ -58,7 +58,7 @@ else
 						$sql ="
 						select		e.cod_empresa, e.empresa
 						from 		empresas e
-						inner join 	usuarios_grupos_empresas uge on uge.cod_empresa = e.cod_empresa
+						inner join 	usuarios_empresas uge on uge.cod_empresa = e.cod_empresa
 						inner join 	usuarios u on u.cod_usuario = uge.cod_usuario
 						where 		u.cod_usuario = ".$cod_usuario."
 						";
@@ -77,25 +77,17 @@ else
 							</tr>
 						</thead>
 						<tbody>
+						<?php
 
-							<?php if ($EhMaster) { ?>
-								<tr>
-									<td><b>MASTER</b></td>
-									<td><a href="login_empresa.php?acao=trocar_empresa&cod_empresa=" class="btn btn-primary">Acessar</a></td>
-								</tr>
+						while ($rs = mysql_fetch_array($query)) {
+						?>
+							<tr>
+								<td><?php echo $rs['empresa'];?></td>
+								<td><a href="login_empresa.php?acao=trocar_empresa&cod_empresa=<?php echo $rs['cod_empresa'];?>" class="btn btn-primary">Acessar</a></td>
+							</tr>
 							<?php
 							}
-	
-								while ($rs = mysql_fetch_array($query)) {
-									?>
-									<tr>
-										<td><?php echo $rs['empresa'];?></td>
-										<td><a href="login_empresa.php?acao=trocar_empresa&cod_empresa=<?php echo $rs['cod_empresa'];?>" class="btn btn-primary">Acessar</a></td>
-									</tr>
-									<?php
-									}
-	
-							?>
+						?>
 						</tbody>
 					</table>
 
