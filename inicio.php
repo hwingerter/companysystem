@@ -55,14 +55,20 @@ if ($cod_empresa != "")
 			<div class="col-md-12">
 				<div class="panel panel-default">								
 
-
-					<div class="panel-heading">
-						<h2>Empresa: <?php echo $nome_empresa; ?></h2>
-					</div>
 					<div class="panel-body">
 						
-						<?php if ($flg_aviso_dias == "S") { ?>
+						<div class="alert alert-dismissable alert-default">
+							<h3>Bem-vindo</h3> 
+							<p>
+							A Company System é um sistema web voltado para salão de beleza, barbearia e todo nicho voltado para parte de beleza.
+							Nosso sistema atende a micro, pequenas, médias e grandes empresas.
+							Nosso diferencial é que você pode acessar o sistema pelo seu celular, tablets, notebook, PC desktop com total segurança.
+							</p>
+							
+						</div>
 
+						<?php //if ($flg_aviso_dias == "S") { ?>
+<!-- 
 						<div class="alert alert-dismissable alert-warning">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 							<h3>Atenção!</h3> 
@@ -71,21 +77,21 @@ if ($cod_empresa != "")
 							<br>
 							<p><a class="btn btn-info" href="empresa/empresa_licenca_info.php?acao=ver_licenca">Renovar Licença</a></p>
 
-						</div>
-						<?php }?>
+						</div> -->
+						<?php //}?>
 
-						<?php if ($flg_aviso_atrasado == "S") { ?>
+						<?php //if ($flg_aviso_atrasado == "S") { ?>
 
-						<div class="alert alert-dismissable alert-danger">
+						<!-- <div class="alert alert-dismissable alert-danger">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 							<h3>Ops!</h3> 
 
 							<p>A sua licença expirou! <br>Renove a sua licença para continuar usando o sistema.</p>
 							<br>
 							<p><a class="btn btn-danger" href="empresa/empresa_licenca_info.php?acao=ver_licenca">Renovar Licença</a></p>
-						</div>
+						</div> -->
 
-						<?php }?>
+						<?php //}?>
 
 
 					</div>

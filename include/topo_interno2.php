@@ -64,13 +64,13 @@ require_once "../include/ler_credencial.php";
 		<li class="dropdown toolbar-icon-bg">
 			<a href="#" class="dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="fa fa-fw fa-user"></i></span></a>
 			<ul class="dropdown-menu userinfo arrow">
-                <li><a href="<?php echo sistema; ?>/minha_conta.php"><span class="pull-left">Minha Conta</span> <i class="pull-right fa fa-user"></i></a></li>
+                <li><a href="<?php echo sistema; ?>minha_conta.php"><span class="pull-left">Minha Conta</span> <i class="pull-right fa fa-user"></i></a></li>
                 
-                <?php if($_SESSION['usuario_conta'] != "1"){?>
+                <?php //if($_SESSION['usuario_conta'] != "1"){?>
 
-                <li><a href="<?php echo sistema; ?>empresa/empresa_licenca_info.php?acao=ver_licenca"><span class="pull-left">Licença</span> <i class="pull-right fa fa-user"></i></a></li>
+                <!-- <li><a href="<?php echo sistema; ?>empresa/empresa_licenca_info.php?acao=ver_licenca"><span class="pull-left">Licença</span> <i class="pull-right fa fa-user"></i></a></li> -->
 
-                <?php } ?>
+                <?php //} ?>
 
 				<li class="divider"></li>
 
