@@ -7,10 +7,6 @@
 	require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	$credencial_ver = 1;
-	$credencial_incluir = 1;
-	$credencial_editar = 1;
-	$credencial_excluir = 1;
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "empresa_ver") {
@@ -44,6 +40,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 	
 	if (isset($_REQUEST['sucesso'])) { $sucesso = $_REQUEST['sucesso']; } else { $sucesso = ''; }
 	if (isset($_REQUEST['pergunta'])) { $pergunta = $_REQUEST['pergunta']; } else { $pergunta = ''; }
+	if (isset($_REQUEST['empresa'])) { $empresa = $_REQUEST['empresa']; } else { $empresa = ''; }
 	if (isset($_REQUEST['excluir'])) { $excluir = $_REQUEST['excluir']; } else { $excluir = ''; }
 	
 	//EXCLUSAO DE EMPRESA
@@ -161,9 +158,9 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 			if ($pergunta != '') {
 			?>
 			<div class="alert alert-dismissable alert-info">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				<strong>Deseja realmente excluir o código número <?php echo $pergunta; ?> ?</strong><br>
-				<br><a class="btn btn-success" href="empresas.php?excluir=<?php echo $pergunta;?>">Sim</a>&nbsp;&nbsp;&nbsp; <a class="btn btn-danger" href="empresas.php">Não</a>
+				Deseja realmente excluir a empresa <strong><?php echo $empresa; ?>?</strong><br>
+				<br><a class="btn btn-success" href="empresas.php?excluir=<?php echo $pergunta;?>">Sim</a>&nbsp;&nbsp;&nbsp; 
+				<a class="btn btn-danger" href="empresas.php">Não</a>
 			</div>				
 			<?php
 			}
@@ -208,6 +205,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 										<option value="">Todas</option>
 										<option value="A" <?php if (isset($_REQUEST['situacao'])){ if ($_REQUEST['situacao'] == "A"){ echo " selected "; } }?> > Ativa </option>
 										<option value="I" <?php if (isset($_REQUEST['situacao'])){ if ($_REQUEST['situacao'] == "I"){ echo " selected "; } }?> > Bloqueada </option>
+										<option value="E" <?php if (isset($_REQUEST['situacao'])){ if ($_REQUEST['situacao'] == "E"){ echo " selected "; } }?> > Excluídas </option>
 
 									</select>
 									
@@ -242,8 +240,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 								$sql = "
 								select		e.cod_empresa, e.empresa, e.telefone, e.situacao, date_format(e.dt_cadastro, '%d/%m/%Y') as dt_cadastro
 								from 		empresas e
-								where 		cod_empresa <> 1
-								and 		e.situacao <> 'E'
+								where 		e.cod_empresa <> 1
 								";
 
 								if (isset($_REQUEST['acao'])){
@@ -293,7 +290,9 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 												if($rs['situacao'] == "A"){
 													$situacao = '<label class="label label-success">Ativa</label>';
 												}elseif($rs['situacao'] == "I"){
-													$situacao = '<label class="label label-danger">Bloqueada</label>';
+													$situacao = '<label class="label label-warning">Bloqueada</label>';
+												}else{
+													$situacao = '<label class="label label-danger">Excluída</label>';
 												}
 										?>
 										<tr>
@@ -310,7 +309,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 											}
 											if ($credencial_excluir == '1') {
 											?>
-												<a class="btn btn-danger btn-label" href="empresas.php?pergunta=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-times-circle"></i> Excluir</a>
+												<a class="btn btn-danger btn-label" href="empresas.php?pergunta=<?php echo $rs['cod_empresa'];?>&empresa=<?php echo $rs['empresa']; ?>"><i class="fa fa-times-circle"></i> Excluir</a>
 											<?php
 											}
 											?>	

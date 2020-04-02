@@ -141,12 +141,12 @@ if ($atualizar != '1') {
 		}else if ($_REQUEST['acao'] == "atualizar"){
 			
 			//validar nova empresa
-			if(!ValidarNovaEmpresa($empresa, $cod_empresa)){
-				$Erro = "1";
-				$MensagemErro = "Essa empresa já existe!<br>Tente outro nome.";
-			}
+			//f(!ValidarNovaEmpresa($empresa, $cod_empresa)){
+			//	$Erro = "1";
+			//	$MensagemErro = "Essa empresa já existe!<br>Tente outro nome.";
+			//}
 
-			if ($Erro == "0") {
+			//if ($Erro == "0") {
 
 				$sql = "update empresas set empresa='". limpa($empresa) ."', cnpj = '". limpa($cnpj) ."',".
 				" endereco = '". limpa($endereco) ."', cep = '". limpa($cep) ."', telefone = '". limpa($telefone) ."', inscricao_estadual = '". limpa($inscricao_estadual) ."', inscricao_municipal = '". limpa($inscricao_municipal) ."'";
@@ -159,7 +159,7 @@ if ($atualizar != '1') {
 				
 				echo "<script language='javascript'>window.location='empresas.php?sucesso=2';</script>";
 
-			}
+			//}
 			
 		}
 		
@@ -268,15 +268,15 @@ if ($atualizar != '1') {
 					</div>
 				</div>				
 				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Endereço</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $endereco;?>" name="endereco" maxlength="200">
-					</div>
-				</div>
-				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>CEP</b></label>
 					<div class="col-sm-8">
 						<input type="text" class="form-control" value="<?php echo $cep;?>" name="cep" maxlength="10">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label"><b>Endereço</b></label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" value="<?php echo $endereco;?>" name="endereco" maxlength="200">
 					</div>
 				</div>
 				<?php 
@@ -321,18 +321,18 @@ if ($atualizar != '1') {
 					</div>
 				</div>
 
-				<?php if ($acao!="alterar"){ ?>
+				<?php// if ($acao!="alterar"){ ?>
 
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label class="col-sm-2 control-label"><b>Licença</b></label>
 					<div class="col-sm-8">
 					<?php
-						ComboLicenca('');
+						//ComboLicenca('');
 					?>
 					</div>
-				</div>
+				</div> -->
 
-				<?php } ?>
+				<?php// } ?>
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Situação no Sistema</b></label>
