@@ -12,7 +12,8 @@ $erro = '0';
 
 session_start();
 
-$cod_usuario = $_SESSION['usuario_id'];
+$cod_usuario = $_SESSION['cod_usuario'];
+$EmpresaPrincipal = $_SESSION['cod_empresa'];
 
 if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || ($_REQUEST['acao'] == "trocar_empresa")))
 {
@@ -27,17 +28,17 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 	}
 	*/
 
-	if ($_SESSION['usuario_conta'] == 1) 
+	if ($EmpresaPrincipal == 1) 
 	{
 		if ($_REQUEST['cod_empresa'] != "") 
 		{
 			
 			$cod_empresa = limpa($_REQUEST['cod_empresa']);
 	
-			$_SESSION['cod_licenca'] = ObterLicencaAtual($cod_empresa);
+			//$_SESSION['cod_licenca'] = ObterLicencaAtual($cod_empresa);
 
 			$sql = "
-			select 		e.empresa, g.cod_grupo
+			select 		e.empresa
 			from 		empresas e 
 			inner join 	grupo_empresas g on g.cod_empresa = e.cod_empresa
 			where 		e.cod_empresa = ".$cod_empresa."
@@ -46,14 +47,12 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 			$query = mysql_query($sql);
 			$rs = mysql_fetch_array($query);
 	
-			$_SESSION['cod_grupo_empresa'] = $rs['cod_grupo'];
-			$_SESSION['cod_grupo'] 		= $rs['cod_grupo'];
 			$_SESSION['cod_empresa']	= $cod_empresa;
 			$_SESSION['empresa'] 		= $rs['empresa'];
 			
-		}else{
-			$_SESSION['cod_grupo_empresa'] = "";
-			$_SESSION['cod_grupo'] 		 = "";
+		}
+		else
+		{
 			$_SESSION['cod_empresa']	 = "";
 			$_SESSION['empresa'] 		 = "";
 		}	
@@ -66,7 +65,7 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 		$cod_empresa = limpa($_REQUEST['cod_empresa']);
 
 		$sql = "
-		select 		e.empresa, g.cod_grupo
+		select 		e.empresa
 		from 		empresas e 
 		inner join 	grupo_empresas g on g.cod_empresa = e.cod_empresa
 		where 		e.cod_empresa = ".$cod_empresa."
@@ -75,11 +74,9 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 		$query = mysql_query($sql);
 		$rs = mysql_fetch_array($query);
 
-		$_SESSION['cod_grupo_empresa'] = $rs['cod_grupo'];
-		$_SESSION['cod_grupo'] 		= $rs['cod_grupo'];
 		$_SESSION['cod_empresa']	= $cod_empresa;
 		$_SESSION['empresa'] 		= $rs['empresa'];
-		$_SESSION['cod_licenca'] 	= ObterLicencaAtual($cod_empresa);
+		//$_SESSION['cod_licenca'] 	= ObterLicencaAtual($cod_empresa);
 
 		echo "<script language='javascript'>window.location='inicio.php';</script>";die();
 

@@ -44,7 +44,7 @@ require_once "../licenca/licenca.inc.php";
 			
 			$_SESSION['usuario_nome'] 			= $rs['nome'];
 			$_SESSION['cod_usuario'] 			= $rs['cod_usuario'];
-			$_SESSION['usuario_conta']			= $rs['cod_usuario'];
+			$_SESSION['usuario_conta']			= "1";
 			$_SESSION['tipo_conta'] 			= $rs['tipo_conta'];
 			$_SESSION['tipo_conta_descricao'] 	= $rs['tipo_conta_descricao'];
 			$_SESSION['TotalEmpresas'] 			= $rs['TotalEmpresas'];

@@ -49,15 +49,26 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 	//EXCLUSAO DE EMPRESA
 	if ($excluir != '') 
 	{
-		$sql = "delete from usuarios_grupos_empresas where cod_empresa = ". $excluir;
+		/*
+		$sql = "delete from usuarios_empresas where cod_empresa = ". $excluir;
 		mysql_query($sql);
 
 		$sql = "delete from grupo_empresas where cod_empresa = ". $excluir;
 		mysql_query($sql);
 
+		$sql = "delete from tipo_conta where cod_empresa = ". $excluir;
+		mysql_query($sql);
+
+		//$sql = "delete from tipo_conta where cod_empresa = ". $excluir;
+		//mysql_query($sql);
+
 		$sql = "delete from empresas where cod_empresa = ". $excluir;
 		mysql_query($sql);
-		
+		*/
+
+		$sql = "update empresas set situacao = 'E' where cod_empresa = ". $excluir;
+		mysql_query($sql);
+
 		$excluir = '1';
 	}
 	
@@ -194,7 +205,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 									<div class="col-sm-4">
 										
 									<select name="situacao" id="situacao" class="form-control">
-
+										<option value="">Todas</option>
 										<option value="A" <?php if (isset($_REQUEST['situacao'])){ if ($_REQUEST['situacao'] == "A"){ echo " selected "; } }?> > Ativa </option>
 										<option value="I" <?php if (isset($_REQUEST['situacao'])){ if ($_REQUEST['situacao'] == "I"){ echo " selected "; } }?> > Bloqueada </option>
 
@@ -232,26 +243,21 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 								select		e.cod_empresa, e.empresa, e.telefone, e.situacao, date_format(e.dt_cadastro, '%d/%m/%Y') as dt_cadastro
 								from 		empresas e
 								where 		cod_empresa <> 1
+								and 		e.situacao <> 'E'
 								";
 
 								if (isset($_REQUEST['acao'])){
-								if ($_REQUEST['acao'] == "buscar"){
 
-									if ($_REQUEST['nome'] != ""){
-										$sql = $sql . "and  e.empresa like '%".$_REQUEST['nome']."%' ";
-										$where = 1;
-									}else{
-										$where = 0;
-									}
+									if ($_REQUEST['acao'] == "buscar"){
 
-									if ($_REQUEST['situacao'] != ""){
-										if($where == 0){
-											//$sql = $sql . "where  e.situacao = '".$_REQUEST['situacao']."' ";
-										}else{
-											$sql = $sql . "and  e.situacao = '".$_REQUEST['situacao']."' ";
+										if ($_REQUEST['nome'] != ""){
+											$sql = $sql . "and  e.empresa like '%".$_REQUEST['nome']."%' ";
+										}
+
+										if ($_REQUEST['situacao'] != ""){
+												$sql = $sql . "and  e.situacao = '".$_REQUEST['situacao']."' ";
 										}
 									}
-								}
 								}
 								$sql .= "
 								group by	e.cod_empresa, e.empresa
@@ -302,9 +308,9 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 												<a class="btn btn-success btn-label" href="empresa_info.php?acao=alterar&id=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-edit"></i> Editar</a>&nbsp;
 											<?php 
 											}
-											if ($credencial_excluir != '1') {
+											if ($credencial_excluir == '1') {
 											?>
-												<a class="btn btn-danger btn-label" href="empresas.php?pergunta=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-times-circle"></i> Excluir</a>
+												<a class="btn btn-danger btn-label" href="adm_empresa/empresas.php?pergunta=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-times-circle"></i> Excluir</a>
 											<?php
 											}
 											?>	
@@ -314,7 +320,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 
 												<!--a class="btn btn-default btn-label" href="empresas_filiais.php?cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Filiais</a-->
 
-												<a class="btn btn-default btn-label" href="../login_empresa.php?acao=trocar_empresa&cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Acessar Empresa</a>
+												<!-- <a class="btn btn-default btn-label" href="../login_empresa.php?acao=trocar_empresa&cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Acessar Empresa</a> -->
 
 												</td>
 											</tr>

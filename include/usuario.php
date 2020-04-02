@@ -5,6 +5,18 @@ function EhAdministrador()
 	if($_SESSION['tipo_conta'] == 1) return True;
 }
 
+function MontaMenu()
+{
+	if ($_SESSION['cod_empresa'] == 1) 
+	{
+		return "menu_companySystem.php";
+	}
+	else
+	{
+		return "menu.php";
+	}
+}
+
 function RetornaEmpresasDoGrupo($grupo)
 {
 
