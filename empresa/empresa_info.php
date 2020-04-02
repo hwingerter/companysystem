@@ -81,12 +81,16 @@ if ($atualizar != '1') {
 			$cod_empresa = $rs1['cod_empresa'];
 
 			//VINCULAR A EMPRESA AO GRUPO
-			$sql = "insert into grupo_empresas (cod_grupo, cod_empresa) values ('".limpa($cod_grupo)."', '".limpa($cod_empresa)."');";
-			mysql_query($sql);
+			//$sql = "insert into grupo_empresas (cod_grupo, cod_empresa) values ('".limpa($cod_grupo)."', '".limpa($cod_empresa)."');";
+			//mysql_query($sql);
 
 			//VINCULAR A EMPRESA AO GRUPO
-			$sql = "insert into usuarios_grupos_empresas (cod_usuario, cod_grupo, cod_empresa) 
+			$sql = "insert into usuarios_empresas (cod_usuario, cod_empresa) 
 					values ('".$cod_usuario."', '".limpa($cod_grupo)."', '".limpa($cod_empresa)."');";
+			mysql_query($sql);
+
+			$descricao_tipoConta = "Administrador";		
+			$sql = "insert into tipo_conta (descricao, cod_empresa) values ('".limpa($descricao_tipoConta)."', ".$cod_empresa.")";
 			mysql_query($sql);
 
 			CriarPreferencias($cod_empresa, $empresa, $telefone, $nome, $email);
