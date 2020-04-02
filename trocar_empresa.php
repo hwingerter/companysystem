@@ -50,7 +50,8 @@ else
 						$sql = "
 						select		e.cod_empresa, e.empresa
 						from 		empresas e 
-						order by	e.empresa
+						where 		e.situacao = 'A'
+						order by	e.empresa						
 						";
 
 					} else {
@@ -61,6 +62,7 @@ else
 						inner join 	usuarios_empresas uge on uge.cod_empresa = e.cod_empresa
 						inner join 	usuarios u on u.cod_usuario = uge.cod_usuario
 						where 		u.cod_usuario = ".$cod_usuario."
+						and	 		e.situacao = 'A'
 						";
 
 					}

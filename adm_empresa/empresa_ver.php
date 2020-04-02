@@ -7,10 +7,6 @@ require_once "../include/funcoes.php";
 require_once "../include/ler_credencial.php";
 
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	$credencial_ver = 0;
-	$credencial_incluir = 0;
-	$credencial_editar = 0;
-	$credencial_excluir = 0;
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "empresa_ver") {
@@ -56,7 +52,6 @@ $sql = "Select e.* from empresas e
 	if ($registros > 0) {
 		if ($rs = mysql_fetch_array($query)){
 				$empresa = $rs['empresa'];
-				$email = $rs['email'];
 				$cnpj = $rs['cnpj'];
 				$endereco = $rs['endereco'];
 				$cep = $rs['cep'];
@@ -127,15 +122,15 @@ $sql = "Select e.* from empresas e
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Endereço</b></label>
-					<div class="col-sm-8">
-						<label class="control-label"><?php echo $endereco;?></label>
-					</div>
-				</div>
-				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>CEP</b></label>
 					<div class="col-sm-8">
 						<label class="control-label"><?php echo $cep;?></label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label"><b>Endereço</b></label>
+					<div class="col-sm-8">
+						<label class="control-label"><?php echo $endereco;?></label>
 					</div>
 				</div>
 				<div class="form-group">
@@ -150,12 +145,6 @@ $sql = "Select e.* from empresas e
 						<label class="control-label"><?php echo ExibeCidade($cidade);?></label>
 					</div>
 				</div>								
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>E-mail</b></label>
-					<div class="col-sm-8">
-						<label class="control-label"><?php echo $email;?></label>
-					</div>
-				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Telefone</b></label>
 					<div class="col-sm-8">
