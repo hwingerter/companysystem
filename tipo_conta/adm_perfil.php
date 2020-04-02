@@ -7,15 +7,6 @@ require_once "../include/funcoes.php";
 require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	if ($_SESSION['cod_usuario'] == '1') {
-		
-		$credencial_ver = 1;
-		$credencial_incluir = 1;
-		$credencial_editar = 1;
-		$credencial_excluir = 1;
-		
-	}
-	
 	
 if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �REA
 	
@@ -185,6 +176,8 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 						  }
 						  ?>							
 							<a class="btn btn-info btn-label" href="adm_perfil_ver.php?id=<?php echo $rs['cod_tipo_conta'];?>"><i class="fa fa-eye"></i> Ver</a>
+
+							&nbsp;<a class="btn btn-default btn" href="permissoes.php?acao=alterar&id=<?php echo $rs['cod_tipo_conta'];?>"><i class="fa fa-ticket"></i> Áreas de Acesso</a>						  							
 
 							<!--a class="btn btn-info btn-inverse" href="credencial_info.php?acao=alterar&id=<?php echo $rs['cod_tipo_conta'];?>&cod_empresa=<?php echo $rs['cod_empresa'];?>&voltar=<?php echo $voltar; ?>">
 								<i class="fa fa-ticket"></i> Credenciais</a-->

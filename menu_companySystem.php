@@ -34,6 +34,7 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 							<li><a href="javascript:;"><i class="fa fa-cog"></i><span>Administração</span></a>
 								<ul class="acc-menu">
 									<li><a href="<?php echo sistema; ?>tipo_conta/adm_perfil.php"><span>Tipo de Conta</span></a></li>
+									<li><a href="<?php echo sistema; ?>credenciais/credenciais.php"><span>Credenciais</span></a></li>
 									<li><a href="<?php echo sistema; ?>gestao_usuarios/adm_usuarios.php"><span>Usuários</span></a></li>								
 									<li><a href="<?php echo sistema; ?>preferencias/preferencias.php"><span>Minhas Preferências</span></a></li>
 									<li><a href="<?php echo sistema; ?>licenca/licencas.php"><span>Licenças</span></a></li>
