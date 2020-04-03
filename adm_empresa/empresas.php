@@ -319,7 +319,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 
 												<!--a class="btn btn-default btn-label" href="empresas_filiais.php?cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Filiais</a-->
 
-												<!-- <a class="btn btn-default btn-label" href="../login_empresa.php?acao=trocar_empresa&cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Acessar Empresa</a> -->
+												<a class="btn btn-default btn-label" href="../login_empresa.php?acao=trocar_empresa&cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Acessar </a>
 
 												</td>
 											</tr>

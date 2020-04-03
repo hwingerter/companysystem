@@ -29,7 +29,7 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 						
 						<li><a href="<?php echo sistema; ?>inicio.php"><span>Início</span></a></li>
 
-						<li><a href="<?php echo sistema; ?>trocar_empresa.php"><i class="fa fa-building"></i><span>Acessar Empresa</span></a></li>
+						<!-- <li><a href="<?php echo sistema; ?>trocar_empresa.php"><i class="fa fa-building"></i><span>Acessar Empresa</span></a></li> -->
 
 						<?php
 						if ($acesso_minha_empresa == 1) {
@@ -42,7 +42,7 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 									<li><a href="<?php echo sistema; ?>credenciais/credenciais.php"><span>Credenciais</span></a></li>
 									<?php } if ($menu_usuario == 1) {?>
 									<li><a href="<?php echo sistema; ?>gestao_usuarios/adm_usuarios.php"><span>Usuários</span></a></li>								
-									<?php } if ($acesso_minha_empresa == 1) {?>
+									<?php } if ($menu_minhas_preferencias == 1) {?>
 									<li><a href="<?php echo menu_minhas_preferencias; ?>preferencias/preferencias.php"><span>Minhas Preferências</span></a></li>
 									<?php } ?>
 								</ul>
@@ -55,7 +55,7 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 							<li><a href="javascript:;"><i class="fa fa-list"></i><span>Cadastros</span></a>
 								<ul class="acc-menu">
 									<li><a href="<?php echo sistema; ?>adm_empresa/empresas.php"><span>Empresas</span></a></li>
-									<!-- <li><a href="<?php echo sistema; ?>cliente/clientes.php"><span>Clientes</span></a></li> -->
+									<!-- <li><a href="<?php echo sistema; ?>cliente/clientes.hp"><span>Clientes</span></a></li> -->
 									<li><a href="<?php echo sistema; ?>fornecedor/fornecedores.php"><span>Fornecedores</span></a></li>
 									<!-- <li><a href="<?php echo sistema; ?>produto/produtos.php"><span>Produtos</span></a></li> -->
 									<!-- <li><a href="<?php echo sistema; ?>grupo_produtos/grupo_produtos.php"><span>Grupo de Produtos</span></a></li> -->
