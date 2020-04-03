@@ -51,6 +51,7 @@ else
 						select		e.cod_empresa, e.empresa
 						from 		empresas e 
 						where 		e.situacao = 'A'
+						and 		e.cod_empresa <> 1
 						order by	e.empresa						
 						";
 
