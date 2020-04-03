@@ -30,29 +30,21 @@ if (isset($_REQUEST['acao'])){
     if ($_REQUEST['acao'] == "atualizar"){
 	
 
-		$id = $_REQUEST['id'];
+		$id 	= $_REQUEST['id'];
+		$menu 	= $_REQUEST['menu'];
 
-		$permissoes = explode(",", $_REQUEST['area']);
+		$sql = "Delete from tipo_conta_permissao where cod_tipo_conta = ". $id;
+		mysql_query($sql);
 
-				//$sql = "Delete from tipo_conta_permissao where cod_tipo_conta = ". $id;
-		//mysql_query($sql);
-
-		for($i=0; $i<=$permissoes; $i++) {
-
-			if (isset($permissoes[$i])) {
-				
-				echo $permissoes[$i]."<br>";
-
-				// if ($permissoes[$i] != '') {
-				// 	$sql = "Insert into tipo_conta_permissao (cod_tipo_conta,cod_permissao) values (". $id .",". $permissoes[$i] .");";
-				// 	echo $sql."<br>";
-				// 	//mysql_query($sql);
-				// }
-			}
+		for($i=0; $i<count($menu);$i++) 
+		{
+			$sql = "Insert into tipo_conta_permissao (cod_tipo_conta,cod_permissao) values (". $id .",". $menu[$i] .");";
+			//echo $sql."<br>";
+			mysql_query($sql);
 		}
 		
-		die;
-		echo "<script language='javascript'>window.location='licencas.php?sucesso=2';</script>";
+		//die;
+		echo "<script language='javascript'>window.location='adm_perfil.php?sucesso=2';</script>";
 		die();
 	
 	}
@@ -66,7 +58,6 @@ if (isset($_REQUEST['acao'])){
 		if (isset($_REQUEST['id'])) {
 			$cod_tipo_conta = $_REQUEST["id"];
 		}
-		
 		$sql = "Select descricao from tipo_conta where cod_tipo_conta = ".$cod_tipo_conta;
 		$query = mysql_query($sql);
 		$rs = mysql_fetch_array($query);
@@ -115,7 +106,6 @@ if (isset($_REQUEST['acao'])){
 				$sql = "
 				select 		a.cod_area, a.nome
 				from 		area a
-				where 		a.cod_area=1
 				order by 	a.ordem; ";
 
 				$query = mysql_query($sql);
@@ -135,7 +125,13 @@ if (isset($_REQUEST['acao'])){
 					<?php 
 
 					$sql2 = "
-					select 		p.cod_permissao, p.descricao, 'N' as TemPermissao
+					select 		p.cod_permissao, p.descricao, 
+								(
+								select 	case when count(*) > 0 then 'S' else 'N' end
+								from	tipo_conta_permissao
+								where	cod_tipo_conta =  ".$cod_tipo_conta."
+								and 	cod_permissao = p.cod_permissao
+								) as TemPermissao
 					from 		permissoes p
 					inner join	area a on a.cod_area = p.cod_area
 					where 		a.cod_area = ".$rs['cod_area']."
@@ -151,7 +147,7 @@ if (isset($_REQUEST['acao'])){
 						<label class="col-sm-3 control-label"><b><?php echo $rs2['descricao']; ?></b></label>
 						<div class="col-sm-8">
 							<label class="checkbox">
-								<input type="checkbox" name="area<?php echo $rs2['cod_permissao']; ?>[]" id="area_<?php echo $rs['cod_area']; ?>" value="<?php echo $rs2['cod_permissao']; ?>"
+								<input type="checkbox" name="menu[]" id="area_<?php echo $rs['cod_area']; ?>" value="<?php echo $rs2['cod_permissao']; ?>"
 								<?php 
 									if ($rs2['TemPermissao'] == "S"){ echo " checked "; }
 								?>							
