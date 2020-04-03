@@ -31,6 +31,10 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 
 						<li><a href="<?php echo sistema; ?>trocar_empresa.php"><i class="fa fa-building"></i><span>Acessar Empresa</span></a></li>
 
+							<?php
+							if ($acesso_minha_empresa == 1) {
+							?>
+
 							<li><a href="javascript:;"><i class="fa fa-cog"></i><span>Administração</span></a>
 								<ul class="acc-menu">
 									<li><a href="<?php echo sistema; ?>tipo_conta/adm_perfil.php"><span>Tipo de Conta</span></a></li>
@@ -40,6 +44,7 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 									<li><a href="<?php echo sistema; ?>licenca/licencas.php"><span>Licenças</span></a></li>
 								</ul>
 							</li>
+							<?php } ?>
 							<li><a href="javascript:;"><i class="fa fa-list"></i><span>Cadastros</span></a>
 								<ul class="acc-menu">
 									<li><a href="<?php echo sistema; ?>adm_empresa/empresas.php"><span>Empresas</span></a></li>

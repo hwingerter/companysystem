@@ -33,10 +33,7 @@ $credencial_incluir = 1;
 $credencial_editar = 1;
 $credencial_excluir = 1;
 
-/*
 
-if (!EhAdministrador())
-{
 
 	//AREAS PERMITIDAS
 	$acesso_minha_empresa = 0;
@@ -51,9 +48,9 @@ if (!EhAdministrador())
 
 	$sql = "
 	Select		p.cod_area
-	from	 	licenca_permissao lp
+	from	 	tipo_conta_permissao lp
 	inner join	permissoes p on p.cod_permissao = lp.cod_permissao
-	where 		lp.cod_licenca = ".$_SESSION['cod_licenca']."
+	where 		lp.cod_tipo_conta = ".$_SESSION['tipo_conta']."
 	group by	p.cod_area
 	order by	p.cod_area;
 	";
@@ -105,21 +102,5 @@ if (!EhAdministrador())
 			$i = $i + 1;
 		}
 	}
-	
-}
-else
-{
-	//AREAS PERMITIDAS
-	$acesso_minha_empresa = 1;
-	$acesso_cadastros = 1;
-	$acesso_agenda = 1;
-	$acesso_caixa = 1;
-	$acesso_vendas = 1;
-	$acesso_financeiro = 1;
-	$acesso_salarios_comissoes = 1;
-	$acesso_estoque = 1;
-	$acesso_relatorio = 1;
-}
 
-*/
 ?>
