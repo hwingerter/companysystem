@@ -106,7 +106,8 @@ if (isset($_REQUEST['acao'])){
 				$sql = "
 				select 		a.cod_area, a.nome
 				from 		area a
-				order by 	a.ordem; ";
+				order by 	a.ordem; 
+				";
 
 				$query = mysql_query($sql);
 

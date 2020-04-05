@@ -167,18 +167,93 @@ if (isset($_REQUEST['acao'])){
 						<label class="col-sm-2 control-label"><?php echo ExibeNomeTipoConta($_REQUEST['id']); ?></label>
 					</div>
 				</div>
+
+<?php
+
+$sql = "
+select 		a.cod_area, a.nome
+from 		area a
+inner join 	permissoes p on p.cod_area = a.cod_area
+inner join 	tipo_conta_permissao t on p.cod_permissao = t.cod_permissao
+where		t.cod_tipo_conta = ".$tipo_conta."
+order by 	a.ordem;
+";
+
+$query = mysql_query($sql);
+$registros = mysql_num_rows($query);
+while ($rs = mysql_fetch_array($query)) 
+{ 
+
+?>
+				
 				<div class="panel-heading">
-					<h2>Sistema</h2>
-				</div>			
+					<h2><?php echo $rs['nome'];?></h2>
+				</div>	
+
+				<?php
+				$sql2 = "
+				select 		p.*
+				from 		permissoes p
+				inner join 	tipo_conta_permissao t on t.cod_permissao = p.cod_permissao
+				where		t.cod_tipo_conta = ".$tipo_conta."
+				and 		p.cod_area = ".$rs['cod_area']."
+				order by 	p.descricao;
+				";
+
+				$query2 = mysql_query($sql2);
+				while ($rs2 = mysql_fetch_array($query2)) 
+				{ 
+				?>
+
 				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Selecionar Todos</b></label>
+					<label class="col-sm-2 control-label"><b><?php echo $rs2['descricao'];?></b></label>
 					<div class="col-sm-8">
 						<label class="checkbox-inline icheck">
-							<input type="checkbox" name="area1" id="area1" onclick="javascript:SelecionarTodosCadastros();" >
+							<input type="checkbox" name="area1" id="area1" value="1"
+							  <?php 
+							  for($i=1; $i<=$totalcred;$i++) {
+							  	if ($cred[$i] == '1') { echo " checked"; }
+							  }
+							  ?>							
+							> Ver
 						</label>
+						<label class="checkbox-inline icheck">
+							<input type="checkbox" name="area2" id="area2" value="2"
+							  <?php 
+							  for($i=1; $i<=$totalcred;$i++) {
+							  	if ($cred[$i] == '2') { echo " checked"; }
+							  }
+							  ?>							
+							> Incluir
+						</label>
+						<label class="checkbox-inline icheck">
+							<input type="checkbox" name="area3" id="area3" value="3"
+							  <?php 
+							  for($i=1; $i<=$totalcred;$i++) {
+							  	if ($cred[$i] == '3') { echo " checked"; }
+							  }
+							  ?>							
+							> Editar
+						</label>
+						<label class="checkbox-inline icheck">
+							<input type="checkbox" name="area4" id="area4" value="4"
+							  <?php 
+							  for($i=1; $i<=$totalcred;$i++) {
+							  	if ($cred[$i] == '4') { echo " checked"; }
+							  }
+							  ?>							
+							> Excluir
+						</label>						
 					</div>
 				</div>
-				<div class="form-group">
+
+				<?php
+				}
+				?>
+
+
+
+				<!-- <div class="form-group">
 					<label class="col-sm-2 control-label"><b>Usuários</b></label>
 					<div class="col-sm-8">
 						<label class="checkbox-inline icheck">
@@ -282,8 +357,12 @@ if (isset($_REQUEST['acao'])){
 							> Editar
 						</label>						
 					</div>
-				</div>
-				<div class="panel-heading">
+				</div> -->
+
+
+
+
+				<!-- <div class="panel-heading">
 					<h2>Cadastros</h2>
 				</div>				
 				<div class="form-group">
@@ -830,7 +909,13 @@ if (isset($_REQUEST['acao'])){
 							> Gerar Boleto
 						</label>
 					</div>
-				</div>								
+				</div>								 -->
+
+
+<?php 
+}
+?>
+
 			</form>
 			<div class="panel-footer">
 				<div class="row">

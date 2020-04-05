@@ -298,8 +298,6 @@ function AdmComboTipoConta($cod_empresa, $tipoconta) {
 	$sql = "
 	select		tc.cod_tipo_conta, tc.descricao as tipoconta
 	from 		tipo_conta tc
-	";
-	"
 	where 		tc.cod_empresa = ".$cod_empresa."
 	order by 	tc.descricao asc;
 	";
