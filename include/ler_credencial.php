@@ -118,10 +118,8 @@ where 		lp.cod_tipo_conta = ".$_SESSION['tipo_conta'].";
 $query = mysql_query($sql);
 if (mysql_num_rows($query) > 0) 
 {
-	$i = 0;
 	while ($rs = mysql_fetch_array($query)) 
 	{ 
-		
 		switch($rs['cod_permissao'])
 		{
 			case '1':
@@ -140,7 +138,6 @@ if (mysql_num_rows($query) > 0)
 				
 		}
 
-		$i = $i + 1;
 	}
 }
 
