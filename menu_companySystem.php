@@ -43,7 +43,7 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 									<?php } if ($menu_usuario == 1) {?>
 									<li><a href="<?php echo sistema; ?>gestao_usuarios/adm_usuarios.php"><span>Usuários</span></a></li>								
 									<?php } if ($menu_minhas_preferencias == 1) {?>
-									<li><a href="<?php echo menu_minhas_preferencias; ?>preferencias/preferencias.php"><span>Minhas Preferências</span></a></li>
+									<li><a href="<?php echo sistema; ?>preferencias/preferencias.php"><span>Minhas Preferências</span></a></li>
 									<?php } ?>
 								</ul>
 							</li>
