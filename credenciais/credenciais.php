@@ -164,7 +164,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 				<?php if ($credencial_editar == '1') {?>
 				<a class="btn btn-success btn-label" href="credencial_info.php?acao=alterar&id=<?php echo $rs['cod_tipo_conta'];?>&voltar=<?php echo $voltar; ?>"><i class="fa fa-edit"></i> Editar</a>&nbsp;
 				<?php } ?>
-				<a class="btn btn-info btn-label" href="credencial_ver.php?id=<?php echo $rs['cod_tipo_conta'];?>"><i class="fa fa-eye"></i> Ver</a>
+				<a class="btn btn-default btn-label" href="credencial_ver.php?acao=alterar&id=<?php echo $rs['cod_tipo_conta'];?>&voltar=<?php echo $voltar; ?>"><i class="fa fa-eye"></i> Ver</a>&nbsp;
 				</td>
 			</tr>
     <?php

@@ -237,7 +237,6 @@ function ExibeNomeUsuario($usuario) {
 	
 }
 
-
 function ComboLicenca($cod_licenca) 
 {
 	

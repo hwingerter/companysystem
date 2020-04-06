@@ -2,7 +2,7 @@
 
 session_start();
 
-if(empty($_SESSION['cod_usuario'])){ echo "<script>location.href='./login.php';</script>";}
+if(empty($_SESSION['cod_usuario'])){ echo "<script>location.href='../login.php';</script>";}
 
 require_once "../config/ambiente.php";
 

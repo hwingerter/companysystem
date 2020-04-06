@@ -2,21 +2,27 @@
 
 require_once "usuario.php";
 
-$sql = "Select count(*) as total from tipo_conta_credencial where cod_tipo_conta = ". $_SESSION['tipo_conta'];
-//echo $sql;die;
-$query = mysql_query($sql);
-$registros = mysql_num_rows($query);
-if ($registros > 0) {
-	if ($rs = mysql_fetch_array($query)) { 
-		$totalcredencial = $rs["total"];
-	}
+//RESETANDO CREDENCIAS
+$credencial_ver = 0;
+$credencial_incluir = 0;
+$credencial_editar = 0;
+$credencial_excluir = 0;
+
+if($_SESSION['tipo_conta'] == 2)
+{
+	$credencial_ver = 1;
+	$credencial_incluir = 1;
+	$credencial_editar = 1;
+	$credencial_excluir = 1;
 }
 
+//CREDENCIAIS PERMITIDAS
 $sql = "
-Select		credenciais.credencial 
-from 		tipo_conta_credencial 
-inner join 	credenciais on tipo_conta_credencial.cod_credencial = credenciais.cod_credencial  
-where 		tipo_conta_credencial.cod_tipo_conta = " . $_SESSION['tipo_conta']."";
+select		c.credencial
+from		tipo_conta_credencial t
+inner join	credenciais c on c.cod_credencial = t.cod_credencial
+where 		t.cod_tipo_conta = ".$_SESSION['tipo_conta']."
+";
 //echo $sql;die;
 $query = mysql_query($sql);
 $registros = mysql_num_rows($query);
@@ -25,15 +31,9 @@ if ($registros > 0) {
 	while ($rs = mysql_fetch_array($query)) { 
 		$credenciais[$i] = $rs["credencial"];
 		$i = $i + 1;
+		
 	}
 }
-
-$credencial_ver = 1;
-$credencial_incluir = 1;
-$credencial_editar = 1;
-$credencial_excluir = 1;
-
-
 
 //AREAS PERMITIDAS
 $acesso_minha_empresa = 0;
