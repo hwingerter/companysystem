@@ -62,8 +62,8 @@ require_once "../licenca/licenca.inc.php";
 				$rs2 = mysql_fetch_array($query2);
 
 				$_SESSION['cod_empresa'] = $rs2['cod_empresa'];
-				$_SESSION['empresa'] 	 = $rs2['empresa'];
-	
+				$_SESSION['empresa'] 	 = $rs2['empresa'];				
+				
 				echo "<script language='javascript'>window.location='../inicio.php';</script>"; die();
 	
 			}

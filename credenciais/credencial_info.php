@@ -36,7 +36,7 @@ if (isset($_REQUEST['acao'])){
 		$tipo_conta = $_REQUEST['id'];
 		$voltar = $_REQUEST['voltar'];
 		
-		$sql = "Delete from tipo_conta_credencial where cod_tipo_conta = ". $tipo_conta;
+		$sql = "delete from tipo_conta_credencial where cod_tipo_conta = ". $tipo_conta;
 		//echo $sql."<br>";
 		mysql_query($sql);
 
