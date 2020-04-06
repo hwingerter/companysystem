@@ -30,21 +30,19 @@ if (isset($_REQUEST['acao'])){
 	
     if ($_REQUEST['acao'] == "atualizar"){
 		
-		$totalcred = $_REQUEST['totalcred'];
+		$credencial = $_REQUEST['credencial'];
 		$tipo_conta = $_REQUEST['id'];
 		$voltar = $_REQUEST['voltar'];
 		
 		$sql = "Delete from tipo_conta_credencial where cod_tipo_conta = ". $tipo_conta;
+		//echo $sql;
 		mysql_query($sql);
-		
-		for($i=1; $i<=$totalcred;$i++) {
-			if (isset($_REQUEST['area'.$i])) {
-				if ($_REQUEST['area'.$i] != '') {
-					$sql = "Insert into tipo_conta_credencial (cod_tipo_conta,cod_credencial) values (". $tipo_conta .",". $_REQUEST['area'.$i] .")";
-					//echo $sql."<br>";
-					mysql_query($sql);
-				}
-			}
+
+		for($i=0; $i<count($credencial);$i++) 
+		{
+			$sql = "Insert into tipo_conta_credencial (cod_tipo_conta,cod_credencial) values (". $tipo_conta .",". $credencial[$i] .")";
+			//echo $sql."<br>";
+			mysql_query($sql);
 		}
 
 		//die;
@@ -168,23 +166,23 @@ if (isset($_REQUEST['acao'])){
 					</div>
 				</div>
 
-<?php
+				<?php
 
-$sql = "
-select 		a.cod_area, a.nome
-from 		area a
-inner join 	permissoes p on p.cod_area = a.cod_area
-inner join 	tipo_conta_permissao t on p.cod_permissao = t.cod_permissao
-where		t.cod_tipo_conta = ".$tipo_conta."
-order by 	a.ordem;
-";
+				$sql = "
+				select 		a.cod_area, a.nome
+				from 		area a
+				inner join 	permissoes p on p.cod_area = a.cod_area
+				inner join 	tipo_conta_permissao t on p.cod_permissao = t.cod_permissao
+				where		t.cod_tipo_conta = ".$tipo_conta."
+				order by 	a.ordem;
+				";
 
-$query = mysql_query($sql);
-$registros = mysql_num_rows($query);
-while ($rs = mysql_fetch_array($query)) 
-{ 
+				$query = mysql_query($sql);
+				$registros = mysql_num_rows($query);
+				while ($rs = mysql_fetch_array($query)) 
+				{ 
 
-?>
+				?>
 				
 				<div class="panel-heading">
 					<h2><?php echo $rs['nome'];?></h2>
@@ -208,16 +206,25 @@ while ($rs = mysql_fetch_array($query))
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b><?php echo $rs2['descricao'];?></b></label>
 					<div class="col-sm-8">
+
+						<?php
+						$sql3 = "
+						select 		c.*
+						from 		credenciais c
+						where 		c.cod_permissao = ".$rs2['cod_permissao']."
+						order by 	c.descricao;
+						";
+
+						$query3 = mysql_query($sql3);
+						while ($rs3 = mysql_fetch_array($query3)) 
+						{ 
+						?>
+
+
 						<label class="checkbox-inline icheck">
-							<input type="checkbox" name="area1" id="area1" value="1"
-							  <?php 
-							  for($i=1; $i<=$totalcred;$i++) {
-							  	if ($cred[$i] == '1') { echo " checked"; }
-							  }
-							  ?>							
-							> Ver
+							<input type="checkbox" name="credencial[]" id="area1" value="<?php echo $rs3['cod_credencial'];?>"> <?php echo $rs3['descricao'];?>
 						</label>
-						<label class="checkbox-inline icheck">
+						<!-- <label class="checkbox-inline icheck">
 							<input type="checkbox" name="area2" id="area2" value="2"
 							  <?php 
 							  for($i=1; $i<=$totalcred;$i++) {
@@ -243,7 +250,12 @@ while ($rs = mysql_fetch_array($query))
 							  }
 							  ?>							
 							> Excluir
-						</label>						
+						</label>						 -->
+
+						<?php
+						}
+						?>
+
 					</div>
 				</div>
 
