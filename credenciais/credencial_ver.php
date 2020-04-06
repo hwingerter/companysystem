@@ -15,51 +15,7 @@
 		}
 	}
 	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "credencial_editar") {
-			$credencial_editar = 1;
-			break;
-		}
-	}
-	
-if ($credencial_editar == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �REA
-	
-$acao = '';
 
-if (isset($_REQUEST['acao'])){
-	
-    if ($_REQUEST['acao'] == "atualizar"){
-		
-		$credencial = $_REQUEST['credencial'];
-		$tipo_conta = $_REQUEST['id'];
-		$voltar = $_REQUEST['voltar'];
-		
-		$sql = "Delete from tipo_conta_credencial where cod_tipo_conta = ". $tipo_conta;
-		//echo $sql."<br>";
-		mysql_query($sql);
-
-		for($i=0; $i<count($credencial);$i++) 
-		{
-			$sql = "Insert into tipo_conta_credencial (cod_tipo_conta,cod_credencial) values (". $tipo_conta .",". $credencial[$i] .")";
-			//echo $sql."<br>";
-			mysql_query($sql);
-		}
-
-		//die;
-		
-		if($voltar != ""){
-			echo "<script language='javascript'>window.location='".$voltar."?sucesso=2';</script>";
-			die();
-		}else{
-			echo "<script language='javascript'>window.location='credenciais.php?sucesso=2';</script>";
-			die();
-		}
-
-
-	
-	}
-
-}
 
 if (isset($_REQUEST['acao'])){
 	
@@ -251,7 +207,6 @@ if (isset($_REQUEST['acao'])){
 			<div class="panel-footer">
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
-						<button class="btn-primary btn" onclick="javascript:document.forms['frm'].submit();">Gravar</button>
 						<button class="btn-default btn" onclick="javascript:window.location='<?php echo $voltar; ?>';">Voltar</button>
 					</div>
 				</div>
@@ -265,7 +220,6 @@ if (isset($_REQUEST['acao'])){
                         </div> <!-- #page-content -->
 					</div>
 <?php 
-} // EDITAR
 	
 	include('../include/rodape_interno2.php');
 
