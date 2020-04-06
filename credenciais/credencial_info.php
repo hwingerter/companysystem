@@ -26,6 +26,8 @@ if ($credencial_editar == '1') { //VERIFICA SE USUï¿½RIO POSSUI ACESSO A ESSA ï¿
 	
 $acao = '';
 
+$tipo_conta = $_REQUEST['id'];
+
 if (isset($_REQUEST['acao'])){
 	
     if ($_REQUEST['acao'] == "atualizar"){
@@ -59,46 +61,6 @@ if (isset($_REQUEST['acao'])){
 	
 	}
 
-}
-
-if (isset($_REQUEST['acao'])){
-	
-	if ($_REQUEST['acao'] == "alterar"){
-	
-		if (isset($_REQUEST['id'])) {
-			$tipo_conta = $_REQUEST["id"];
-			$voltar = $_REQUEST["voltar"];
-		}
-		
-		$sql = "Select count(*) as total from credenciais";
-		$query = mysql_query($sql);
-		$registros = mysql_num_rows($query);
-		if ($registros > 0) {
-			if ($rs = mysql_fetch_array($query)) { 
-				$totalcred = $rs["total"];
-			}
-		}
-		
-		// ZERA O VETOR
-		for($i=1; $i<=$totalcred;$i++) {
-			$cred[$i] = 0;
-		}
-		
-		$sql = "Select tipo_conta_credencial.cod_credencial from tipo_conta_credencial inner join credenciais on  ".
-		"tipo_conta_credencial.cod_credencial = credenciais.cod_credencial where tipo_conta_credencial.cod_tipo_conta = " . $tipo_conta ." order by tipo_conta_credencial.cod_credencial asc";
-
-		$query = mysql_query($sql);
-		$registros = mysql_num_rows($query);
-		if ($registros > 0) {
-			$i = 1;
-			while ($rs = mysql_fetch_array($query)) { 
-				$cred[$i] = $rs["cod_credencial"];
-				$i = $i + 1;
-			}
-		}
-		
-	}
-	
 }
 	
 ?>
@@ -174,75 +136,75 @@ if (isset($_REQUEST['acao'])){
 				inner join 	permissoes p on p.cod_area = a.cod_area
 				inner join 	tipo_conta_permissao t on p.cod_permissao = t.cod_permissao
 				where		t.cod_tipo_conta = ".$tipo_conta."
+				group by	a.cod_area, a.nome
 				order by 	a.ordem;
 				";
-
 				$query = mysql_query($sql);
-				$registros = mysql_num_rows($query);
 				while ($rs = mysql_fetch_array($query)) 
 				{ 
-
+					$cod_area = $rs['cod_area'];
 				?>
 				
-				<div class="panel-heading">
-					<h2><?php echo $rs['nome'];?></h2>
-				</div>	
+					<div class="panel-heading">
+						<h2><?php echo $rs['nome'];?></h2>
+					</div>	
 
-				<?php
-				$sql2 = "
-				select 		p.*
-				from 		permissoes p
-				inner join 	tipo_conta_permissao t on t.cod_permissao = p.cod_permissao
-				where		t.cod_tipo_conta = ".$tipo_conta."
-				and 		p.cod_area = ".$rs['cod_area']."
-				order by 	p.descricao;
-				";
+					<?php
+					$sql2 = "
+					select 		p.*
+					from 		permissoes p
+					inner join 	tipo_conta_permissao t on t.cod_permissao = p.cod_permissao
+					where		t.cod_tipo_conta = ".$tipo_conta."
+					and 		p.cod_area = ".$cod_area."
+					order by 	p.descricao;
+					";
 
-				$query2 = mysql_query($sql2);
-				while ($rs2 = mysql_fetch_array($query2)) 
-				{ 
-				?>
+					$query2 = mysql_query($sql2);
+					while ($rs2 = mysql_fetch_array($query2)) 
+					{ 
+						$cod_permissao = $rs2['cod_permissao'];
+					?>
 
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b><?php echo $rs2['descricao'];?></b></label>
-					<div class="col-sm-8">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b><?php echo $rs2['descricao'];?></b></label>
+							<div class="col-sm-8">
 
-						<?php
-						$sql3 = "
-						select 		c.*,
-									(
-									select 	case when count(*) > 0 then 'S' else 'N' end
-									from	tipo_conta_credencial
-									where	cod_tipo_conta =  ".$tipo_conta."
-									and 	cod_credencial = c.cod_credencial
-									) as TemCredencial
-						from 		credenciais c
-						where 		c.cod_permissao = ".$rs2['cod_permissao']."
-						order by 	c.descricao;
-						";
+								<?php
+								$sql3 = "
+								select 		c.*,
+											(
+											select 	case when count(*) > 0 then 'S' else 'N' end
+											from	tipo_conta_credencial
+											where	cod_tipo_conta =  ".$tipo_conta."
+											and 	cod_credencial = c.cod_credencial
+											) as TemCredencial
+								from 		credenciais c
+								where 		c.cod_permissao = ".$cod_permissao."
+								order by 	c.descricao;
+								";
 
-						$query3 = mysql_query($sql3);
-						while ($rs3 = mysql_fetch_array($query3)) 
-						{ 
-						?>
+								$query3 = mysql_query($sql3);
+								while ($rs3 = mysql_fetch_array($query3)) 
+								{ 
+								?>
 
-						<label class="checkbox-inline icheck">
-							<input type="checkbox" name="credencial[]" id="area1" value="<?php echo $rs3['cod_credencial'];?>"  
-							<?php if ($rs3['TemCredencial']=='S'){ echo ' Checked '; }?>
-							> <?php echo $rs3['descricao'];?>
-						</label>
+									<label class="checkbox-inline icheck">
+										<input type="checkbox" name="credencial[]" id="area1" value="<?php echo $rs3['cod_credencial'];?>"  
+										<?php if ($rs3['TemCredencial']=='S'){ echo ' Checked '; }?>
+										> <?php echo $rs3['descricao'];?>
+									</label>
 
-						<?php
-						}
-						?>
+								<?php
+								}
+								?>
 
-					</div>
-				</div>
+							</div>
+						</div>
 
-				<?php
-				}
+					<?php
+					}
 			
-}
+				}
 ?>
 
 			</form>
@@ -250,7 +212,7 @@ if (isset($_REQUEST['acao'])){
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
 						<button class="btn-primary btn" onclick="javascript:document.forms['frm'].submit();">Gravar</button>
-						<button class="btn-default btn" onclick="javascript:window.location='<?php echo $voltar; ?>';">Voltar</button>
+						<button class="btn-default btn" onclick="javascript:window.location='credenciais.php';">Voltar</button>
 					</div>
 				</div>
 			</div>
