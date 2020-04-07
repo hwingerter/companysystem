@@ -8,7 +8,7 @@ $credencial_incluir = 0;
 $credencial_editar = 0;
 $credencial_excluir = 0;
 
-if($_SESSION['tipo_conta'] == 2)
+if(($_SESSION['tipo_conta'] == 1) || ($_SESSION['tipo_conta'] == 2))
 {
 	$credencial_ver = 1;
 	$credencial_incluir = 1;
