@@ -235,6 +235,15 @@ if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "cadastrar"))
 
 function CriarCredencial($cod_licenca, $cod_tipo_conta)
 {
+	$sql="
+	Insert into tipo_conta_permissao (cod_tipo_conta, cod_permissao)
+	select 		".$cod_tipo_conta." as cod_tipo_conta, p.cod_permissao
+	from 		permissoes p
+	inner join	area a on a.cod_area = p.cod_area
+	";
+
+	mysql_query($sql);
+
 	$sql = "
 	insert into 	tipo_conta_credencial (cod_tipo_conta, cod_credencial)
 	select			".$cod_tipo_conta." as cod_tipo_conta, c.cod_credencial
