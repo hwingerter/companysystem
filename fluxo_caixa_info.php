@@ -1,10 +1,10 @@
 <?php include('topo.php');
 	
-	//*********** VERIFICA CREDENCIAIS DE USUÁRIOS *************
-	$credencial_ver = 0;
-	$credencial_incluir = 0;
-	$credencial_editar = 0;
-	$credencial_excluir = 0;
+	//*********** VERIFICA CREDENCIAIS DE USUï¿½RIOS *************
+	
+	
+	
+	
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "fluxo_caixa_ver") {
@@ -34,7 +34,7 @@
 		}
 	}
 	
-if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica se o usuário tem a credencial de incluir ou editar	
+if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica se o usuï¿½rio tem a credencial de incluir ou editar	
 	
 	$acao = '';
 	

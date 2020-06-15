@@ -1,10 +1,10 @@
 <?php include('../include/topo_interno.php');
 	
-	//*********** VERIFICA CREDENCIAIS DE USUÁRIOS *************
-	$credencial_ver = 0;
-	$credencial_incluir = 0;
-	$credencial_editar = 0;
-	$credencial_excluir = 0;
+	//*********** VERIFICA CREDENCIAIS DE USUï¿½RIOS *************
+	
+	
+	
+	
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "tiposervico_ver") {
@@ -34,7 +34,7 @@
 		}
 	}
 	
-if ($_SESSION['usuario_conta'] == '1') { //VERIFICA SE USUÁRIO POSSUI ACESSO A ESSA ÁREA
+if ($_SESSION['usuario_conta'] == '1') { //VERIFICA SE USUï¿½RIO POSSUI ACESSO A ESSA ï¿½REA
 	
 	if (isset($_REQUEST['sucesso'])) { $sucesso = $_REQUEST['sucesso']; } else { $sucesso = ''; }
 	if (isset($_REQUEST['pergunta'])) { $pergunta = $_REQUEST['pergunta']; } else { $pergunta = ''; }
@@ -49,7 +49,7 @@ if ($_SESSION['usuario_conta'] == '1') { //VERIFICA SE USUÁRIO POSSUI ACESSO A E
 
 	$cod_empresa = $_SESSION['cod_empresa'];
 	
-	//FUNÇÃO QUE RETORNA O TOTAL DE PAGINAS E QUANTIDADE DE REGISTRO POR PAGINAS
+	//FUNï¿½ï¿½O QUE RETORNA O TOTAL DE PAGINAS E QUANTIDADE DE REGISTRO POR PAGINAS
 	$sql = "
 	select 		count(*) as total
 	from 		tipo_servico_company
@@ -75,9 +75,9 @@ if ($_SESSION['usuario_conta'] == '1') { //VERIFICA SE USUÁRIO POSSUI ACESSO A E
   	// Calcula a quantidade de paginas
 	$registrosPagina = 30; // Define a quantidade de registro por Paginas
 	$paginas = $totalregistro / $registrosPagina; // Calcula o total de paginas
-	$resto = $totalregistro % $registrosPagina; // Pega o resto da divisão
+	$resto = $totalregistro % $registrosPagina; // Pega o resto da divisï¿½o
 	$paginas = intval($paginas); // Converte o resultado para inteiro
-	if ($resto > 0) { $paginas = $paginas + 1; } // Se o resto maior do que 0, soma a var paginas para a paginação ficar correta
+	if ($resto > 0) { $paginas = $paginas + 1; } // Se o resto maior do que 0, soma a var paginas para a paginaï¿½ï¿½o ficar correta
 	
 	if (isset($_REQUEST['pagina'])) {
 		$pagina = $_REQUEST['pagina']; // recupera a pagina
@@ -237,7 +237,7 @@ if ($_SESSION['usuario_conta'] == '1') { //VERIFICA SE USUÁRIO POSSUI ACESSO A E
 	if ($registros > 0) {
 		while (($rs = mysql_fetch_array($query)) && ($contador<$final)){ 
 			$contador = $contador + 1; //Contador
-	    	if ($contador>$inicio) { //Condiçao para mostrar somente os registros maiores
+	    	if ($contador>$inicio) { //Condiï¿½ao para mostrar somente os registros maiores
 		?>
                         <tr>
                             <td align="left"><?php echo $rs['cod_tipo_servico'];?></td>

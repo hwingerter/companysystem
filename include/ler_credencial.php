@@ -3,11 +3,12 @@
 require_once "usuario.php";
 
 //RESETANDO CREDENCIAS
-$credencial_ver = 0;
-$credencial_incluir = 0;
-$credencial_editar = 0;
-$credencial_excluir = 0;
+$credencial_ver = 1;
+$credencial_incluir = 1;
+$credencial_editar = 1;
+$credencial_excluir = 1;
 
+/*
 if(($_SESSION['tipo_conta'] == 1) || ($_SESSION['tipo_conta'] == 2))
 {
 	$credencial_ver = 1;
@@ -15,7 +16,7 @@ if(($_SESSION['tipo_conta'] == 1) || ($_SESSION['tipo_conta'] == 2))
 	$credencial_editar = 1;
 	$credencial_excluir = 1;
 }
-
+*/
 //CREDENCIAIS PERMITIDAS
 $sql = "
 select		c.credencial

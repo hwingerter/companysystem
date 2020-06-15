@@ -29,6 +29,8 @@ require_once "../licenca/licenca.inc.php";
 			u.email='". $usuario ."' and u.senha='". $senha ."'
 	";	
 
+	//echo $sql;die;
+
 	$query = mysql_query($sql)or die (mysql_error());
 
 	$registros = mysql_num_rows($query);

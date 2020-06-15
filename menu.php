@@ -29,7 +29,11 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 						
 						<li><a href="<?php echo sistema; ?>inicio.php"><span>Início</span></a></li>
 						
+						<?php if ($cod_empresa == "1"){ ?>
+
 						<li><a href="<?php echo sistema; ?>login_empresa.php?acao=trocar_empresa&cod_empresa=1"><i class="fa fa-mail-reply"></i><span>Retornar Company System</span></a></li>
+
+						<?php } ?>
 
 						<?php
 
