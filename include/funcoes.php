@@ -330,22 +330,22 @@ function ComboTipoConta($cod_empresa, $cod_tipo_conta) {
 	where 		cod_tipo_conta <> 1
 	and 		tc.cod_empresa = ".$cod_empresa."
 	order by 	tc.descricao asc;
-	;";
-
+	";
+	//echo $sql;die;
 	$query = mysql_query($sql);
 	$registros = mysql_num_rows($query);
+	echo "<select name='tipo_conta' class='form-control' id='tipo_conta'>";
+	echo "<option value=''>Selecione...</option>";
 	if ($registros > 0) {
-		echo "<select name='tipo_conta' class='form-control' id='tipo_conta'>";
-		echo "<option value=''>Selecione...</option>";
 		while ($rs = mysql_fetch_array($query)){ 
 			echo "<option value='". $rs['cod_tipo_conta'] ."'";
 			if ($cod_tipo_conta == $rs['cod_tipo_conta']) { echo " Selected"; }
 			echo ">" . $rs['descricao'] . "</option>";
 		}
-		echo "</select>";
 	} else {
-		echo "N�o tem nenhum Tipo de Conta cadastrado";
+		echo "Nenum Tipo de Conta cadastrado";
 	}
+	echo "</select>";
 	
 }
 

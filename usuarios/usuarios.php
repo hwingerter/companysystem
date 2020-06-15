@@ -7,11 +7,7 @@
 	require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	$credencial_ver = 1;
-	$credencial_incluir = 1;
-	$credencial_editar = 1;
-	$credencial_excluir = 1;
-	
+		
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "usuario_ver") {
 			$credencial_ver = 1;
@@ -221,7 +217,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 					select		U.cod_usuario, U.nome, TP.descricao, U.status 
 					from 		usuarios U
 					left join 	tipo_conta TP on TP.cod_tipo_conta = U.tipo_conta 
-					left join 	usuarios_grupos_empresas ge on ge.cod_usuario = U.cod_usuario
+					left join 	usuarios_empresas ge on ge.cod_usuario = U.cod_usuario
 					where 		ge.cod_empresa = ".$cod_empresa."
 					";
 

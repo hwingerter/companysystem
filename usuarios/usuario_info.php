@@ -7,10 +7,7 @@
 	require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	
-	
-	
-	
+		
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "usuario_ver") {
@@ -45,6 +42,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 if (isset($_REQUEST['acao'])){
 
 	$acao = '';
+	$erro = "";
 	
 	if (isset($_REQUEST['nome'])) { $nome = $_REQUEST['nome']; } else { $nome = ''; }
 	if (isset($_REQUEST['email'])) { $email = $_REQUEST['email']; } else { $email = '';	}
@@ -52,44 +50,63 @@ if (isset($_REQUEST['acao'])){
 	if (isset($_REQUEST['senha'])) { $senha = $_REQUEST['senha']; } else { $senha = '';	}
 	if (isset($_REQUEST['status'])) { $status = $_REQUEST['status']; } else { $status = ''; }
 
-	$cod_usuario_cadastro = $_SESSION['usuario_id'];
+	$cod_usuario_cadastro = $_SESSION['cod_usuario'];
 	$dt_cadastro = date('Y-m-d');
 	
 	if ($_REQUEST['acao'] == "incluir"){
-		
-		$cod_empresa 	= $_SESSION['cod_empresa'];
 
-		$sql = "insert into usuarios (nome, email, status, tipo_conta";
-		if ($senha != '') { 
-			$sql .= ", senha"; 
-			$senha .= "&D31R#i017$";
-			$senha = md5($senha);
+
+		if ($_REQUEST['tipo_conta'] == "") {
+			$erro .= "<br>Tipo de Conta";
 		}
-		$sql .= "
-		,cod_usuario_cadastro, dt_cadastro
-		) values ('".limpa($nome)."', '". limpa($email) ."','". limpa($status) ."', ". limpa_int($tipo_conta);
-		if ($senha != '') { $sql .= ",'". $senha ."'"; }
-		$sql .= "
-		,'". limpa($cod_usuario_cadastro) ."'
-		,'". limpa($dt_cadastro) ."'
-		)";
-		//echo$sql;die;
-		mysql_query($sql);
+		if ($_REQUEST['nome'] == "") {
+			$erro .= "<br>Nome";
+		}		
+		if ($_REQUEST['email'] == "") {
+			$erro .= "<br>email";
+		}		
+		if ($_REQUEST['senha'] == "") {
+			$erro .= "<br>Senha de acesso";
+		}		
+	
+		if($erro == "")
+		{
+			$cod_empresa 	= $_SESSION['cod_empresa'];
 
-		//retornando usuarios cadastrado
-		$sql = "select max(cod_usuario) as cod_usuario from usuarios where cod_usuario_cadastro = ".$cod_usuario_cadastro.";";
-		//echo$sql;die;
-		$query = mysql_query($sql);
-		$rs1 = mysql_fetch_array($query);
-		$cod_usuario = $rs1['cod_usuario'];
+			$sql = "insert into usuarios (nome, email, status, tipo_conta";
+			if ($senha != '') { 
+				$sql .= ", senha"; 
+				$senha .= "&D31R#i017$";
+				$senha = md5($senha);
+			}
+			$sql .= "
+			,cod_usuario_cadastro, dt_cadastro
+			) values ('".limpa($nome)."', '". limpa($email) ."','". limpa($status) ."', ". limpa_int($tipo_conta);
+			if ($senha != '') { $sql .= ",'". $senha ."'"; }
+			$sql .= "
+			,'". limpa($cod_usuario_cadastro) ."'
+			,'". limpa($dt_cadastro) ."'
+			)";
+			//echo$sql;die;
+			mysql_query($sql);
+	
+			//retornando usuarios cadastrado
+			$sql = "select max(cod_usuario) as cod_usuario from usuarios where cod_usuario_cadastro = ".$cod_usuario_cadastro.";";
+			//echo$sql;die;
+			$query = mysql_query($sql);
+			$rs1 = mysql_fetch_array($query);
+			$cod_usuario = $rs1['cod_usuario'];
+	
+			//VINCULAR A EMPRESA AO GRUPO
+			$sql = "insert into usuarios_empresas (cod_usuario, cod_empresa) 
+					values ('".limpa($cod_usuario)."', '".limpa($cod_empresa)."');";
+			//echo$sql;die;
+			mysql_query($sql);
+			
+			echo "<script language='javascript'>window.location='usuarios.php?sucesso=1';</script>";
 
-		//VINCULAR A EMPRESA AO GRUPO
-		$sql = "insert into usuarios_grupos_empresas (cod_usuario, cod_empresa) 
-				values ('".limpa($cod_usuario)."', '".limpa($cod_empresa)."');";
-		//echo$sql;die;
-		mysql_query($sql);
+		}
 		
-		echo "<script language='javascript'>window.location='usuarios.php?sucesso=1';</script>";
 		
 	}else if ($_REQUEST['acao'] == "atualizar"){
 		
@@ -172,6 +189,24 @@ if (isset($_REQUEST['acao'])){
 			<h2>Dados do Usuário</h2>
 		</div>
 		<div class="panel-body">
+
+		<?php 
+		
+		if ($erro != "")
+		{
+		?>
+
+			<div class="alert alert-dismissable alert-danger">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<strong>É necessário preencher os seguinte campos: <?php echo $erro; ?></strong>				
+			</div>
+
+
+		<?php
+		}	
+		
+		?>
+		
 			<form action="usuario_info.php" class="form-horizontal row-border" name='frm' method="post">
               <?php if ($acao=="alterar"){?>
               <input type="hidden" name="id" value="<?php echo $_REQUEST['id']; ?>">
@@ -194,13 +229,13 @@ if (isset($_REQUEST['acao'])){
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Nome</b></label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" <?php if ($acao == "alterar"){echo "value='". $nome ."'";}?> name="nome" maxlength="100">
+						<input type="text" class="form-control" name="nome" maxlength="100" value="<?php echo $nome;?>">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>E-mail</b></label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" <?php if ($acao == "alterar"){echo "value='". $email ."'";}?> name="email" maxlength="255">
+						<input type="text" class="form-control" value="<?php echo $email;?>" name="email" maxlength="255">
 					</div>
 				</div>
 				<div class="form-group">

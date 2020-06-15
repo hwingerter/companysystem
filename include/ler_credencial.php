@@ -8,7 +8,7 @@ $credencial_incluir = 1;
 $credencial_editar = 1;
 $credencial_excluir = 1;
 
-/*
+
 if(($_SESSION['tipo_conta'] == 1) || ($_SESSION['tipo_conta'] == 2))
 {
 	$credencial_ver = 1;
@@ -16,7 +16,7 @@ if(($_SESSION['tipo_conta'] == 1) || ($_SESSION['tipo_conta'] == 2))
 	$credencial_editar = 1;
 	$credencial_excluir = 1;
 }
-*/
+
 //CREDENCIAIS PERMITIDAS
 $sql = "
 select		c.credencial
@@ -31,10 +31,12 @@ if ($registros > 0) {
 	$i = 0;
 	while ($rs = mysql_fetch_array($query)) { 
 		$credenciais[$i] = $rs["credencial"];
+		//echo $credenciais[$i]."<br>";
 		$i = $i + 1;
 		
 	}
 }
+//die;
 
 //AREAS PERMITIDAS
 $acesso_minha_empresa = 0;
