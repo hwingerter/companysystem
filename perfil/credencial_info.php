@@ -2,11 +2,11 @@
 
 	include('../include/topo_interno.php');
 	
-	//*********** VERIFICA CREDENCIAIS DE USUÁRIOS *************
-	$credencial_ver = 0;
-	$credencial_incluir = 0;
-	$credencial_editar = 0;
-	$credencial_excluir = 0;
+	//*********** VERIFICA CREDENCIAIS DE USUï¿½RIOS *************
+	
+	
+	
+	
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "credencial_ver") {
@@ -22,7 +22,7 @@
 		}
 	}
 	
-if ($credencial_editar == '1') { //VERIFICA SE USUÁRIO POSSUI ACESSO A ESSA ÁREA
+if ($credencial_editar == '1') { //VERIFICA SE USUï¿½RIO POSSUI ACESSO A ESSA ï¿½REA
 	
 $acao = '';
 

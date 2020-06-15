@@ -1,10 +1,10 @@
 <?php include('../../include/topo_interno_relatorio.php');
 	
 //*********** VERIFICA CREDENCIAIS DE USUÁRIOS *************
-$credencial_ver = 0;
-$credencial_incluir = 0;
-$credencial_editar = 0;
-$credencial_excluir = 0;
+
+
+
+
 
 $credencial_ver = 1;
 $credencial_incluir = 1;

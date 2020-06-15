@@ -3,10 +3,11 @@
 require_once "usuario.php";
 
 //RESETANDO CREDENCIAS
-$credencial_ver = 0;
-$credencial_incluir = 0;
-$credencial_editar = 0;
-$credencial_excluir = 0;
+$credencial_ver = 1;
+$credencial_incluir = 1;
+$credencial_editar = 1;
+$credencial_excluir = 1;
+
 
 if(($_SESSION['tipo_conta'] == 1) || ($_SESSION['tipo_conta'] == 2))
 {
@@ -30,10 +31,12 @@ if ($registros > 0) {
 	$i = 0;
 	while ($rs = mysql_fetch_array($query)) { 
 		$credenciais[$i] = $rs["credencial"];
+		//echo $credenciais[$i]."<br>";
 		$i = $i + 1;
 		
 	}
 }
+//die;
 
 //AREAS PERMITIDAS
 $acesso_minha_empresa = 0;

@@ -29,6 +29,8 @@ require_once "../licenca/licenca.inc.php";
 			u.email='". $usuario ."' and u.senha='". $senha ."'
 	";	
 
+	//echo $sql;die;
+
 	$query = mysql_query($sql)or die (mysql_error());
 
 	$registros = mysql_num_rows($query);
@@ -63,7 +65,7 @@ require_once "../licenca/licenca.inc.php";
 
 				$_SESSION['cod_empresa'] = $rs2['cod_empresa'];
 				$_SESSION['empresa'] 	 = $rs2['empresa'];				
-				
+			
 				echo "<script language='javascript'>window.location='../inicio.php';</script>"; die();
 	
 			}

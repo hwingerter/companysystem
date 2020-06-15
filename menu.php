@@ -1,13 +1,18 @@
 <?php
 
 $usuario_nome 	= $_SESSION['usuario_nome'];
-$tipo_conta		= $_SESSION['tipo_conta'];
 $cod_empresa 	= $_SESSION['cod_empresa'];
-
 $nome_empresa 	= $_SESSION['empresa'];
 $perfil 		= $_SESSION['tipo_conta_descricao'];
 
+//Titulo
 $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
+
+/* Exibe Retorno Empresa Principal */
+$ExibeMenuRetornoEmpresaPrincipal = false;
+if(($_SESSION['tipo_conta'] == 1) || ($_SESSION['tipo_conta'] == 2)){
+	$ExibeMenuRetornoEmpresaPrincipal = true;
+}
 
 ?>
 
@@ -29,7 +34,11 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 						
 						<li><a href="<?php echo sistema; ?>inicio.php"><span>Início</span></a></li>
 						
-						<li><a href="<?php echo sistema; ?>login_empresa.php?acao=trocar_empresa&cod_empresa=1"><i class="fa fa-mail-reply"></i><span>Retornar Company System</span></a></li>
+						<?php if ($ExibeMenuRetornoEmpresaPrincipal == true){ ?>
+
+							<li><a href="<?php echo sistema; ?>login_empresa.php?acao=trocar_empresa&cod_empresa=1"><i class="fa fa-mail-reply"></i><span>Retornar Company System</span></a></li>
+
+						<?php } ?>
 
 						<?php
 
