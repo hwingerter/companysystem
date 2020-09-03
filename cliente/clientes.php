@@ -8,38 +8,24 @@ require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
 	
-	
-	
-	
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "cliente_ver") {
-			$credencial_ver = 1;
+	for ($i=0; $i < count($credenciais); $i++) 
+	{ 
+		switch($credenciais[$i])
+		{
+			case "cliente_ver":
+			$credencial_ver = 1;		
+			break;
+			case "cliente_incluir":
+			$credencial_incluir = 1;		
+			break;
+			case "cliente_editar":
+			$credencial_editar = 1;		
+			break;
+			case "cliente_excluir":
+			$credencial_excluir = 1;		
 			break;
 		}
 	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "cliente_incluir") {
-			$credencial_incluir = 1;
-			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "cliente_editar") {
-			$credencial_editar = 1;
-			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "cliente_excluir") {
-			$credencial_excluir = 1;
-			break;
-		}
-	}
-
 	
 if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �REA
 	

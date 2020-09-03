@@ -7,16 +7,15 @@
 
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
 	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "credencial_ver") {
-			$credencial_ver = 1;
+	for ($i=0; $i < count($credenciais); $i++) 
+	{ 
+		switch($credenciais[$i])
+		{
+			case "credencial_ver":
+			$credencial_ver = 1;		
 			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "tipo_conta_editar") {
-			$credencial_editar = 1;
+			case "credencial_editar":
+			$credencial_editar = 1;		
 			break;
 		}
 	}

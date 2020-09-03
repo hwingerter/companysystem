@@ -10,8 +10,6 @@ require_once "../include/ler_credencial.php";
 	//*********** VERIFICA CREDENCIAIS DE USUÁRIOS *************
 	
 	
-	
-	
 	$Erro 					= "0";
 	$MensagemErro 			= "Os seguintes erros foram encontrados: <br>";
 	$ValidaEndereco			= $_SESSION['cadastro_flag_1'];

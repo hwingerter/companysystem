@@ -7,6 +7,28 @@ require_once "../include/funcoes.php";
 require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
+	for ($i=0; $i < count($credenciais); $i++) 
+	{ 
+		switch($credenciais[$i])
+		{
+			case "tipo_conta_ver":
+			$credencial_ver = 1;		
+			break;
+			case "tipo_conta_editar":
+			$credencial_editar = 1;		
+			break;
+			case "tipo_conta_excluir":
+			$credencial_excluir = 1;		
+			break;
+			case "tipo_conta_incluir":
+			$credencial_incluir = 1;		
+			break;
+			case "tipo_conta_areas":
+			$credencial_areas = 1;		
+			break;
+		}
+	}
+
 	
 if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �REA
 	
@@ -177,8 +199,9 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 						  ?>							
 							<a class="btn btn-info btn-label" href="adm_perfil_ver.php?id=<?php echo $rs['cod_tipo_conta'];?>"><i class="fa fa-eye"></i> Ver</a>
 
+						  	<?php if ($credencial_areas == '1') { ?>
 							&nbsp;<a class="btn btn-default btn" href="permissoes.php?acao=alterar&id=<?php echo $rs['cod_tipo_conta'];?>"><i class="fa fa-ticket"></i> Áreas de Acesso</a>						  							
-
+							  <?php } ?>
 							<!--a class="btn btn-info btn-inverse" href="credencial_info.php?acao=alterar&id=<?php echo $rs['cod_tipo_conta'];?>&cod_empresa=<?php echo $rs['cod_empresa'];?>&voltar=<?php echo $voltar; ?>">
 								<i class="fa fa-ticket"></i> Credenciais</a-->
 
