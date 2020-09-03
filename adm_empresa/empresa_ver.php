@@ -7,31 +7,24 @@ require_once "../include/funcoes.php";
 require_once "../include/ler_credencial.php";
 
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "empresa_ver") {
-			$credencial_ver = 1;
+	for ($i=0; $i < count($credenciais); $i++) 
+	{ 
+		switch($credenciais[$i])
+		{
+			case "empresa_acessar":
+			$credencial_empresa_acessar = 1;		
 			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "empresa_incluir") {
-			$credencial_incluir = 1;
+			case "empresa_ver":
+			$credencial_ver = 1;		
 			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "empresa_editar") {
-			$credencial_editar = 1;
+			case "empresa_incluir":
+			$credencial_incluir = 1;		
 			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "empresa_excluir") {
-			$credencial_excluir = 1;
+			case "empresa_editar":
+			$credencial_editar = 1;		
+			break;
+			case "empresa_excluir":
+			$credencial_excluir = 1;		
 			break;
 		}
 	}

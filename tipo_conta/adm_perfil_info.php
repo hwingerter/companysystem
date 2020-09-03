@@ -7,42 +7,27 @@ require_once "../include/funcoes.php";
 require_once "../include/ler_credencial.php";
 
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	if ($_SESSION['usuario_conta'] == '1') {
-		
-		$credencial_ver = 1;
-		$credencial_incluir = 1;
-		$credencial_editar = 1;
-		$credencial_excluir = 1;
-		
-	}
-	
-	/*for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "usuario_ver") {
-			$credencial_ver = 1;
+	for ($i=0; $i < count($credenciais); $i++) 
+	{ 
+		switch($credenciais[$i])
+		{
+			case "tipo_conta_ver":
+			$credencial_ver = 1;		
+			break;
+			case "tipo_conta_editar":
+			$credencial_editar = 1;		
+			break;
+			case "tipo_conta_excluir":
+			$credencial_excluir = 1;		
+			break;
+			case "tipo_conta_incluir":
+			$credencial_incluir = 1;		
+			break;
+			case "tipo_conta_areas":
+			$credencial_areas = 1;		
 			break;
 		}
 	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "usuario_incluir") {
-			$credencial_incluir = 1;
-			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "usuario_editar") {
-			$credencial_editar = 1;
-			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "usuario_excluir") {
-			$credencial_excluir = 1;
-			break;
-		}
-	}*/
 	
 if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica se o usu�rio tem a credencial de incluir ou editar
 	
@@ -63,9 +48,52 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			echo "<script language='javascript'>window.location='adm_perfil.php?sucesso=1';</script>";
 			
 		}else if ($_REQUEST['acao'] == "atualizar"){
-			
+
+			$cod_tipo_conta = $_REQUEST['id'];
+			$credencial = $_REQUEST['credencial'];
+
+			$listaCredenciais = "";
+			foreach ($credencial as $value) {
+				if ($listaCredenciais == "") {
+					$listaCredenciais = $value;
+				} else {
+					$listaCredenciais = $listaCredenciais.",". $value;
+				}
+			}
+
+			//echo $listaCredenciais;die;
+
 			$sql = "update tipo_conta set descricao='".limpa($nome)."' where cod_tipo_conta = ".$_REQUEST['id'];
 			mysql_query($sql);
+
+			//apaga as permissoes
+			$sql="delete from tipo_conta_permissao where cod_tipo_conta = ".$cod_tipo_conta.";";
+			mysql_query($sql);
+
+			//insere novas permissoes
+			$sql="
+			insert into tipo_conta_permissao 
+			(cod_tipo_conta, cod_permissao)
+			select ".$cod_tipo_conta.", cod_permissao from credenciais
+			where cod_credencial in (".$listaCredenciais.")
+			group by cod_permissao;
+			";
+			//echo $sql;die;
+			mysql_query($sql);
+
+			//apaga as credenciais
+			$sql = "delete from tipo_conta_credencial where cod_tipo_conta = ". $cod_tipo_conta;
+			//echo $sql."<br>";
+			mysql_query($sql);
+	
+			//insere credenciais selecionadas
+			for($i=0; $i<count($credencial);$i++) 
+			{
+				$sql = "Insert into tipo_conta_credencial (cod_tipo_conta,cod_credencial) values (". $cod_tipo_conta .",". $credencial[$i] .")";
+				//echo $sql."<br>";
+				mysql_query($sql);
+			}
+
 			
 			echo "<script language='javascript'>window.location='adm_perfil.php?sucesso=2';</script>";
 		
@@ -140,6 +168,83 @@ if (isset($_REQUEST['acao'])){
 					</div>
 
 				</div>
+
+				<?php
+
+				$sql = "
+				select 		a.cod_area, a.nome
+				from 		area a
+				group by	a.cod_area, a.nome
+				order by 	a.ordem;
+				";
+				$query = mysql_query($sql);
+				while ($rs = mysql_fetch_array($query)) 
+				{ 
+					$cod_area = $rs['cod_area'];
+				?>
+
+					<div class="panel-heading">
+						<h2><?php echo $rs['nome'];?></h2>
+					</div>	
+
+					<?php
+					$sql2 = "
+					select 		p.*
+					from 		permissoes p
+					where 		p.cod_area = ".$cod_area."
+					order by 	p.descricao;
+					";
+					//echo $sql2;
+
+					$query2 = mysql_query($sql2);
+					while ($rs2 = mysql_fetch_array($query2)) 
+					{ 
+						$cod_permissao = $rs2['cod_permissao'];
+					?>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b><?php echo $rs2['descricao'];?></b></label>
+							<div class="col-sm-8">
+
+								<?php
+								$sql3 = "
+								select 		c.*,
+											(
+											select 	case when count(*) > 0 then 'S' else 'N' end
+											from	tipo_conta_credencial
+											where	cod_tipo_conta =  ".$cod_perfil."
+											and 	cod_credencial = c.cod_credencial
+											) as TemCredencial
+								from 		credenciais c
+								where 		c.cod_permissao = ".$cod_permissao."
+								order by 	c.descricao;
+								";
+								//echo $sql3;
+								$query3 = mysql_query($sql3);
+								while ($rs3 = mysql_fetch_array($query3)) 
+								{ 
+								?>
+
+									<label class="checkbox-inline icheck">
+										<input type="checkbox" name="credencial[]" id="area1" value="<?php echo $rs3['cod_credencial'];?>"  
+										<?php if ($rs3['TemCredencial']=='S'){ echo ' Checked '; }?>
+										> <?php echo $rs3['descricao'];?>
+									</label>
+
+								<?php
+								}
+								?>
+
+							</div>
+						</div>
+
+					<?php
+					}
+
+				}
+
+				?>
+
 
 			</form>
 			<div class="panel-footer">

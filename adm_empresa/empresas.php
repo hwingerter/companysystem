@@ -8,34 +8,28 @@
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
 	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "empresa_ver") {
-			$credencial_ver = 1;
+	for ($i=0; $i < count($credenciais); $i++) 
+	{ 
+		switch($credenciais[$i])
+		{
+			case "empresa_acessar":
+			$credencial_empresa_acessar = 1;		
+			break;
+			case "empresa_ver":
+			$credencial_ver = 1;		
+			break;
+			case "empresa_incluir":
+			$credencial_incluir = 1;		
+			break;
+			case "empresa_editar":
+			$credencial_editar = 1;		
+			break;
+			case "empresa_excluir":
+			$credencial_excluir = 1;		
 			break;
 		}
 	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "empresa_incluir") {
-			$credencial_incluir = 1;
-			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "empresa_editar") {
-			$credencial_editar = 1;
-			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "empresa_excluir") {
-			$credencial_excluir = 1;
-			break;
-		}
-	}
-	
+
 if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �REA
 	
 	if (isset($_REQUEST['sucesso'])) { $sucesso = $_REQUEST['sucesso']; } else { $sucesso = ''; }
@@ -319,8 +313,9 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 
 												<!--a class="btn btn-default btn-label" href="empresas_filiais.php?cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Filiais</a-->
 
+												<?php if ($credencial_empresa_acessar == "1") {?>
 												<a class="btn btn-default btn-label" href="../login_empresa.php?acao=trocar_empresa&cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Acessar </a>
-
+												<?php } ?>
 												</td>
 											</tr>
 											<?php
