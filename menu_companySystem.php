@@ -27,7 +27,7 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 				<nav role="navigation" class="widget-body">
 					<ul class="acc-menu">
 						
-						<li><a href="<?php echo sistema; ?>inicio.php"><span>Início</span></a></li>
+						<li><a href="<?php echo sistema; ?>inicio.php"><i class="fa fa-home"></i><span>Início</span></a></li>
 
 						<?php
 						if ($acesso_minha_empresa == 1) {
@@ -47,7 +47,7 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 									<li><a href="<?php echo sistema; ?>gestao_usuarios/adm_usuarios.php"><span>Usuários</span></a></li>								
 									<?php } ?>
 									<?php if ($menu_minhas_preferencias == 1) { ?>
-									<li><a href="<?php echo sistema; ?>preferencias/preferencias.php"><span>Minhas Preferências</span></a></li>
+									<li><a href="<?php echo sistema; ?>preferencias/preferencias.php"><span>Preferências</span></a></li>
 									<?php } ?>
 								</ul>
 							</li>
