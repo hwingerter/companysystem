@@ -7,12 +7,16 @@
 		define ("site", "http://localhost/belezasoft_site/");
 
 		define ("sistema", "http://localhost/companysystem/");
+
+		define ("flgEnviaEmail", "0");
 	}
 	 else 
 	{
-		define ("host_site", "https://companysystem.net.br/");
+		define ("site", "https://companysystem.net.br/");
 
-		define ("host", "https://www.companysystem.net.br/sistema/");
+		define ("sistema", "https://www.companysystem.net.br/sistema/");
+
+		define ("flgEnviaEmail", "1");
 	}
 
 

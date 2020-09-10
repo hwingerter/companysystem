@@ -2,6 +2,8 @@
 
 	require_once "config/conexao.php";
 
+	require_once "config/ambiente.php";
+
 	require_once "include/funcoes.php";
 
 	require_once "preferencias/preferencias_inc.php";
@@ -11,7 +13,6 @@
 	require_once "include/email.php";
 
 	
-	$flgEnviaEmail = "0";
 	$erro = '0';
 
 	if (isset($_REQUEST['cod_licenca'])) { $cod_licenca = $_REQUEST['cod_licenca']; } else { $cod_licenca = '1';	}
@@ -153,7 +154,7 @@ if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "cadastrar"))
 					/******************************************************
 					//ENVIANDO E-MAIL
 					******************************************************/
-					if ($flgEnviaEmail == "1") 
+					if (flgEnviaEmail == "1") 
 					{
 						$assunto = "Novo cliente cadastrado";
 
