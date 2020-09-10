@@ -207,14 +207,25 @@ if (isset($_REQUEST['acao'])){
 							<div class="col-sm-8">
 
 								<?php
-								$sql3 = "
-								select 		c.*,
-											(
-											select 	case when count(*) > 0 then 'S' else 'N' end
-											from	tipo_conta_credencial
-											where	cod_tipo_conta =  ".$cod_perfil."
-											and 	cod_credencial = c.cod_credencial
-											) as TemCredencial
+								
+								$sql3 = "select 		c.* ";
+
+								if (isset($_REQUEST['acao']) && ($_REQUEST['acao']=="alterar")) {
+									
+									$sql3 = $sql3."
+									,(
+									select 	case when count(*) > 0 then 'S' else 'N' end
+									from	tipo_conta_credencial
+									where	cod_tipo_conta =  ".$cod_perfil."
+									and 	cod_credencial = c.cod_credencial
+									) as TemCredencial
+									";
+
+								} else {
+									$sql3 = "select  c.*, '' as TemCredencial ";
+								}
+								
+									$sql3 = $sql3."
 								from 		credenciais c
 								where 		c.cod_permissao = ".$cod_permissao."
 								order by 	c.descricao;
