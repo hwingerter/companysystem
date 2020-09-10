@@ -6,21 +6,16 @@
 	require_once "../include/ler_credencial.php";
 
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	$credencial_ver = 0;
-	$credencial_incluir = 0;
-	$credencial_editar = 0;
-	$credencial_excluir = 0;
 	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "credencial_ver") {
-			$credencial_ver = 1;
+	for ($i=0; $i < count($credenciais); $i++) 
+	{ 
+		switch($credenciais[$i])
+		{
+			case "credencial_ver":
+			$credencial_ver = 1;		
 			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "tipo_conta_editar") {
-			$credencial_editar = 1;
+			case "credencial_editar":
+			$credencial_editar = 1;		
 			break;
 		}
 	}
@@ -168,7 +163,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 				<?php if ($credencial_editar == '1') {?>
 				<a class="btn btn-success btn-label" href="credencial_info.php?acao=alterar&id=<?php echo $rs['cod_tipo_conta'];?>&voltar=<?php echo $voltar; ?>"><i class="fa fa-edit"></i> Editar</a>&nbsp;
 				<?php } ?>
-				<a class="btn btn-info btn-label" href="credencial_ver.php?id=<?php echo $rs['cod_tipo_conta'];?>"><i class="fa fa-eye"></i> Ver</a>
+				<a class="btn btn-default btn-label" href="credencial_ver.php?acao=alterar&id=<?php echo $rs['cod_tipo_conta'];?>&voltar=<?php echo $voltar; ?>"><i class="fa fa-eye"></i> Ver</a>&nbsp;
 				</td>
 			</tr>
     <?php

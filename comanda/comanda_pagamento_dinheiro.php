@@ -32,7 +32,7 @@ $cod_forma_pagamento	= $_REQUEST['cod_forma_pagamento'];
 $flg_divida 			= $_REQUEST['flg_divida'];
 
 $cod_empresa			= $_SESSION['cod_empresa'];
-$cod_usuario 		 	= $_SESSION['usuario_id'];
+$cod_usuario 		 	= $_SESSION['cod_usuario'];
 $cod_caixa 				= $_SESSION['cod_caixa'];
 
 $voltar 				= $_REQUEST['voltar'];

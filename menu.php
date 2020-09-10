@@ -1,13 +1,18 @@
 <?php
 
 $usuario_nome 	= $_SESSION['usuario_nome'];
-$tipo_conta		= $_SESSION['tipo_conta'];
 $cod_empresa 	= $_SESSION['cod_empresa'];
-
 $nome_empresa 	= $_SESSION['empresa'];
 $perfil 		= $_SESSION['tipo_conta_descricao'];
 
+//Titulo
 $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
+
+/* Exibe Retorno Empresa Principal */
+$ExibeMenuRetornoEmpresaPrincipal = false;
+if(($_SESSION['tipo_conta'] == 1) || ($_SESSION['tipo_conta'] == 2)){
+	$ExibeMenuRetornoEmpresaPrincipal = true;
+}
 
 ?>
 
@@ -29,21 +34,13 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 						
 						<li><a href="<?php echo sistema; ?>inicio.php"><span>Início</span></a></li>
 						
-						<li><a href="<?php echo sistema; ?>login_empresa.php?acao=trocar_empresa&cod_empresa=1"><i class="fa fa-mail-reply"></i><span>Retornar Company System</span></a></li>
+						<?php if ($ExibeMenuRetornoEmpresaPrincipal == true){ ?>
+
+							<li><a href="<?php echo sistema; ?>login_empresa.php?acao=trocar_empresa&cod_empresa=1"><i class="fa fa-mail-reply"></i><span>Retornar Company System</span></a></li>
+
+						<?php } ?>
 
 						<?php
-
-						
-							/*
-							elseif (($tipo_conta == "1") && ($cod_empresa != "") ){
-							?>
-							  <li><a href="javascript:;"><i class="fa fa-cog"></i><span>Administração</span></a>
-								<ul class="acc-menu">
-								<li><a href="<?php echo sistema; ?>trocar_empresa.php"><span>Acessar Empresa</span></a></li>
-								</ul>
-							  </li>
-							<?php
-							}
 
 							// Para ver os menu abaixo e obrigatorio escolher uma empresa.
 							if ($cod_empresa != "") 
@@ -56,7 +53,7 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 										<ul class="acc-menu">			
 										<?php 
 
-											if ( ($_SESSION['usuario_conta'] != '1') && ($_SESSION['TotalEmpresas'] > 1) ){ ?>
+											if ($_SESSION['TotalEmpresas'] > 1) { ?>
 												<li><a href="<?php echo sistema; ?>trocar_empresa.php"><span>Filiais</span></a></li>
 											<?php
 											}							
@@ -104,90 +101,16 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 
 							?>
 								<li><a href="javascript:;"><i class="fa fa-list"></i><span>Cadastros</span></a>
-									<ul class="acc-menu">
-									<?php
-									for ($i = 0; $i <= $totalcredencial-1; $i++) {
-										if ($credenciais[$i] == 'empresa_ver') {
-									?>										
-										<li><a href="<?php echo sistema; ?>empresa/empresas.php"><span>Empresas</span></a></li>
-									<?php
-											break;
-										}
-									}
-									
-									for ($i = 0; $i <= $totalcredencial-1; $i++) {
-										if ($credenciais[$i] == 'cliente_ver') {
-									?>										
-										<li><a href="<?php echo sistema; ?>cliente/clientes.php"><span>Clientes</span></a></li>
-									<?php
-											break;
-										}
-									}
-									
-									for ($i = 0; $i <= $totalcredencial-1; $i++) {
-										if ($credenciais[$i] == 'fornecedor_ver') {
-									?>										
+									<ul class="acc-menu">							
+										<li><a href="<?php echo sistema; ?>empresa/empresas.php"><span>Empresas</span></a></li>						
+										<li><a href="<?php echo sistema; ?>cliente/clientes.php"><span>Clientes</span></a></li>								
 										<li><a href="<?php echo sistema; ?>fornecedor/fornecedores.php"><span>Fornecedores</span></a></li>
-									<?php
-											break;
-										}
-									}
-									
-									for ($i = 0; $i <= $totalcredencial-1; $i++) {
-										if ($credenciais[$i] == 'produto_ver') {
-									?>										
-										<li><a href="<?php echo sistema; ?>produto/produtos.php"><span>Produtos</span></a></li>
-									<?php
-											break;
-										}
-									}
-									
-									for ($i = 0; $i <= $totalcredencial-1; $i++) {
-										if ($credenciais[$i] == 'grupo_produto_ver') {
-									?>										
+										<li><a href="<?php echo sistema; ?>produto/produtos.php"><span>Produtos</span></a></li>								
 										<li><a href="<?php echo sistema; ?>grupo_produtos/grupo_produtos.php"><span>Grupo de Produtos</span></a></li>
-									<?php
-											break;
-										}
-									}
-									
-									for ($i = 0; $i <= $totalcredencial-1; $i++) {
-										if ($credenciais[$i] == 'profissional_ver') {
-									?>										
-										<li><a href="<?php echo sistema; ?>profissional/profissionais.php"><span>Profissionais</span></a></li>
-									<?php
-											break;
-										}
-									}									  
-
-									for ($i = 0; $i <= $totalcredencial-1; $i++) {
-										if ($credenciais[$i] == 'tiposervico_ver') {
-									?>										
-										<li><a href="<?php echo sistema; ?>tipo_servico/tipo_servicos.php"><span>Tipo de Serviço</span></a></li>
-									<?php
-											break;
-										}
-									}	
-
-									for ($i = 0; $i <= $totalcredencial-1; $i++) {
-										if ($credenciais[$i] == 'servico_ver') {
-									?>										
-										<li><a href="<?php echo sistema; ?>servicos/servicos.php"><span>Serviços</span></a></li>
-									<?php
-											break;
-										}
-									}	
-
-									for ($i = 0; $i <= $totalcredencial-1; $i++) {
-										if ($credenciais[$i] == 'cartao_ver') {
-									?>										
-										<li><a href="<?php echo sistema; ?>cartao/cartao.php"><span>Cartão</span></a></li>
-									<?php
-											break;
-										}
-									}	
-									?>											
-									
+										<li><a href="<?php echo sistema; ?>profissional/profissionais.php"><span>Profissionais</span></a></li>							
+										<li><a href="<?php echo sistema; ?>tipo_servico/tipo_servicos.php"><span>Tipo de Serviço</span></a></li>							
+										<li><a href="<?php echo sistema; ?>servicos/servicos.php"><span>Serviços</span></a></li>					
+										<li><a href="<?php echo sistema; ?>cartao/cartao.php"><span>Cartão</span></a></li>		
 									</ul>
 								</li>	
 
@@ -383,7 +306,7 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 							
 						 
 					} // session cod_empresa
-					*/
+					
 
 					?>
 						

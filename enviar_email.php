@@ -34,7 +34,7 @@ if ( isset($_REQUEST["gravar"]) ) {
 		</head>
 		<body>
 			<div style='padding:2px;'>
-				<div><img src='http://localhost/belezasoft/assets/img/COMPANY_SYSTEM_LOGO.png' style='width:120px;' alt=''></div>
+				<div><img src='assets/img/COMPANY_SYSTEM_LOGO.png' style='width:120px;' alt=''></div>
 				<div>
 					<p id='titulo'>Assunto</p>
 					<p id='resposta'>$assunto</p>

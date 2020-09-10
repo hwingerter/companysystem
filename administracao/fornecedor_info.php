@@ -3,10 +3,10 @@
 	include('../include/topo_interno.php');
 	
 	//*********** VERIFICA CREDENCIAIS DE USU√ÅRIOS *************
-	$credencial_ver = 0;
-	$credencial_incluir = 0;
-	$credencial_editar = 0;
-	$credencial_excluir = 0;
+	
+	
+	
+	
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "fornecedor_ver") {
@@ -36,7 +36,7 @@
 		}
 	}
 	
-if ($_SESSION['usuario_conta'] == '1') { //VERIFICA SE USU¡RIO POSSUI ACESSO A ESSA ¡REA
+if ($_SESSION['usuario_conta'] == '1') { //VERIFICA SE USUÔøΩRIO POSSUI ACESSO A ESSA ÔøΩREA
 	
 	$acao = '';
 

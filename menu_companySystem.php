@@ -27,40 +27,136 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 				<nav role="navigation" class="widget-body">
 					<ul class="acc-menu">
 						
-						<li><a href="<?php echo sistema; ?>inicio.php"><span>Início</span></a></li>
+						<li><a href="<?php echo sistema; ?>inicio.php"><i class="fa fa-home"></i><span>Início</span></a></li>
 
-						<li><a href="<?php echo sistema; ?>trocar_empresa.php"><i class="fa fa-building"></i><span>Acessar Empresa</span></a></li>
-
+						<?php
+						if ($acesso_minha_empresa == 1) {
+						?>
 							<li><a href="javascript:;"><i class="fa fa-cog"></i><span>Administração</span></a>
 								<ul class="acc-menu">
-									<li><a href="<?php echo sistema; ?>tipo_conta/adm_perfil.php"><span>Tipo de Conta</span></a></li>
-									<li><a href="<?php echo sistema; ?>gestao_usuarios/adm_usuarios.php"><span>Usuários</span></a></li>								
-									<li><a href="<?php echo sistema; ?>preferencias/preferencias.php"><span>Minhas Preferências</span></a></li>
+									<?php if ($menu_licencas == 1) { ?>
 									<li><a href="<?php echo sistema; ?>licenca/licencas.php"><span>Licenças</span></a></li>
+									<?php } ?>
+									<?php if ($menu_tipo_conta == 1) { ?>
+									<li><a href="<?php echo sistema; ?>tipo_conta/adm_perfil.php"><span>Tipo de Conta</span></a></li>
+									<?php } ?>
+									<?php if ($menu_credencial == 1) { ?>
+									<li><a href="<?php echo sistema; ?>credenciais/credenciais.php"><span>Credenciais</span></a></li>
+									<?php } ?>
+									<?php if ($menu_usuarios == 1) { ?>
+									<li><a href="<?php echo sistema; ?>gestao_usuarios/adm_usuarios.php"><span>Usuários</span></a></li>								
+									<?php } ?>
+									<?php if ($menu_minhas_preferencias == 1) { ?>
+									<li><a href="<?php echo sistema; ?>preferencias/preferencias.php"><span>Preferências</span></a></li>
+									<?php } ?>
 								</ul>
 							</li>
+						<?php
+						}
+						if ($acesso_cadastros == 1) {
+						?>
+
 							<li><a href="javascript:;"><i class="fa fa-list"></i><span>Cadastros</span></a>
 								<ul class="acc-menu">
+									<?php if ($menu_empresas == 1) { ?>
 									<li><a href="<?php echo sistema; ?>adm_empresa/empresas.php"><span>Empresas</span></a></li>
-									<!-- <li><a href="<?php echo sistema; ?>cliente/clientes.php"><span>Clientes</span></a></li> -->
+									<?php } ?>
+									<?php if ($menu_clientes == 1) { ?>
+									<li><a href="<?php echo sistema; ?>cliente/clientes.php"><span>Clientes</span></a></li>
+									<?php } ?>
+									<?php if ($menu_fornecedores == 1) { ?>
 									<li><a href="<?php echo sistema; ?>fornecedor/fornecedores.php"><span>Fornecedores</span></a></li>
-									<!-- <li><a href="<?php echo sistema; ?>produto/produtos.php"><span>Produtos</span></a></li> -->
-									<!-- <li><a href="<?php echo sistema; ?>grupo_produtos/grupo_produtos.php"><span>Grupo de Produtos</span></a></li> -->
-									<li><a href="<?php echo sistema; ?>profissional/profissionais.php"><span>Profissionais</span></a></li>
-									<!-- <li><a href="<?php echo sistema; ?>tipo_servico/tipo_servicos.php"><span>Tipo de Serviço</span></a></li> -->
+									<?php } ?>
+									<?php if ($menu_grupo_produtos == 1) { ?>
+									<li><a href="<?php echo sistema; ?>grupo_produtos/grupo_produtos.php"><span>Grupo de Produtos</span></a></li>
+									<?php } ?>
+									<?php if ($menu_produtos == 1) { ?>
+									<li><a href="<?php echo sistema; ?>produto/produtos.php"><span>Produtos</span></a></li>
+									<?php } ?>
+									<?php if ($menu_profissional == 1) { ?>
+									<li><a href="<?php echo sistema; ?>profissional/profissionais.php"><span>Profissional</span></a></li>
+									<?php } ?>
+									<?php if ($menu_tipo_servico == 1) { ?>
+									<li><a href="<?php echo sistema; ?>tipo_servico/tipo_servicos.php"><span>Tipos de Serviço</span></a></li>
+									<?php } ?>
+									<?php if ($menu_servicos == 1) { ?>
 									<li><a href="<?php echo sistema; ?>servicos/servicos.php"><span>Serviços</span></a></li>
-									<!-- <li><a href="<?php echo sistema; ?>cartao/cartao.php"><span>Cartão</span></a></li> -->
+									<?php } ?>
+									<?php if ($menu_cartao == 1) { ?>
+									<li><a href="<?php echo sistema; ?>cartao/cartao.php"><span>Cartão</span></a></li>
+									<?php } ?>
 								</ul>
 							</li>	
+
+						<?php
+						}
+						if ($acesso_agenda == 1) {
+
+							$agenda_ver = 0;
+							$agenda_reserva = 0;
+							$agenda_relatorio = 0;
+
+							for ($i=0; $i < count($credenciais); $i++) 
+							{ 
+								switch($credenciais[$i])
+								{
+									case "agenda_ver":
+									$agenda_ver = 1;		
+									break;
+									case "agenda_localizar":
+									$agenda_reserva = 1;		
+									break;
+									case "agenda_relatorio":
+									$agenda_relatorio = 1;		
+									break;
+								}
+							}
+
+						?>
 							<li><a href="javascript:;"><i class="fa fa-list"></i><span>Agenda</span></a>
 								<ul class="acc-menu">
-									<li><a href="<?php echo sistema; ?>agenda/agenda.php"><span>Agenda</span></a></li>
+									<?php if ($agenda_ver == 1) { ?>
+									<li><a href="<?php echo sistema; ?>agenda/agenda.php"><span>Reservar</span></a></li>
+									<?php } ?>
+									<?php if ($agenda_reserva == 1) { ?>
 									<li><a href="<?php echo sistema; ?>agenda/localizar_reserva.php"><span>Localizar Reserva</span></a></li>
+									<?php } ?>
+									<?php if ($agenda_relatorio == 1) { ?>
 									<li><a href="<?php echo sistema; ?>agenda/agendamentos.php"><span>Relatório de Agendamentos</span></a></li>
+									<?php } ?>
 								</ul>
 							</li>	
-							<li>
-							  	<a href="javascript:;"><i class="fa fa-money"></i><span>Financeiro</span></a>
+
+						<?php
+						}
+						if ($acesso_caixa == 1) {
+						?>
+
+							<li><a href="javascript:;"><i class="fa fa-money"></i><span>Caixa</span></a>
+								<ul class="acc-menu">
+									<li><a href="<?php echo sistema; ?>caixa/caixa_gaveta_caixa.php"><span>Gaveta do Caixa</span></a></li>
+								</ul>
+							</li>
+
+						<?php
+						}
+						if ($acesso_vendas == 1) {
+						?>
+
+							<li><a href="javascript:;"><i class="fa fa-money"></i><span>Vendas</span></a>
+								<ul class="acc-menu">
+									<li><a href="<?php echo sistema; ?>comanda/comanda.php"><span>Comandas</span></a></li>
+									<li><a href="<?php echo sistema; ?>comanda/comanda_historico_vendas.php"><span>Histórico de Vendas</span></a></li>
+									<li><a href="<?php echo sistema; ?>comanda/comanda_historico_itens_vendidos.php"><span>Histórico de Itens Vendidos</span></a></li>
+								</ul>
+							</li>
+
+						<?php
+						}
+						if ($acesso_financeiro == 1) {
+						?>
+
+							<li><a href="javascript:;"><i class="fa fa-money"></i><span>Financeiro</span></a>
 								<ul class="acc-menu">
 									<li><a href="<?php echo sistema; ?>financeiro/conta.php"><span>Contas e Despesas</span></a></li>
 									<li><a href="<?php echo sistema; ?>financeiro/credito_clientes.php"><span>Créditos dos Clientes</span></a></li>
@@ -73,7 +169,12 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 									<li><a href="<?php echo sistema; ?>fluxo_caixa.php"><span>Recebimento de Clientes</span></a></li>
 								</ul>
 							</li>
-								
+
+						<?php
+						}
+						if ($acesso_salarios_comissoes == 1) {
+						?>
+
 							<li><a href="javascript:;"><i class="fa fa-money"></i><span>Salários e Comissões</span></a>
 								<ul class="acc-menu">
 									<li><a href="<?php echo sistema; ?>salarios_comissoes/profissionais.php"><span>Salários, Décimo e Férias</span></a></li>
@@ -83,6 +184,11 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 								</ul>
 							</li>
 
+						<?php
+						}
+						if ($acesso_estoque == 1) {
+						?>
+
 							<li><a href="javascript:;"><i class="fa fa-money"></i><span>Estoque</span></a>
 								<ul class="acc-menu">
 									<li><a href="<?php echo sistema; ?>estoque/estoque_atual.php"><span>Estoque Atual</span></a></li>
@@ -90,6 +196,11 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 									<li><a href="<?php echo sistema; ?>estoque/lancar_compra.php"><span>Compra/Movimentação</span></a></li>
 								</ul>
 							</li>
+
+						<?php
+						}
+						if ($acesso_relatorio == 1) {
+						?>
 
 							<li><a href="javascript:;"><i class="fa fa-money"></i>Relatórios</a>
 								<ul class="acc-menu">
@@ -165,6 +276,11 @@ $texto_bem_vindo = $nome_empresa."<br>".$usuario_nome."<br>".$perfil;
 										</ul>
 								</ul>
 							</li>
+
+						<?php 
+						}
+						?>
+					
 					
 							<li><a href="<?php echo sistema; ?>logout.php"><i class="fa fa-sign-out"></i><span>Sair</span></a></li>
 

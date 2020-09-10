@@ -1,29 +1,32 @@
 <?php 
 	
-	require_once "../include/topo_interno2.php";
+require_once "../include/topo_interno2.php";
 
-	require_once "../include/funcoes.php";
-	
-	require_once "../include/ler_credencial.php";
+require_once "../include/funcoes.php";
+
+require_once "../include/ler_credencial.php";
 			
-	$credencial_ver = 1;
-	$credencial_incluir = 1;
-	$credencial_editar = 1;
-	$credencial_excluir = 1;
+$cod_empresa = 1;
 
-	$cod_empresa = 1;
-
-	//*********** VERIFICA CREDENCIAIS DE USUÃRIOS *************
-	if ($_SESSION['usuario_conta'] == '1') {
-		
-		$credencial_ver = 1;
-		$credencial_incluir = 1;
-		$credencial_editar = 1;
-		$credencial_excluir = 1;
-		
+for ($i=0; $i < count($credenciais); $i++) 
+{ 
+	switch($credenciais[$i])
+	{
+		case "usuario_ver":
+		$credencial_ver = 1;		
+		break;
+		case "usuario_editar":
+		$credencial_editar = 1;		
+		break;
+		case "usuario_excluir":
+		$credencial_excluir = 1;		
+		break;
+		case "usuario_incluir":
+		$credencial_incluir = 1;		
+		break;
 	}
-	
-	
+}
+
 if ($credencial_ver == '1') { //VERIFICA SE USUÁRIO POSSUI ACESSO A ESSA ÁREA
 	
 	if (isset($_REQUEST['sucesso'])) { $sucesso = $_REQUEST['sucesso']; } else { $sucesso = ''; }
@@ -262,22 +265,26 @@ if ($credencial_ver == '1') { //VERIFICA SE USUÁRIO POSSUI ACESSO A ESSA ÁREA
 													<?php echo $rs['Status'];?>
 													</td>
 						                            <td align='left'>
-												  	  <?php 
-													  if ($credencial_editar == '1') {
-													  ?>							
+													<?php 
+													if ($credencial_editar == '1') {
+													?>							
 														<a class="btn btn-success btn-label" href="adm_usuario_info.php?acao=alterar&id=<?php echo $rs['cod_usuario'];?>"><i class="fa fa-edit"></i> Editar &nbsp;</a>
-												  	  <?php 
-													  }
-													  if (($credencial_excluir == '1') && ($rs['cod_usuario']) != 1 && ($rs['cod_usuario']) != 2) {
+													<?php 
+													}
+
+													if (($rs['cod_usuario'] != 1 && ($rs['cod_usuario']) != 2))
+													{
+
+													  if ($credencial_excluir == '1') 
+													  {
 													  ?>
 														<a class="btn btn-danger btn-label" href="adm_usuarios.php?pergunta=<?php echo $rs['cod_usuario'];?>"><i class="fa fa-times-circle"></i> Excluir</a>
 													  <?php
 													  }
+
+													}
 													  ?>	
 														<a class="btn btn-info btn-label" href="adm_usuario_ver.php?id=<?php echo $rs['cod_usuario'];?>"><i class="fa fa-eye"></i> Ver &nbsp; &nbsp; &nbsp;</a>
-
-
-														<!--a class="btn btn-inverse btn-label" href="adm_usuario_grupos.php?cod_usuario=<?php echo $rs['cod_usuario'];?>&cod_grupo=<?php echo $rs['cod_grupo'];?>&nome_usuario=<?php echo $rs['nome'];?>"><i class="fa fa-building"></i> Empresas &nbsp; &nbsp; &nbsp;</a-->
 
 													</td>
 						                        </tr>

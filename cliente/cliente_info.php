@@ -8,10 +8,8 @@ require_once "../include/ler_credencial.php";
 	include('../include/email.php');
 
 	//*********** VERIFICA CREDENCIAIS DE USUÁRIOS *************
-	$credencial_ver = 0;
-	$credencial_incluir = 0;
-	$credencial_editar = 0;
-	$credencial_excluir = 0;
+	
+	
 	$Erro 					= "0";
 	$MensagemErro 			= "Os seguintes erros foram encontrados: <br>";
 	$ValidaEndereco			= $_SESSION['cadastro_flag_1'];

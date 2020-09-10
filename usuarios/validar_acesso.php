@@ -6,28 +6,32 @@ require_once "../include/funcoes.php";
 
 require_once "../licenca/licenca.inc.php";
 
-	if ((isset($_REQUEST['sucesso']))){ $sucesso = $_REQUEST['sucesso']; }
-	if ((isset($_REQUEST['erro']))){ $erro = $_REQUEST['erro']; } else { $erro = '0'; }
-	if ( (isset($_REQUEST['login'])) &&  (isset($_REQUEST['senha'])) ){
-	
-	$usuario = limpa($_REQUEST['login']);
-	$senha = limpa(trim($_REQUEST['senha']));
-	
-	$senha .= "&D31R#i017$";
-	$senha = md5($senha);
-	
-	$sql = "
-	select 	
-			u.cod_usuario, u.nome, u.tipo_conta, t.descricao as tipo_conta_descricao, u.status
-			,(select count(*) from usuarios_empresas where cod_usuario = u.cod_usuario) as TotalEmpresas 
-	from 	
-			usuarios u
-	inner join
-			tipo_conta t on t.cod_tipo_conta = u.tipo_conta
+if ((isset($_REQUEST['sucesso']))){ $sucesso = $_REQUEST['sucesso']; }
+if ((isset($_REQUEST['erro']))){ $erro = $_REQUEST['erro']; } else { $erro = '0'; }
 
-	where 	
-			u.email='". $usuario ."' and u.senha='". $senha ."'
-	";	
+if ( (isset($_REQUEST['login'])) &&  (isset($_REQUEST['senha'])) )
+{
+	
+		$usuario = limpa($_REQUEST['login']);
+		$senha = limpa(trim($_REQUEST['senha']));
+		
+		$senha .= "&D31R#i017$";
+		$senha = md5($senha);
+		
+		$sql = "
+		select 	
+				u.cod_usuario, u.nome, u.tipo_conta, t.descricao as tipo_conta_descricao, u.status
+				,(select count(*) from usuarios_empresas where cod_usuario = u.cod_usuario) as TotalEmpresas 
+		from 	
+				usuarios u
+		inner join
+				tipo_conta t on t.cod_tipo_conta = u.tipo_conta
+
+		where 	
+				u.email='". $usuario ."' and u.senha='". $senha ."'
+		";	
+
+	//echo $sql;die;
 
 	$query = mysql_query($sql)or die (mysql_error());
 
@@ -62,8 +66,8 @@ require_once "../licenca/licenca.inc.php";
 				$rs2 = mysql_fetch_array($query2);
 
 				$_SESSION['cod_empresa'] = $rs2['cod_empresa'];
-				$_SESSION['empresa'] 	 = $rs2['empresa'];
-	
+				$_SESSION['empresa'] 	 = $rs2['empresa'];				
+			
 				echo "<script language='javascript'>window.location='../inicio.php';</script>"; die();
 	
 			}

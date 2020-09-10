@@ -3,10 +3,10 @@
 	include('../include/topo_interno.php');
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	$credencial_ver = 0;
-	$credencial_incluir = 0;
-	$credencial_editar = 0;
-	$credencial_excluir = 0;
+	
+	
+	
+	
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "empresa_ver") {
