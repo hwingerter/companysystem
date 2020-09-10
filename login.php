@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" class="coming-soon">
 <head>
-    <meta charset="utf-8">
-    <title>Company System</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-touch-fullscreen" content="yes">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<meta charset="utf-8">
+<title>Company System</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="description" content="">
+<meta name="author" content="">
 
-    <!--link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'-->
-    <link type="text/css" href="assets/plugins/iCheck/skins/minimal/blue.css" rel="stylesheet">
-    <link type="text/css" href="assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link type="text/css" href="assets/css/styles.css" rel="stylesheet">
- 	<script type="text/javascript">
-		document.onkeyup=function(e){
-			if(e.which == 13) {
-				document.acessar.submit();
-			}
-		}
-
-</script>
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
+<link type="text/css" href="assets/plugins/iCheck/skins/minimal/blue.css" rel="stylesheet">
+<link type="text/css" href="assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link type="text/css" href="assets/css/styles.css" rel="stylesheet">
+<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script> 							<!-- Load jQuery -->
+<script type="text/javascript" src="assets/js/jquery.validate.js"></script>
 </head>
 
 <?php
@@ -98,18 +92,17 @@ $erro = $_REQUEST['erro'];
 									<span class="input-group-addon">
 										<i class="fa fa-user"></i>
 									</span>
-									<input type="text" class="form-control" placeholder="E-mail" data-parsley-minlength="6" maxlength="255" name="login">
+									<input type="text" class="form-control" placeholder="E-mail" data-parsley-minlength="6" maxlength="50" title="Preenche o e-mail" name="login" id="login" required>
 								</div>
 	                        </div>
 						</div>
-
 						<div class="form-group">
 	                        <div class="col-xs-12">
 	                        	<div class="input-group">
 									<span class="input-group-addon">
 										<i class="fa fa-key"></i>
 									</span>
-									<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha" maxlength="10" name="senha">
+									<input type="password" class="form-control" id="senha" placeholder="Senha" maxlength="10" name="senha" required>
 								</div>
 	                        </div>
 						</div>
@@ -123,12 +116,13 @@ $erro = $_REQUEST['erro'];
 
 						<div class="panel-footer">
 							<div class="clearfix">
-								<a href="#" onclick="javascript:document.forms['acessar'].submit();" class="btn btn-primary pull-left">Entrar</a>
+								<input type="submit" class="btn btn-primary" name="signup1" value="Entrar">
 								<a href="cadastro.php" class="btn btn-default pull-right">Cadastre-se aqui</a>
 							</div>
 						</div>
 
 					</form>
+					
 				</div>
 			</div>
 
@@ -136,48 +130,62 @@ $erro = $_REQUEST['erro'];
 	</div>
 </div>
 
-    
+<script type="text/javascript">
+
+	$.validator.setDefaults({
+		submitHandler: function(form) {
+			form.submit();
+			return false;
+		}
+	});
+
+	$( document ).ready( function () {
+	
+		$( "#validate-form" ).validate( {
+			rules: {
+				login: "required",
+				login: {
+					required: true,
+					minlength: 5,
+					email: true
+				
+				},
+				senha: "required",
+				senha: {
+					required: true,
+					minlength: 3
+				}
+			},
+			messages: {
+				//login: "Insira o e-mail"
+			},
+			errorElement: "em",
+			errorPlacement: function ( error, element ) {
+
+				element.parents( ".col-sm-5" ).addClass( "has-feedback" );
+
+			},
+			success: function ( label, element ) {
+				// Add the span element, if doesn't exists, and apply the icon classes to it.
+				if ( !$( element ).next( "span" )[ 0 ] ) {
+					//console.log("entrei4 ")
+					//$?/( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+				}
+			},
+			highlight: function ( element, errorClass, validClass ) {
+				$( element ).parents( ".input-group" ).addClass( "has-error" ).removeClass( "has-success" );
+			},
+			unhighlight: function ( element, errorClass, validClass ) {
+				$( element ).parents( ".input-group" ).addClass( "has-success" ).removeClass( "has-error" );
+			}
+		} );
+	} );
+</script>
     
     <!-- Load site level scripts -->
 
-<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script> -->
-
-<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script> 							<!-- Load jQuery -->
 <script type="text/javascript" src="assets/js/jqueryui-1.9.2.min.js"></script> 							<!-- Load jQueryUI -->
-
 <script type="text/javascript" src="assets/js/bootstrap.min.js"></script> 								<!-- Load Bootstrap -->
 
-
-<script type="text/javascript" src="assets/plugins/easypiechart/jquery.easypiechart.js"></script> 		<!-- EasyPieChart-->
-<script type="text/javascript" src="assets/plugins/sparklines/jquery.sparklines.min.js"></script>  		<!-- Sparkline -->
-<script type="text/javascript" src="assets/plugins/jstree/dist/jstree.min.js"></script>  				<!-- jsTree -->
-
-<script type="text/javascript" src="assets/plugins/codeprettifier/prettify.js"></script> 				<!-- Code Prettifier  -->
-<script type="text/javascript" src="assets/plugins/bootstrap-switch/bootstrap-switch.js"></script> 		<!-- Swith/Toggle Button -->
-
-<script type="text/javascript" src="assets/plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js"></script>  <!-- Bootstrap Tabdrop -->
-
-<script type="text/javascript" src="assets/plugins/iCheck/icheck.min.js"></script>     					<!-- iCheck -->
-
-<script type="text/javascript" src="assets/js/enquire.min.js"></script> 									<!-- Enquire for Responsiveness -->
-
-<script type="text/javascript" src="assets/plugins/bootbox/bootbox.js"></script>							<!-- Bootbox -->
-
-<script type="text/javascript" src="assets/plugins/simpleWeather/jquery.simpleWeather.min.js"></script> <!-- Weather plugin-->
-
-<script type="text/javascript" src="assets/plugins/nanoScroller/js/jquery.nanoscroller.min.js"></script> <!-- nano scroller -->
-
-<script type="text/javascript" src="assets/plugins/jquery-mousewheel/jquery.mousewheel.min.js"></script> 	<!-- Mousewheel support needed for jScrollPane -->
-
-<script type="text/javascript" src="assets/js/application.js"></script>
-<script type="text/javascript" src="assets/demo/demo.js"></script>
-<script type="text/javascript" src="assets/demo/demo-switcher.js"></script>
-
-<!-- End loading site level scripts -->
-    <!-- Load page level scripts-->
-    
-
-    <!-- End loading page level scripts-->
     </body>
 </html>
