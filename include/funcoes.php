@@ -1213,7 +1213,7 @@ function ComboProfissional($cod_empresa, $cod_profissional) {
 		}
 		echo "</select>";
 	} else {
-		echo "Nenhum fornecedor encontrado";
+		echo "Nenhum Profissional encontrado";
 	}
 	
 }
@@ -1331,6 +1331,10 @@ function ComboProduto($cod_empresa, $cod_produto) {
 
 	$query = mysql_query($sql);
 
+	if (mysql_num_rows($query) == 0) {
+		echo "Nenhum produto cadastrado";
+	} else {
+
 	?>
 
 	<select name="cod_produto" id="cod_produto" class="form-control" onChange="CarrregarValorProduto('<?php echo $cod_empresa; ?>', this.value);">
@@ -1352,6 +1356,10 @@ function ComboProduto($cod_empresa, $cod_produto) {
 		?>
 
 	</select>
+
+	<?php 
+	}
+	?>
 
 <?php
 }

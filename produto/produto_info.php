@@ -7,11 +7,7 @@ require_once "../include/funcoes.php";
 require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	
-	
-	
-	
-	
+		
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "produto_ver") {
 			$credencial_ver = 1;
@@ -119,7 +115,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			'".$obs."');
 			";
 
-			//echo $sql;die;
+			echo $sql;die;
 
 			mysql_query($sql);
 
@@ -130,8 +126,11 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			left join 	fornecedores f on f.cod_fornecedor = p.cod_fornecedor
 			where 		f.cod_empresa = ".$cod_empresa;
 			
+			echo $sql;die;
+
 			$query 	= mysql_query($sql);
 			$rs 	= mysql_fetch_array($query);
+
 			$cod_produto_inserido = $rs['cod_produto'];	
 
 			if((isset($_REQUEST['retorno'])) && ($_REQUEST['retorno'] == "novo_item_comanda")){

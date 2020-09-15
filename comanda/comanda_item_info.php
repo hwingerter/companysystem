@@ -476,10 +476,10 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 															<label class="col-sm-3 control-label"><b>Selecione</b></label>
 															<div class="col-sm-4">
 																<div class="checkbox-inline">
-																	<input type="radio" name="tipo_item" id="tipo_item" value="1" onclick="AbreTipoItem('1');" >&nbsp;Serviço 
+																	<input type="radio" name="tipo_item" id="tipo_item1" value="1" onclick="AbreTipoItem('1');" >&nbsp;Serviço 
 																</div>
 																<div class="checkbox-inline">
-																	<input type="radio" name="tipo_item" id="tipo_item" value="2" onclick="AbreTipoItem('2');">&nbsp;Produto
+																	<input type="radio" name="tipo_item" id="tipo_item2" value="2" onclick="AbreTipoItem('2');">&nbsp;Produto
 																</div>
 															</div>
 														</div>
@@ -635,6 +635,14 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 		<?php
 		}
 
+	}
+	else{
+		?>
+		<script type="text/javascript">
+			document.frm.tipo_item[0].checked=true;
+			AbreTipoItem('1');
+		</script>
+		<?php 
 	}
 }
 
