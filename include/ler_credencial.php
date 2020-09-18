@@ -13,17 +13,19 @@ $credencial_empresa_acessar = 0;
 
 if(($_SESSION['tipo_conta'] == 1) || ($_SESSION['tipo_conta'] == 2))
 {
+	/*
 	$credencial_ver = 1;
 	$credencial_incluir = 1;
 	$credencial_editar = 1;
 	$credencial_excluir = 1;
-	$credencial_areas = 1;
+	//$credencial_areas = 1;
 	$credencial_empresa_acessar = 1;		
 
 	$menu_tipo_conta = 1;
 	$menu_credencial = 1;
 	$menu_usuario = 1;
 	$menu_minhas_preferencias = 1;
+	*/
 }
 
 //CREDENCIAIS PERMITIDAS

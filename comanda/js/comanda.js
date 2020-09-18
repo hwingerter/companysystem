@@ -297,7 +297,7 @@ function NovoServico(){
 	var cod_comanda = document.getElementById("cod_comanda").value;
 	var cod_cliente = document.getElementById("cod_cliente").value;
 
-	location.href = "../servico_info.php?retorno=novo_item_comanda&cod_comanda="+ cod_comanda +"&cod_cliente=" + cod_cliente;
+	location.href = "../servicos/servico_info.php?retorno=novo_item_comanda&cod_comanda="+ cod_comanda +"&cod_cliente=" + cod_cliente;
 }
 
 function NovoProduto(){
@@ -305,5 +305,5 @@ function NovoProduto(){
 	var cod_comanda = document.getElementById("cod_comanda").value;
 	var cod_cliente = document.getElementById("cod_cliente").value;
 
-	location.href = "../produto_info.php?retorno=novo_item_comanda&cod_comanda="+ cod_comanda +"&cod_cliente=" + cod_cliente;
+	location.href = "../produto/produto_info.php?retorno=novo_item_comanda&cod_comanda="+ cod_comanda +"&cod_cliente=" + cod_cliente;
 }
