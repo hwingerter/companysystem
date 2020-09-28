@@ -5,14 +5,9 @@ require_once "../include/topo_interno2.php";
 require_once "../include/funcoes.php";
 
 require_once "../include/ler_credencial.php";
-	include('../include/cpf_cnpj.php');
-	include('../include/email.php');
-	
-	//*********** VERIFICA CREDENCIAIS DE USUÁRIOS *************
-	
-	
-	
-	
+
+include('../include/cpf_cnpj.php');
+include('../include/email.php');
 	
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "fornecedor_ver") {
@@ -73,22 +68,39 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 		$acao = "incluir";
 	}
 	
+	$Erro = "0";
+	$MensagemErro = "É necessário o preenchimento dos seguintes campos: ";
 	
 	if ((isset($_REQUEST['acao'])) && ( ($_REQUEST['acao'] == "incluir") || ($_REQUEST['acao'] == "atualizar")))
 	{
-		//validações
-		if(($cnpj != "") && (ValidarCNPJ($cnpj) != "1"))
+		if ($nome_fantasia == "")
 		{
 			$Erro = "1";
-			$MensagemErro = "CNPJ Inválido!";
+			$MensagemErro .= "<br>Nome Fantasia";
 		}
-		elseif( ($email!="") && (!ValidarEmail($email)))
-		{
-			$Erro = "1";
-			$MensagemErro = "E-mail Inválido!";
 
+		if ($cnpj == "")
+		{
+			//$Erro = "1";
+			//$MensagemErro .= "<br>CNPJ";
+		} 
+		else 
+		{			
+			//validações
+			if(($cnpj != "") && (ValidarCNPJ($cnpj) != "1"))
+			{
+				$Erro = "1";
+				$MensagemErro .= "<br>CNPJ Inválido";
+			}
+			
+			if( ($email!="") && (!ValidarEmail($email)))
+			{
+				$Erro = "1";
+				$MensagemErro .= "<br>E-mail Inválido";
+			}
 		}
-		else
+
+		if ($Erro == "0")
 		{
 
 			if ($_REQUEST['acao'] == "incluir"){
@@ -100,6 +112,8 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 				if ($estado != '') { $sql .= ",". limpa_int($estado); }
 				if ($cidade != '') { $sql .= ",". limpa_int($cidade); }
 				$sql .= ")";
+
+				//echo $sql;die;
 
 				mysql_query($sql);
 				
@@ -158,91 +172,18 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 }
 	
 ?>
-	 <script src="../js/cidade_ComboAjax.js"></script>
-	<script language='JavaScript'>
-	function Atualizar() {
-		document.forms['frm'].action = "fornecedor_info.php?atualizar=1";
-		document.forms['frm'].submit();
-	}
-	</script>	 
 
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"
-	            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-	            crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
+<script src="../js/cidade_ComboAjax.js"></script>
 <script type="text/javascript" src="../js/jquery.mask.min.js"></script>
-
 <script language='JavaScript'>
+	$(document).ready(function() {
+		$('#telefone').mask('(99) 9999-99999');
+		$('#cep').mask('99999-999');
+	});
+</script>
 
-		$(document).ready(function() {
-
-			$('#telefone').mask('(99) 9999-99999');
-			$('#cep').mask('99999-999');
-
-            function limpa_formulário_cep() {
-                // Limpa valores do formulário de cep.
-                $("#endereco").val("");
-               // $("#bairro").val("");
-                //$("#cidade").val("");
-                //$("#uf").val("");
-                //$("#ibge").val("");
-            }
-            
-            //Quando o campo cep perde o foco.
-            $("#cep").blur(function() {
-
-                //Nova variável "cep" somente com dígitos.
-                var cep = $(this).val().replace(/\D/g, '');
-				//console.log(cep)
-                //Verifica se campo cep possui valor informado.
-                if (cep != "") {
-
-                    //Expressão regular para validar o CEP.
-                    var validacep = /^[0-9]{8}$/;
-
-                    //Valida o formato do CEP.
-                    if(validacep.test(cep)) {
-						
-                        //Preenche os campos com "..." enquanto consulta webservice.
-                        $("#endereco").val("...");
-                        //$("#bairro").val("...");
-                        //$("#cidade").val("...");
-                        //$("#uf").val("...");
-                        //$("#ibge").val("...");
-
-                        //Consulta o webservice viacep.com.br/
-                        $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
-
-                            if (!("erro" in dados)) {
-                                //Atualiza os campos com os valores da consulta.
-                                $("#endereco").val(dados.logradouro);
-                                //$("#bairro").val(dados.bairro);
-                                //$("#cidade").val(dados.localidade);
-                                //$("#uf").val(dados.uf);
-                                //("#ibge").val(dados.ibge);
-                            } //end if.
-                            else {
-                                //CEP pesquisado não foi encontrado.
-                                limpa_formulário_cep();
-                                alert("CEP não encontrado.");
-                            }
-                        });
-                    } //end if.
-                    else {
-                        //cep é inválido.
-                        limpa_formulário_cep();
-                        alert("Formato de CEP inválido.");
-                    }
-                } //end if.
-                else {
-                    //cep sem valor, limpa formulário.
-                    limpa_formulário_cep();
-                }
-            });
-		
-		});
-
-	</script>	 
 
 				<div class="static-content-wrapper">
                     <div class="static-content">
@@ -275,7 +216,9 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			<h2>Dados do Fornecedor</h2>
 		</div>
 		<div class="panel-body">
-			<form action="fornecedor_info.php" class="form-horizontal row-border" name='frm' method="post">
+
+			<form id="formCadastro" class="form-horizontal row-border" name='frm' method="post" action="fornecedor_info.php">
+			
               <?php if ($acao=="alterar"){?>
               <input type="hidden" name="id" value="<?php echo $_REQUEST['id']; ?>">
               <input type="hidden" name="acao" value="atualizar">
@@ -285,7 +228,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Nome Fantasia</b></label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $nome_fantasia;?>" name="nome_fantasia" maxlength="200">
+						<input type="text" class="form-control" value="<?php echo $nome_fantasia;?>" name="nome_fantasia" i="nome_fantasia" maxlength="200">
 					</div>
 				</div>
 				<div class="form-group">
@@ -377,15 +320,19 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 					  <textarea name="obs" style="width:100%; height: auto;"><?php echo $obs;?></textarea>
 					</div>
 				</div>
-			</form>
+			
 			<div class="panel-footer">
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
-						<button class="btn-primary btn" onclick="javascript:document.forms['frm'].submit();">Gravar</button>
+						<!-- <button class="btn-primary btn" onclick="javascript:document.forms['frm'].submit();">Gravar</button> -->
+						<input type="submit" class="btn btn-primary" name="signup1" value="Gravar">
 						<button class="btn-default btn" onclick="javascript:window.location='fornecedores.php';">Cancel</button>
 					</div>
 				</div>
 			</div>
+
+			</form>
+
 		</div>
 	</div>
 
@@ -393,6 +340,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 
                             </div> <!-- .container-fluid -->
                         </div> <!-- #page-content -->
+
 <?php 
 
 	include('../include/rodape_interno2.php');
