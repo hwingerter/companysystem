@@ -173,168 +173,159 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 	
 ?>
 
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-
 <script src="../js/cidade_ComboAjax.js"></script>
+<script src="../assets/js/jquery.validate.js"></script>
 <script type="text/javascript" src="../js/jquery.mask.min.js"></script>
-<script language='JavaScript'>
-	$(document).ready(function() {
-		$('#telefone').mask('(99) 9999-99999');
-		$('#cep').mask('99999-999');
-	});
-</script>
+<script type="text/javascript" src="fornecedor.js"></script>
+
+<div class="static-content-wrapper">
+	<div class="static-content">
+		<div class="page-content">
+			<ol class="breadcrumb">
+				<li><a href="#">Principal</a></li>
+				<li class="active"><a href="fornecedores.php">Fornecedores</a></li>
+			</ol>
+			<div class="page-heading">            
+				<h1>Fornecedor</h1>
+				<div class="options">
+			</div>
+			</div>
+			<div class="container-fluid">
+				
+			<?php if ($Erro == "1") {?>
+				<div class="alert alert-dismissable alert-danger">
+					<i class="fa fa-fw fa-check"></i>&nbsp; <strong><?php echo $MensagemErro; ?></strong>
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				</div>	
+			<?php } ?>
 
 
-				<div class="static-content-wrapper">
-                    <div class="static-content">
-                        <div class="page-content">
-                            <ol class="breadcrumb">
-                                
-<li><a href="#">Principal</a></li>
-<li class="active"><a href="fornecedores.php">Fornecedores</a></li>
+			<div data-widget-group="group1">
 
-                            </ol>
-                            <div class="page-heading">            
-                                <h1>Fornecedor</h1>
-                                <div class="options">
-</div>
-                            </div>
-                            <div class="container-fluid">
-                                
-							<?php if ($Erro == "1") {?>
-								<div class="alert alert-dismissable alert-danger">
-									<i class="fa fa-fw fa-check"></i>&nbsp; <strong><?php echo $MensagemErro; ?></strong>
-									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-								</div>	
-							<?php } ?>
-
-
-<div data-widget-group="group1">
-
-	<div class="panel panel-default" data-widget='{"draggable": "false"}'>
-		<div class="panel-heading">
-			<h2>Dados do Fornecedor</h2>
-		</div>
-		<div class="panel-body">
-
-			<form id="formCadastro" class="form-horizontal row-border" name='frm' method="post" action="fornecedor_info.php">
-			
-              <?php if ($acao=="alterar"){?>
-              <input type="hidden" name="id" value="<?php echo $_REQUEST['id']; ?>">
-              <input type="hidden" name="acao" value="atualizar">
-              <?php }else{?>
-              <input type="hidden" name="acao" value="incluir">
-              <?php } ?>				
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Nome Fantasia</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $nome_fantasia;?>" name="nome_fantasia" i="nome_fantasia" maxlength="200">
-					</div>
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Dados do Fornecedor</h2>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Razão Social</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $razao_social;?>" name="razao_social" maxlength="200">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>CNPJ</b></label>
-					<div class="col-sm-4">
-						<input type="text" class="form-control" value="<?php echo $cnpj;?>" name="cnpj" maxlength="14" size="8">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Inscrição Municipal</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $inscricao_municipal;?>" name="inscricao_municipal" maxlength="20">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Inscrição Estadual</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $inscricao_estadual;?>" name="inscricao_estadual" maxlength="20">
-					</div>
-				</div>				
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>CEP</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $cep;?>" name="cep" id="cep" maxlength="10">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Endereço</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $endereco;?>" name="endereco" id="endereco" maxlength="200">
-					</div>
-				</div>
-				<?php 
-				if ($cidade != '') {
-				?>
-				<script language='JavaScript'>EditaCidade('<?php echo $estado; ?>','<?php echo $cidade; ?>');</script>
-				<?php
-				}
-				?>				
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Estado</b></label>
-					<div class="col-sm-8">
-					  <select name="codestado" Onchange='atualizaCidade(this.value);' class="form-control">
-						<option value="">UF</option>
-	                    <?php
-	                    $query = mysql_query("select * from estados order by uf asc") or die (mysql_error());
-						while($rs = mysql_fetch_array($query)){
+				<div class="panel-body">
+
+					<form id="formCadastro" class="form-horizontal row-border" name='frm' method="post" action="fornecedor_info.php">
+					
+					<?php if ($acao=="alterar"){?>
+					<input type="hidden" name="id" value="<?php echo $_REQUEST['id']; ?>">
+					<input type="hidden" name="acao" value="atualizar">
+					<?php }else{?>
+					<input type="hidden" name="acao" value="incluir">
+					<?php } ?>				
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b>Nome Fantasia</b></label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" value="<?php echo $nome_fantasia;?>" name="nome_fantasia" i="nome_fantasia" maxlength="200">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b>Razão Social</b></label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" value="<?php echo $razao_social;?>" name="razao_social" maxlength="200">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b>CNPJ</b></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" value="<?php echo $cnpj;?>" name="cnpj" maxlength="14" size="8">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b>Inscrição Municipal</b></label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" value="<?php echo $inscricao_municipal;?>" name="inscricao_municipal" maxlength="20">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b>Inscrição Estadual</b></label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" value="<?php echo $inscricao_estadual;?>" name="inscricao_estadual" maxlength="20">
+							</div>
+						</div>				
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b>CEP</b></label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" value="<?php echo $cep;?>" name="cep" id="cep" maxlength="10">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b>Endereço</b></label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" value="<?php echo $endereco;?>" name="endereco" id="endereco" maxlength="200">
+							</div>
+						</div>
+						<?php 
+						if ($cidade != '') {
 						?>
-						<option value="<?php echo $rs['cod_estado'];?>"
-						<?php if ($estado == $rs['cod_estado']) { echo " Selected"; }?>
-						><?php echo htmlentities($rs['uf']);?></option>
-	                    <?php
+						<script language='JavaScript'>EditaCidade('<?php echo $estado; ?>','<?php echo $cidade; ?>');</script>
+						<?php
 						}
-						?>
-					  </select>						
+						?>				
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b>Estado</b></label>
+							<div class="col-sm-8">
+							<select name="codestado" Onchange='atualizaCidade(this.value);' class="form-control">
+								<option value="">UF</option>
+								<?php
+								$query = mysql_query("select * from estados order by uf asc") or die (mysql_error());
+								while($rs = mysql_fetch_array($query)){
+								?>
+								<option value="<?php echo $rs['cod_estado'];?>"
+								<?php if ($estado == $rs['cod_estado']) { echo " Selected"; }?>
+								><?php echo htmlentities($rs['uf']);?></option>
+								<?php
+								}
+								?>
+							</select>						
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b>Cidade</b></label>
+							<div class="col-sm-8">
+							<div id="city">
+							<select name="codcidade" class="form-control">
+								<option value="">Selecione</option>
+							</select>
+							</div>						
+							</div>
+						</div>				
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b>E-mail</b></label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" value="<?php echo $email;?>" name="email" maxlength="200">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b>Telefone</b></label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" value="<?php echo $telefone;?>" name="telefone" id="telefone" maxlength="9">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><b>Observação</b></label>
+							<div class="col-sm-8">
+							<textarea name="obs" style="width:100%; height: auto;"><?php echo $obs;?></textarea>
+							</div>
+						</div>
+					
+					<div class="panel-footer">
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2">
+								<!-- <button class="btn-primary btn" onclick="javascript:document.forms['frm'].submit();">Gravar</button> -->
+								<input type="submit" class="btn btn-primary" name="signup1" value="Gravar">
+								<button class="btn-default btn" onclick="javascript:window.location='fornecedores.php';">Cancel</button>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Cidade</b></label>
-					<div class="col-sm-8">
-                    <div id="city">
-				  	<select name="codcidade" class="form-control">
-						<option value="">Selecione</option>
- 					</select>
-					</div>						
-					</div>
-				</div>				
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>E-mail</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $email;?>" name="email" maxlength="200">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Telefone</b></label>
-					<div class="col-sm-2">
-						<input type="text" class="form-control" value="<?php echo $telefone;?>" name="telefone" id="telefone" maxlength="9">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Observação</b></label>
-					<div class="col-sm-8">
-					  <textarea name="obs" style="width:100%; height: auto;"><?php echo $obs;?></textarea>
-					</div>
-				</div>
-			
-			<div class="panel-footer">
-				<div class="row">
-					<div class="col-sm-8 col-sm-offset-2">
-						<!-- <button class="btn-primary btn" onclick="javascript:document.forms['frm'].submit();">Gravar</button> -->
-						<input type="submit" class="btn btn-primary" name="signup1" value="Gravar">
-						<button class="btn-default btn" onclick="javascript:window.location='fornecedores.php';">Cancel</button>
-					</div>
+
+					</form>
+
 				</div>
 			</div>
-
-			</form>
-
-		</div>
-	</div>
 
 
 
