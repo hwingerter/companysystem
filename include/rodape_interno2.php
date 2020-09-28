@@ -19,7 +19,7 @@ if(isset($conexao))
             
         </footer>
     
- <script type="text/javascript" src="../assets/js/jqueryui-1.9.2.min.js"></script>                             <!-- Load jQueryUI -->
+  <script type="text/javascript" src="../assets/js/jqueryui-1.9.2.min.js"></script>
     <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>                              <!-- Load Bootstrap -->
     <script type="text/javascript" src="../assets/plugins/easypiechart/jquery.easypiechart.js"></script>      <!-- EasyPieChart-->
     <script type="text/javascript" src="../assets/plugins/sparklines/jquery.sparklines.min.js"></script>          <!-- Sparkline -->

@@ -66,17 +66,17 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 			$descricao = $rs['descricao'];
 			$fornecedor = $rs['nome_fantasia'];
 			$grupo_produtos = $rs['descricao'];
-			$custo = ValorMysqlPhp($rs['custo']);
-			$preco_venda = ValorMysqlPhp($rs['preco_venda']);
+			$custo = "R$ ".ValorMysqlPhp($rs['custo']);
+			$preco_venda = "R$ ".ValorMysqlPhp($rs['preco_venda']);
 			$desconto_maximo = ValorMysqlPhp($rs['desconto_maximo']);
 			$desconto_promocional = ValorMysqlPhp($rs['desconto_promocional']);
 			$TipoComissao = $rs['TipoComissao'];
 			$cod_tipo_comissao = $rs['cod_tipo_comissao'];
 
 			if ($cod_tipo_comissao == "1") {
-				$comissao = $rs['comissao_percentual'];
+				$comissao = $rs['comissao_percentual']." %";
 			}elseif ($cod_tipo_comissao == "2"){
-				$comissao = $rs['comissao_fixa'];
+				$comissao = "R$ ".$rs['comissao_fixa'];
 			}
 			
 		}

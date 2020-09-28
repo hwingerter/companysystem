@@ -837,16 +837,25 @@ function ComboTipoComissao($cod_tipo_comissao) {
 	$query = mysql_query($sql);
 	$registros = mysql_num_rows($query);
 	if ($registros > 0) {
-		echo "<select name='cod_tipo_comissao' class='form-control' id='cod_tipo_comissao'>";
-		echo "<option value='0'>Selecione o Tipo da Comissão</option>";
+	?>
+	<select name='cod_tipo_comissao' class='form-control' id='cod_tipo_comissao' Onchange='javascript:MudarTipoComissao(this.value);'>
+		
+		<option value='0'>Selecione o Tipo da Comissão</option>
+	
+		<?php
 		while ($rs = mysql_fetch_array($query)){ 
 			echo "<option value='". $rs['cod_tipo_comissao'] ."'";
 			if ($cod_tipo_comissao == $rs['cod_tipo_comissao']) { echo " Selected"; }
 			echo ">" .$rs['nome'] . "</option>";
 		}
-		echo "</select>";
-	} else {
-		echo "N�o tem nenhum nenhum tipo de comissao";
+		?>
+
+	</select>
+	<?php
+	} 
+	else
+	{
+		echo "Não tem nenhum nenhum tipo de comissao";
 	}
 
 }
