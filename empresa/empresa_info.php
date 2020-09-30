@@ -5,6 +5,8 @@ require_once "../include/topo_interno2.php";
 require_once "../include/funcoes.php";
 
 require_once "../include/ler_credencial.php";
+
+require_once "../preferencias/preferencias_inc.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
 	
@@ -36,64 +38,66 @@ require_once "../include/ler_credencial.php";
 		}
 	}
 	
-$cod_usuario = $_SESSION['usuario_id'];
+$cod_usuario = $_SESSION['cod_usuario'];
 $cod_grupo	 = $_SESSION['cod_grupo'];
 
 if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica se o usu�rio tem a credencial de incluir ou editar	
 	
 	$acao = '';
-	
-	if (isset($_REQUEST['empresa'])) { $empresa = $_REQUEST['empresa']; } else { $empresa = ''; }
-	if (isset($_REQUEST['email'])) { $email = $_REQUEST['email']; } else { $email = '';	}
-	if (isset($_REQUEST['tipo_pessoa'])) { $tipo_pessoa = $_REQUEST['tipo_pessoa']; } else { $tipo_pessoa = '';	}
-	if (isset($_REQUEST['cnpj'])) { $cnpj = $_REQUEST['cnpj']; } else { $cnpj = '';	}
-	if (isset($_REQUEST['endereco'])) { $endereco = $_REQUEST['endereco']; } else { $endereco = ''; }
-	if (isset($_REQUEST['bairro'])) { $bairro = $_REQUEST['bairro']; } else { $bairro = ''; }
-	if (isset($_REQUEST['cep'])) { $cep = $_REQUEST['cep']; } else { $cep = ''; }
-	if (isset($_REQUEST['codestado'])) { $estado = $_REQUEST['codestado']; } else { $estado = ''; }
-	if (isset($_REQUEST['codcidade'])) { $cidade = $_REQUEST['codcidade']; } else { $cidade = ''; }
-	if (isset($_REQUEST['telefone'])) { $telefone = $_REQUEST['telefone']; } else { $telefone = ''; }
-	
-	if (isset($_REQUEST['inscricao_estadual'])) { $inscricao_estadual = $_REQUEST['inscricao_estadual']; } else { $inscricao_estadual = ''; }
-	if (isset($_REQUEST['inscricao_municipal'])) { $inscricao_municipal = $_REQUEST['inscricao_municipal']; } else { $inscricao_municipal = ''; }
-	
-	
+		
 	if (isset($_REQUEST['atualizar'])) { $atualizar = $_REQUEST['atualizar']; } else { $atualizar = ''; }
 	
 if ($atualizar != '1') {
 	
 	if (isset($_REQUEST['acao'])) {
+
+		if (isset($_REQUEST['empresa'])) { $empresa = $_REQUEST['empresa']; } else { $empresa = ''; }
+		if (isset($_REQUEST['email'])) { $email = $_REQUEST['email']; } else { $email = '';	}
+		if (isset($_REQUEST['tipo_pessoa'])) { $tipo_pessoa = $_REQUEST['tipo_pessoa']; } else { $tipo_pessoa = '';	}
+		if (isset($_REQUEST['cnpj'])) { $cnpj = $_REQUEST['cnpj']; } else { $cnpj = '';	}
+		if (isset($_REQUEST['endereco'])) { $endereco = $_REQUEST['endereco']; } else { $endereco = ''; }
+		if (isset($_REQUEST['bairro'])) { $bairro = $_REQUEST['bairro']; } else { $bairro = ''; }
+		if (isset($_REQUEST['cep'])) { $cep = $_REQUEST['cep']; } else { $cep = ''; }
+		if (isset($_REQUEST['codestado'])) { $estado = $_REQUEST['codestado']; } else { $estado = ''; }
+		if (isset($_REQUEST['codcidade'])) { $cidade = $_REQUEST['codcidade']; } else { $cidade = ''; }
+		if (isset($_REQUEST['telefone'])) { $telefone = $_REQUEST['telefone']; } else { $telefone = ''; }
+		if (isset($_REQUEST['inscricao_estadual'])) { $inscricao_estadual = $_REQUEST['inscricao_estadual']; } else { $inscricao_estadual = ''; }
+		if (isset($_REQUEST['inscricao_municipal'])) { $inscricao_municipal = $_REQUEST['inscricao_municipal']; } else { $inscricao_municipal = ''; }
+
+		$dataCadastro = DataPhpMysql(date('d-m-Y'))." ".date('H:m');
 		
 		if ($_REQUEST['acao'] == "incluir"){
 			
 			$sql = "insert into empresas (empresa, email, cnpj, endereco, bairro, cep, telefone, inscricao_estadual, inscricao_municipal";
 			if ($estado != '') { $sql .= ", estado"; }
 			if ($cidade != '') { $sql .= ", cidade"; }
-			$sql .= ") values ('". limpa($empresa) ."','". limpa($email) ."', '". limpa($cnpj) ."','". limpa($endereco) ."','". limpa($bairro) ."','". limpa($cep) ."','". limpa($telefone) ."','". limpa($inscricao_estadual) ."','". limpa($inscricao_municipal) ."'";
+			$sql .= ", dt_cadastro, cod_usuario_cadastro) values ('". limpa($empresa) ."','". limpa($email) ."', '". limpa($cnpj) ."','". limpa($endereco) ."','". limpa($bairro) ."','". limpa($cep) ."','". limpa($telefone) ."','". limpa($inscricao_estadual) ."','". limpa($inscricao_municipal) ."'";
 			if ($estado != '') { $sql .= ",". limpa_int($estado); }
 			if ($cidade != '') { $sql .= ",". limpa_int($cidade); }
-			$sql .= ")";
+			$sql .= ", '".$dataCadastro."',". limpa($cod_usuario) .")";
+			//echo $sql;die;
 			mysql_query($sql);
 
-			$sql = "select cod_empresa from empresas where empresa = '".limpa($empresa)."';";
+			$sql = "select cod_empresa from empresas where empresa = '".limpa($empresa)."' and cod_usuario_cadastro = ".limpa($cod_usuario)." ";
 			$query = mysql_query($sql);
 			$rs1 = mysql_fetch_array($query);
-			$cod_empresa = $rs1['cod_empresa'];
+			$cod_filial = $rs1['cod_empresa'];
 
 			//VINCULAR A EMPRESA AO GRUPO
-			//$sql = "insert into grupo_empresas (cod_grupo, cod_empresa) values ('".limpa($cod_grupo)."', '".limpa($cod_empresa)."');";
-			//mysql_query($sql);
+			$sql = "insert into grupo_empresas (cod_empresa, cod_filial) values ('".limpa($cod_empresa)."', '".limpa($cod_filial)."');";
+			//echo $sql;die;
+			mysql_query($sql);
 
 			//VINCULAR A EMPRESA AO GRUPO
 			$sql = "insert into usuarios_empresas (cod_usuario, cod_empresa) 
-					values ('".$cod_usuario."', '".limpa($cod_grupo)."', '".limpa($cod_empresa)."');";
+					values ('".$cod_usuario."', '".limpa($cod_filial)."');";
 			mysql_query($sql);
 
 			$descricao_tipoConta = "Administrador";		
-			$sql = "insert into tipo_conta (descricao, cod_empresa) values ('".limpa($descricao_tipoConta)."', ".$cod_empresa.")";
+			$sql = "insert into tipo_conta (descricao, cod_empresa) values ('".limpa($descricao_tipoConta)."', ".$cod_filial.")";
 			mysql_query($sql);
 
-			CriarPreferencias($cod_empresa, $empresa, $telefone, $nome, $email);
+			CriarPreferencias($cod_filial, $empresa, $telefone, $nome, $email);
 			
 			echo "<script language='javascript'>window.location='empresas.php?sucesso=1';</script>";
 			
@@ -149,80 +153,10 @@ if ($atualizar != '1') {
 }
 	
 ?>
-	 <script src="../js/cidade_ComboAjax.js"></script>
-	<script language='JavaScript'>
-	function Atualizar() {
-		document.forms['frm'].action = "empresa_info.php?atualizar=1";
-		document.forms['frm'].submit();
-	}
-	</script>	 
-
-<script language='JavaScript'>
-
-$(document).ready(function() {
-
-	function limpa_formulário_cep() {
-		// Limpa valores do formulário de cep.
-		$("#rua").val("");
-		$("#bairro").val("");
-		$("#cidade").val("");
-		$("#uf").val("");
-		$("#ibge").val("");
-	}
-	
-	//Quando o campo cep perde o foco.
-	$("#cep").blur(function() {
-
-		//Nova variável "cep" somente com dígitos.
-		var cep = $(this).val().replace(/\D/g, '');
-
-		//Verifica se campo cep possui valor informado.
-		if (cep != "") {
-
-			//Expressão regular para validar o CEP.
-			var validacep = /^[0-9]{8}$/;
-
-			//Valida o formato do CEP.
-			if(validacep.test(cep)) {
-
-				//Preenche os campos com "..." enquanto consulta webservice.
-				$("#rua").val("...");
-				$("#bairro").val("...");
-				$("#cidade").val("...");
-				$("#uf").val("...");
-
-				//Consulta o webservice viacep.com.br/
-				$.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
-
-					if (!("erro" in dados)) {
-						//Atualiza os campos com os valores da consulta.
-						$("#rua").val(dados.logradouro);
-						$("#bairro").val(dados.bairro);
-						$("#cidade").val(dados.localidade);
-						$("#uf").val(dados.uf);
-					} //end if.
-					else {
-						//CEP pesquisado não foi encontrado.
-						limpa_formulário_cep();
-						alert("CEP não encontrado.");
-					}
-				});
-			} //end if.
-			else {
-				//cep é inválido.
-				limpa_formulário_cep();
-				alert("Formato de CEP inválido.");
-			}
-		} //end if.
-		else {
-			//cep sem valor, limpa formulário.
-			limpa_formulário_cep();
-		}
-	});
-
-});
-
-
+<script src="../js/cidade_ComboAjax.js"></script>
+<script src="../assets/js/jquery.validate.js"></script>
+<script src="../assets/js/jquery.mask.min.js"></script>
+<script src="empresa.js"></script>
 
 </script>	 
 
@@ -250,8 +184,10 @@ $(document).ready(function() {
 			<h2>Dados da Empresa</h2>
 		</div>
 		<div class="panel-body">
-			<form action="empresa_info.php" class="form-horizontal row-border" name='frm' method="post">
-              <?php if ($acao=="alterar"){?>
+
+			<form action="empresa_info.php" class="form-horizontal row-border" name='frm' id="formCadastro" method="post">
+              
+			  <?php if ($acao=="alterar"){?>
               <input type="hidden" name="id" value="<?php echo $_REQUEST['id']; ?>">
               <input type="hidden" name="acao" value="atualizar">
               <?php }else{?>
@@ -263,7 +199,7 @@ $(document).ready(function() {
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Empresa</b></label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $empresa;?>" name="empresa" maxlength="200">
+						<input type="text" class="form-control" value="<?php echo $empresa;?>" name="empresa" id="empresa" maxlength="200">
 					</div>
 				</div>
 				<div class="form-group">
@@ -346,18 +282,19 @@ $(document).ready(function() {
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Telefone</b></label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $telefone;?>" name="telefone" maxlength="100">
+						<input type="text" class="form-control" value="<?php echo $telefone;?>" name="telefone" id="telefone" maxlength="100">
 					</div>
 				</div>
+				<div class="panel-footer">
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<input type="submit" class="btn btn-primary" name="signup1" value="Gravar">
+							<button class="btn-default btn" onclick="javascript:window.location='empresas.php';">Voltar</button>
+						</div>
+					</div>
+				</div>
+
 			</form>
-			<div class="panel-footer">
-				<div class="row">
-					<div class="col-sm-8 col-sm-offset-2">
-						<button class="btn-primary btn" onclick="javascript:document.forms['frm'].submit();">Gravar</button>
-						<button class="btn-default btn" onclick="javascript:window.location='empresas.php';">Voltar</button>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 
