@@ -92,7 +92,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
    $pagina = intval($pagina);	
 	
 
-	$cod_usuario	= $_SESSION['usuario_id'];
+	$cod_usuario	= $_SESSION['cod_usuario'];
 	$cod_grupo		= $_SESSION['cod_grupo'];
 	$cod_empresa	= $_REQUEST['cod_empresa'];
 

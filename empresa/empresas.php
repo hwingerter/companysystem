@@ -99,7 +99,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
    $pagina = intval($pagina);	
 	
 
-	$cod_usuario	= $_SESSION['usuario_id'];
+	$cod_usuario	= $_SESSION['cod_usuario'];
 	$cod_grupo		= $_SESSION['cod_grupo'];
 	$cod_empresa_principal	= 1;
 
@@ -227,7 +227,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 	select		e.cod_empresa, e.empresa, e.endereco, e.bairro
 	from 		empresas e
 	inner join 	usuarios_empresas ge on ge.cod_empresa = e.cod_empresa
-	where 		e.cod_empresa <> ".$cod_empresa_principal."
+	where 		ge.cod_usuario = ".$cod_usuario."
 	";
 
 
