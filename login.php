@@ -9,21 +9,21 @@
 <meta name="apple-touch-fullscreen" content="yes">
 <meta name="description" content="">
 <meta name="author" content="">
-
-<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
 <link type="text/css" href="assets/plugins/iCheck/skins/minimal/blue.css" rel="stylesheet">
 <link type="text/css" href="assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 <link type="text/css" href="assets/css/styles.css" rel="stylesheet">
-<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script> 							<!-- Load jQuery -->
+<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="assets/js/jquery.validate.js"></script>
 </head>
 
-<?php
-$sucesso = $_REQUEST['sucesso'];
-$erro = $_REQUEST['erro'];
-?>
+<body class="focused-form">
 
-    <body class="focused-form">
+	<?php
+	$sucesso = $_REQUEST['sucesso'];
+	$erro = $_REQUEST['erro'];
+	?>
+
 	<?php
 	if ($erro == '1') {
 	?>
@@ -182,10 +182,5 @@ $erro = $_REQUEST['erro'];
 	} );
 </script>
     
-    <!-- Load site level scripts -->
-
-<script type="text/javascript" src="assets/js/jqueryui-1.9.2.min.js"></script> 							<!-- Load jQueryUI -->
-<script type="text/javascript" src="assets/js/bootstrap.min.js"></script> 								<!-- Load Bootstrap -->
-
     </body>
 </html>

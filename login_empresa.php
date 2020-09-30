@@ -12,8 +12,17 @@ $erro = '0';
 
 session_start();
 
-$cod_usuario = $_SESSION['cod_usuario'];
-$EmpresaPrincipal = $_SESSION['cod_empresa'];
+$cod_usuario 		= $_SESSION['cod_usuario'];
+$EmpresaPrincipal 	= $_SESSION['cod_empresa'];
+$cod_tipo_conta 	= $_SESSION['tipo_conta'] ;
+
+if (($cod_tipo_conta == 1) || ($cod_tipo_conta == 1)) 
+{
+	$EhMaster = true;
+} else {
+	$EhMaster = false;
+}
+
 
 if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || ($_REQUEST['acao'] == "trocar_empresa")))
 {
@@ -123,13 +132,13 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 		<div class="col-md-4 col-md-offset-4">
 			<div class="panel panel-default">
 
-				<?php if ($_SESSION['usuario_conta'] != 1) { ?>
+				<?php if ($EhMaster) { ?>
 
-				<div class="panel-heading"><h2>Acessar Filial</h2></div>
-				
+				<div class="panel-heading"><h2>Acessar Empresa</h2></div>
+								
 				<?php } else { ?>
 
-					<div class="panel-heading"><h2>Acessar Empresa</h2></div>
+				<div class="panel-heading"><h2>Acessar Filial</h2></div>	
 
 				<?php } ?>
 
@@ -149,11 +158,11 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 
 									<?php 
 
-									if ($_SESSION['usuario_conta'] == 1)
+									if ($EhMaster) 
 									{
 										$sql = "
 										select		e.cod_empresa, e.empresa
-										from 		empresas e 
+										from 		empresas e
 										";
 									}
 									else
@@ -161,7 +170,7 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 										$sql ="
 										select		e.cod_empresa, e.empresa
 										from 		empresas e
-										inner join 	usuarios_grupos_empresas uge on uge.cod_empresa = e.cod_empresa
+										inner join 	usuarios_empresas uge on uge.cod_empresa = e.cod_empresa
 										inner join 	usuarios u on u.cod_usuario = uge.cod_usuario
 										where 		u.cod_usuario = ".$cod_usuario."
 										";
@@ -179,7 +188,8 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 
 										echo "<select name='cod_empresa' class='form-control' id='cod_empresa'>";
 
-										if ($_SESSION['usuario_conta'] == 1){
+										if ($EhMaster)
+										{
 											echo "<option value=''>Master</option>";
 										}
 										while ($rs = mysql_fetch_array($query)){ 
