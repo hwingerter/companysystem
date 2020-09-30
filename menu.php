@@ -32,7 +32,7 @@ if(($_SESSION['tipo_conta'] == 1) || ($_SESSION['tipo_conta'] == 2)){
 				<nav role="navigation" class="widget-body">
 					<ul class="acc-menu">
 						
-						<li><a href="<?php echo sistema; ?>inicio.php"><span>Início</span></a></li>
+						<li><a href="<?php echo sistema; ?>inicio.php"><i class="fa fa-home"></i><span>Início</span></a></li>
 						
 						<?php if ($ExibeMenuRetornoEmpresaPrincipal == true){ ?>
 
