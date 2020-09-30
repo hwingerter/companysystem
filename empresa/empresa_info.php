@@ -282,7 +282,7 @@ if ($atualizar != '1') {
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Telefone</b></label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $telefone;?>" name="telefone" maxlength="100">
+						<input type="text" class="form-control" value="<?php echo $telefone;?>" name="telefone" id="telefone" maxlength="100">
 					</div>
 				</div>
 				<div class="panel-footer">
