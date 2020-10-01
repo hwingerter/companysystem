@@ -33,6 +33,7 @@ if(isset($conexao))
     <script type="text/javascript" src="../assets/plugins/nanoScroller/js/jquery.nanoscroller.min.js"></script> <!-- nano scroller -->
     <script type="text/javascript" src="../assets/plugins/jquery-mousewheel/jquery.mousewheel.min.js"></script>   <!-- Mousewheel support needed for jScrollPane -->
     <script type="text/javascript" src="../assets/plugins/form-inputmask/jquery.inputmask.bundle.min.js"></script>     <!-- Input Masks Plugin -->
+    <script type="text/javascript" src="../assets/js/jquery.mask.min.js"></script>
     <script type="text/javascript" src="../assets/demo/demo-mask.js"></script>
     <script type="text/javascript" src="../assets/js/application.js"></script>
     <script type="text/javascript" src="../assets/demo/demo.js"></script>

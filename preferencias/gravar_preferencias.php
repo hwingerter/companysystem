@@ -33,6 +33,17 @@ switch ($acao)
 		if (isset($_REQUEST["salao_cidade"])) { $salao_cidade = $_REQUEST["salao_cidade"]; } else { $salao_cidade = "NULL"; }
 		if (isset($_REQUEST["salao_estado"])) { $salao_estado = $_REQUEST["salao_estado"]; } else { $salao_estado = "NULL"; }
 
+		$sql = "
+		update
+			empresas
+		set
+			empresa = '".$salao_nome."'
+		where
+			cod_empresa = ".$cod_empresa."
+		";
+
+		mysql_query($sql);
+
 		$sqlPreferencias = "		
 		update
 			empresas_preferencias
