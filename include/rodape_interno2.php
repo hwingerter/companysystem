@@ -37,7 +37,7 @@ if(isset($conexao))
     <script type="text/javascript" src="../assets/js/application.js"></script>
     <script type="text/javascript" src="../assets/demo/demo.js"></script>
     <script type="text/javascript" src="../assets/demo/demo-switcher.js"></script>
-
+    <script type="text/javascript" src="../assets/js/jquery.mask.min.js"></script>
 
     <script type="text/javascript" src="../assets/plugins/form-colorpicker/js/bootstrap-colorpicker.min.js"></script>          <!-- Color Picker -->
 
