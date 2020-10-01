@@ -71,10 +71,10 @@ if ($atualizar != '1') {
 			$sql = "insert into empresas (empresa, email, cnpj, endereco, bairro, cep, telefone, inscricao_estadual, inscricao_municipal";
 			if ($estado != '') { $sql .= ", estado"; }
 			if ($cidade != '') { $sql .= ", cidade"; }
-			$sql .= ", dt_cadastro, cod_usuario_cadastro) values ('". limpa($empresa) ."','". limpa($email) ."', '". limpa($cnpj) ."','". limpa($endereco) ."','". limpa($bairro) ."','". limpa($cep) ."','". limpa($telefone) ."','". limpa($inscricao_estadual) ."','". limpa($inscricao_municipal) ."'";
+			$sql .= ", situacao, dt_cadastro, cod_usuario_cadastro) values ('". limpa($empresa) ."','". limpa($email) ."', '". limpa($cnpj) ."','". limpa($endereco) ."','". limpa($bairro) ."','". limpa($cep) ."','". limpa($telefone) ."','". limpa($inscricao_estadual) ."','". limpa($inscricao_municipal) ."'";
 			if ($estado != '') { $sql .= ",". limpa_int($estado); }
 			if ($cidade != '') { $sql .= ",". limpa_int($cidade); }
-			$sql .= ", '".$dataCadastro."',". limpa($cod_usuario) .")";
+			$sql .= ", 'A', '".$dataCadastro."',". limpa($cod_usuario) .")";
 			//echo $sql;die;
 			mysql_query($sql);
 
