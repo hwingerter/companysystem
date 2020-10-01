@@ -114,75 +114,8 @@ if ($credencial_ver == 1) {
 			
 		?>
 
-		<script language='JavaScript'>
-
-		$(document).ready(function() {
-
-		function limpa_formulário_cep() {
-			// Limpa valores do formulário de cep.
-			$("#rua").val("");
-			$("#bairro").val("");
-			//$("#cidade").val("");
-			//$("#uf").val("");
-			//$("#ibge").val("");
-		}
-
-		//Quando o campo cep perde o foco.
-		$("#cep").blur(function() {
-
-			//Nova variável "cep" somente com dígitos.
-			var cep = $(this).val().replace(/\D/g, '');
-
-			//Verifica se campo cep possui valor informado.
-			if (cep != "") {
-
-				//Expressão regular para validar o CEP.
-				var validacep = /^[0-9]{8}$/;
-
-				//Valida o formato do CEP.
-				if(validacep.test(cep)) {
-
-					//Preenche os campos com "..." enquanto consulta webservice.
-					$("#rua").val("...");
-					$("#bairro").val("...");
-					$("#cidade").val("...");
-					$("#uf").val("...");
-
-					//Consulta o webservice viacep.com.br/
-					$.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
-
-						if (!("erro" in dados)) {
-							//Atualiza os campos com os valores da consulta.
-							$("#rua").val(dados.logradouro);
-							$("#bairro").val(dados.bairro);
-							$("#cidade").val(dados.localidade);
-							$("#uf").val(dados.uf);
-						} //end if.
-						else {
-							//CEP pesquisado não foi encontrado.
-							limpa_formulário_cep();
-							alert("CEP não encontrado.");
-						}
-					});
-				} //end if.
-				else {
-					//cep é inválido.
-					limpa_formulário_cep();
-					alert("Formato de CEP inválido.");
-				}
-			} //end if.
-			else {
-				//cep sem valor, limpa formulário.
-				limpa_formulário_cep();
-			}
-		});
-
-		});
-
-		</script>	 
-
-		<script src="../js/jquery.mask.min.js"></script>
-
+		<script language='JavaScript' src="preferencias.js"></script>	 
+		
 					<div class="static-content-wrapper">
 						<div class="static-content">
 							<div class="page-content">
@@ -230,56 +163,56 @@ if ($credencial_ver == 1) {
 																<div class="form-group">
 																	<label for="Empresa1" class="col-md-1 col-lg-2 control-label">Nome do Salão:</label>
 																	<div class="col-md-4">
-																		<input type="text" class="form-control" name="salao_nome" id="Empresa1" placeholder="Empresa1" maxlength="200" value="<?php echo $salao_nome;?>">
+																		<input type="text" class="form-control" name="salao_nome" id="Empresa1" placeholder="Nome do Salão" maxlength="200" value="<?php echo $salao_nome;?>">
 																	</div>
 																</div>
 
 																<div class="form-group">
-																	<label for="Empresa" class="col-md-1 col-lg-2 control-label">Telefone do Salão (Com DDD):</label>
+																	<label for="Empresa" class="col-md-1 col-lg-2 control-label">Telefone (DDD):</label>
 																	<div class="col-md-4">
-																		<input type="text" class="form-control" name="salao_telefone" id="Empresa" placeholder="Empresa" maxlength="200" value="<?php echo $salao_telefone;?>">
+																		<input type="text" class="form-control" name="salao_telefone" id="telefone" placeholder="Telefone" maxlength="200" value="<?php echo $salao_telefone;?>">
 																	</div>
 																</div>
 
 																<div class="form-group">
 																	<label for="Empresa" class="col-md-1 col-lg-2 control-label">Nome do Proprietário:</label>
 																	<div class="col-md-4">
-																		<input type="text" class="form-control" name="salao_proprietario" id="Empresa" placeholder="Empresa" maxlength="200" value="<?php echo $salao_proprietario;?>">
+																		<input type="text" class="form-control" name="salao_proprietario" id="Empresa" placeholder="Proprietário" maxlength="200" readonly value="<?php echo $salao_proprietario;?>">
 																	</div>
 																</div>
 
 																<div class="form-group">
-																	<label for="Empresa" class="col-md-1 col-lg-2 control-label">E-mail para contato:</label>
+																	<label for="Empresa" class="col-md-1 col-lg-2 control-label">E-mail Cadastro:</label>
 																	<div class="col-md-4">
-																		<input type="text" class="form-control" name="salao_email" id="Empresa" placeholder="Empresa" maxlength="200" value="<?php echo $salao_email;?>">
+																		<input type="text" class="form-control" name="salao_email" id="Empresa" placeholder="E-mail contato" maxlength="200" readonly value="<?php echo $salao_email;?>">
 																	</div>
 																</div>
 
 																<div class="form-group">
 																	<label for="Empresa" class="col-md-1 col-lg-2 control-label">CEP:</label>
 																	<div class="col-md-4">
-																		<input type="text" class="form-control" name="salao_cep" id="cep" placeholder="Empresa" maxlength="200" value="<?php echo $salao_cep;?>">
+																		<input type="text" class="form-control" name="salao_cep" id="cep" placeholder="CEP" maxlength="200" value="<?php echo $salao_cep;?>">
 																	</div>
 																</div>
 
 																<div class="form-group">
 																	<label for="Empresa" class="col-md-1 col-lg-2 control-label">Endereço:</label>
 																	<div class="col-md-4">
-																		<input type="text" class="form-control" name="salao_endereco" id="rua" placeholder="Empresa" maxlength="200" value="<?php echo $salao_endereco;?>">
+																		<input type="text" class="form-control" name="salao_endereco" id="rua" placeholder="Endereço" maxlength="200" value="<?php echo $salao_endereco;?>">
 																	</div>
 																</div>
 
 																<div class="form-group">
 																	<label for="Empresa" class="col-md-1 col-lg-2 control-label">Número:</label>
 																	<div class="col-md-4">
-																		<input type="text" class="form-control" name="salao_numero" id="Empresa" placeholder="Empresa" maxlength="200" value="<?php echo $salao_numero;?>">
+																		<input type="text" class="form-control" name="salao_numero" id="Empresa" placeholder="Número" maxlength="200" value="<?php echo $salao_numero;?>">
 																	</div>
 																</div>
 
 																<div class="form-group">
 																	<label for="Empresa" class="col-md-1 col-lg-2 control-label">Complemento:</label>
 																	<div class="col-md-4">
-																		<input type="text" class="form-control" name="salao_complemento" id="Empresa" placeholder="Empresa" maxlength="200" value="<?php echo $salao_complemento;?>">
+																		<input type="text" class="form-control" name="salao_complemento" id="Empresa" placeholder="Complemento" maxlength="200" value="<?php echo $salao_complemento;?>">
 																	</div>
 																</div>
 
@@ -293,14 +226,14 @@ if ($credencial_ver == 1) {
 																<div class="form-group">
 																	<label for="Empresa" class="col-md-1 col-lg-2 control-label">Cidade:</label>
 																	<div class="col-md-4">
-																		<input type="text" class="form-control" name="salao_cidade" id="cidade" placeholder="Empresa" maxlength="200" value="<?php echo $salao_cidade;?>">
+																		<input type="text" class="form-control" name="salao_cidade" id="cidade" placeholder="Cidade" maxlength="200" value="<?php echo $salao_cidade;?>">
 																	</div>
 																</div>
 
 																<div class="form-group">
 																	<label for="Empresa" class="col-md-1 col-lg-2 control-label">Estado:</label>
 																	<div class="col-md-4">
-																		<input type="text" class="form-control" name="salao_estado" id="uf" placeholder="Empresa" maxlength="200" value="<?php echo $salao_estado;?>">
+																		<input type="text" class="form-control" name="salao_estado" id="uf" placeholder="Estado" maxlength="200" value="<?php echo $salao_estado;?>">
 																	</div>
 																</div>
 
