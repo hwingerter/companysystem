@@ -289,7 +289,7 @@ if ($atualizar != '1') {
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<input type="submit" class="btn btn-primary" name="signup1" value="Gravar">
-							<button class="btn-default btn" onclick="javascript:window.location='empresas.php';">Voltar</button>
+							<input type="button" class="btn-default btn" onclick="javascript:window.location='empresas.php';" value="Voltar">
 						</div>
 					</div>
 				</div>
