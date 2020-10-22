@@ -113,7 +113,7 @@ if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "cadastrar"))
 					$cod_empresa = $rs1['cod_empresa'];
 		
 					//VINCULAR A EMPRESA AO GRUPO
-					$sql = "insert into grupo_empresas (cod_empresa) values ('".limpa($cod_empresa)."');";
+					$sql = "insert into grupo_empresas (cod_empresa, cod_filial) values ('".limpa($cod_empresa)."', '".limpa($cod_empresa)."');";
 					mysql_query($sql);
 		
 					//INSERIR TIPO CONTA

@@ -42,7 +42,7 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 		if ($_REQUEST['cod_empresa'] != "") 
 		{
 			
-			$cod_empresa = limpa($_REQUEST['cod_empresa']);
+			$cod_empresa_suporte = limpa($_REQUEST['cod_empresa']);
 	
 			//$_SESSION['cod_licenca'] = ObterLicencaAtual($cod_empresa);
 
@@ -50,14 +50,15 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 			select 		e.empresa
 			from 		empresas e 
 			inner join 	grupo_empresas g on g.cod_empresa = e.cod_empresa
-			where 		e.cod_empresa = ".$cod_empresa."
+			where 		e.cod_empresa = ".$cod_empresa_suporte."
 			";
 			//echo $sql;die;
 			$query = mysql_query($sql);
 			$rs = mysql_fetch_array($query);
 	
-			$_SESSION['cod_empresa']	= $cod_empresa;
-			$_SESSION['empresa'] 		= $rs['empresa'];
+			$_SESSION['cod_empresa']		= $cod_empresa_suporte;
+			$_SESSION['empresa'] 			= $rs['empresa'];
+			$_SESSION['cod_empresa_suporte']= $cod_empresa_suporte;
 			
 		}
 		else

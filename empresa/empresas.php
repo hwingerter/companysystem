@@ -99,6 +99,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
    $pagina = intval($pagina);	
 	
 
+	$empresa_suporte = $_SESSION['cod_empresa_suporte']; 
 	$cod_usuario	= $_SESSION['cod_usuario'];
 	$cod_grupo		= $_SESSION['cod_grupo'];
 	$cod_empresa_principal	= 1;
@@ -198,9 +199,17 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 
 							//CARREGA LISTA
 
-							if ((isset($_REQUEST['acao'])) && ($_REQUEST['acao'] == "buscar"))
+							$where = 0;	
+
+							if ($empresa_suporte != "")
 							{
-								$where = 0;	
+								$sql = "
+								select 		e.* 
+								from 		empresas e 
+								where 		e.cod_empresa in (select cod_filial from grupo_empresas where cod_empresa = ".$_SESSION['cod_empresa_suporte'].")
+								";
+							}
+							else{
 
 								$sql = "
 								select		e.cod_empresa, e.empresa, e.endereco, e.bairro
@@ -208,6 +217,10 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 								inner join 	usuarios_empresas ge on ge.cod_empresa = e.cod_empresa
 								where 		ge.cod_usuario = ".$cod_usuario."
 								";
+							}
+
+							if ((isset($_REQUEST['acao'])) && ($_REQUEST['acao'] == "buscar"))
+							{
 
 								if ($_REQUEST['nome'] != "")
 								{
@@ -220,11 +233,11 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 										$sql = $sql . "and empresa like '%".$_REQUEST['nome']."%' ";
 									}
 								}
-								
+							}
 
-								$sql .= "
-								group by	e.cod_empresa, e.empresa
-								order by 	e.cod_empresa asc";
+							$sql .= "
+							group by	e.cod_empresa, e.empresa
+							order by 	e.cod_empresa asc";
 								
 							//echo $sql;
 
@@ -304,11 +317,6 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
                                     </div>
                                 </div>
                             </div>
-
-						<?php 
-						}
-						?>
-
                         </div>
                     </form>
                 </form>

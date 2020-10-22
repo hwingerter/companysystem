@@ -71,10 +71,10 @@ if ($atualizar != '1') {
 			$sql = "insert into empresas (empresa, email, cnpj, endereco, bairro, cep, telefone, inscricao_estadual, inscricao_municipal";
 			if ($estado != '') { $sql .= ", estado"; }
 			if ($cidade != '') { $sql .= ", cidade"; }
-			$sql .= ", dt_cadastro, cod_usuario_cadastro) values ('". limpa($empresa) ."','". limpa($email) ."', '". limpa($cnpj) ."','". limpa($endereco) ."','". limpa($bairro) ."','". limpa($cep) ."','". limpa($telefone) ."','". limpa($inscricao_estadual) ."','". limpa($inscricao_municipal) ."'";
+			$sql .= ", situacao, dt_cadastro, cod_usuario_cadastro) values ('". limpa($empresa) ."','". limpa($email) ."', '". limpa($cnpj) ."','". limpa($endereco) ."','". limpa($bairro) ."','". limpa($cep) ."','". limpa($telefone) ."','". limpa($inscricao_estadual) ."','". limpa($inscricao_municipal) ."'";
 			if ($estado != '') { $sql .= ",". limpa_int($estado); }
 			if ($cidade != '') { $sql .= ",". limpa_int($cidade); }
-			$sql .= ", '".$dataCadastro."',". limpa($cod_usuario) .")";
+			$sql .= ", 'A', '".$dataCadastro."',". limpa($cod_usuario) .")";
 			//echo $sql;die;
 			mysql_query($sql);
 
@@ -289,7 +289,7 @@ if ($atualizar != '1') {
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<input type="submit" class="btn btn-primary" name="signup1" value="Gravar">
-							<button class="btn-default btn" onclick="javascript:window.location='empresas.php';">Voltar</button>
+							<input type="button" class="btn-default btn" onclick="javascript:window.location='empresas.php';" value="Voltar">
 						</div>
 					</div>
 				</div>
