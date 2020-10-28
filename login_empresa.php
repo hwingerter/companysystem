@@ -13,7 +13,7 @@ $erro = '0';
 session_start();
 
 $cod_usuario 		= $_SESSION['cod_usuario'];
-$EmpresaPrincipal 	= $_SESSION['cod_empresa'];
+$EmpresaPrincipal 	= 0;
 $cod_tipo_conta 	= $_SESSION['tipo_conta'] ;
 
 if (($cod_tipo_conta == 1) || ($cod_tipo_conta == 1)) 
@@ -79,6 +79,7 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 		from 		empresas e 
 		inner join 	grupo_empresas g on g.cod_empresa = e.cod_empresa
 		where 		e.cod_empresa = ".$cod_empresa."
+		group by e.empresa
 		";
 		//echo $sql;die;
 		$query = mysql_query($sql);

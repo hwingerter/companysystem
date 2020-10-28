@@ -74,8 +74,8 @@ function ValorMysqlPhp($valor){
 function ValorPhpMysql($valor){
 	
 	$valor = str_replace(".", "", $valor);
-	$valor = str_replace(",", ".", $valor);
-	return $valor;
+	$valor2 = str_replace(",", ".", $valor);
+	return $valor2;
 	
 }
 
@@ -1332,9 +1332,9 @@ function ComboProduto($cod_empresa, $cod_produto) {
 
 	$sql = "
 	select 		p.cod_produto, p.descricao
-	from 		grupo_produtos gp
-	inner join 	produtos p on p.cod_grupo_produto = gp.cod_grupo_produto
-	where 		gp.cod_empresa = ".$cod_empresa."
+	from 		produtos p
+	left join 	grupo_produtos gp on p.cod_grupo_produto = gp.cod_grupo_produto
+	where 		p.cod_empresa = ".$cod_empresa."
 	order by 	p.descricao asc;
 	";
 
@@ -1346,7 +1346,7 @@ function ComboProduto($cod_empresa, $cod_produto) {
 
 	?>
 
-	<select name="cod_produto" id="cod_produto" class="form-control" onChange="CarrregarValorProduto('<?php echo $cod_empresa; ?>', this.value);">
+	<select name="cod_produto" id="cod_produto" class="form-control" onChange="CarregarValorProduto('<?php echo $cod_empresa; ?>', this.value);">
 
 		<option value="" selected> Selecione </option>
 	

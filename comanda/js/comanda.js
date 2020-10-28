@@ -6,9 +6,9 @@ function CancelarComanda(cod_comanda){
 function CalcularSubTotal(pValorUnitario, pQuantidade)
 {
 
-	console.log($("#ValorUnitario"));
+	console.log($("#lblValorUnitario"));
 
-	var valor_unitario 	= $("#ValorUnitario").val();
+	var valor_unitario 	= $("#lblValorUnitario").val();
 	var quantidade 		= $("#quantidade").val();
 
 	console.log(valor_unitario + " - " + quantidade);
@@ -68,7 +68,7 @@ function CarregarValorServico(cod_empresa, cod_servico){
 
 }
 
-function CarrregarValorProduto(cod_empresa, cod_produto){
+function CarregarValorProduto(cod_empresa, cod_produto){
 
 	$.ajax({
 	    type: "GET",
@@ -78,9 +78,9 @@ function CarrregarValorProduto(cod_empresa, cod_produto){
 	    },
 	    success: function (data){
 		
-			$("#IdValor").html("");
+			$("#lblValorUnitario").html("");
 
-	        $("#IdValor").html(data);
+	        $("#lblValorUnitario").html(data);
 
 	    },
 	    error: function (xhr, ajaxOptions, thrownError) {

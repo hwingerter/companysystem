@@ -7,6 +7,8 @@ function EhAdministrador()
 
 function MontaMenu()
 {
+	return "menu.php";
+	/*
 	if ($_SESSION['cod_empresa'] == 1) 
 	{
 		return "menu_companySystem.php";
@@ -15,6 +17,7 @@ function MontaMenu()
 	{
 		return "menu.php";
 	}
+	*/
 }
 
 function RetornaEmpresasDoGrupo($grupo)

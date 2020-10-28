@@ -96,6 +96,10 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			$query = mysql_query($sql);
 			$total = mysql_num_rows($query);
 
+			/*echo $cod_servico."<br>";
+			echo $cod_produto."<br>";
+			die;*/
+
 			if ($total > 0)
 			{
 				$rs    				= mysql_fetch_array($query);
@@ -104,7 +108,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			}
 			else
 			{
-				if($cod_servico != "")
+				if($cod_servico != "NULL")
 				{
 					$sql = "
 					select 	cod_tipo_comissao
@@ -125,7 +129,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 					$valor_comissao 	= $rs["comissao"];
 
 				}
-				elseif ($cod_produto != "")
+				elseif ($cod_produto != "NULL")
 				{
 					$sql = "
 					select 	cod_tipo_comissao
@@ -137,6 +141,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 					where 	cod_empresa = ".$cod_empresa." 
 					and 	cod_produto = ".$cod_produto."
 					";
+					//echo $sql;die;
 					$query = mysql_query($sql);
 					$rs    				= mysql_fetch_array($query);
 					$cod_tipo_comissao	= $rs["cod_tipo_comissao"];
@@ -257,7 +262,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			}
 			else
 			{
-				if($cod_servico != "")
+				if($cod_servico != "NULL")
 				{
 					$sql = "
 					select 	cod_tipo_comissao
@@ -275,7 +280,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 					$valor_comissao 	= $rs["comissao"];
 
 				}
-				elseif ($cod_produto != "")
+				elseif ($cod_produto != "NULL")
 				{
 					$sql = "
 					select 	cod_tipo_comissao
@@ -348,8 +353,11 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 
 if (isset($_REQUEST['acao'])){
 	
-	if ($_REQUEST['acao'] == "alterar"){
-			
+	if ($_REQUEST['acao'] == "alterar")
+	{
+	
+		$titulo_pagina = "Alterar Comanda";
+
 		if (isset($_REQUEST['id'])) {
 			$id 		= $_REQUEST["id"];
 		}
@@ -383,6 +391,9 @@ if (isset($_REQUEST['acao'])){
 		}
 	
 	}
+	else{
+		$titulo_pagina = "Nova Comanda";
+	}
 	
 }
 
@@ -415,7 +426,7 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 
                             </ol>
                             <div class="page-heading">            
-                                <h1>Nova Comanda</h1>
+                                <h1><?php echo $titulo_pagina; ?></h1>
                                 <div class="options"></div>
                             </div>
                             <div class="container-fluid">
@@ -506,6 +517,14 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 													</div>
 
 													<div class="form-group">
+														<label class="col-sm-2 control-label"><b>Valor Unitário</b></label>
+														<div class="col-sm-2">
+															<label id="lblCarregandoValorUnitario" style="display:none;" class="label label-primary">Carregando...</label>
+															<label id="lblValorUnitario" class="control-label">R$ 0,00</label>
+														</div>
+													</div>
+
+													<div class="form-group">
 														<label class="col-sm-2 control-label"><b>Quantidade</b></label>
 														<div class="col-sm-1">
 															<select name="quantidade" id="quantidade" class="form-control" onChange="CalcularSubTotal();">
@@ -525,14 +544,6 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 															?>
 
 															</select>
-														</div>
-													</div>
-
-													<div class="form-group">
-														<label class="col-sm-2 control-label"><b>Valor Unitário</b></label>
-														<div class="col-sm-2">
-															<label id="lblCarregandoValorUnitario" style="display:none;" class="label label-primary">Carregando...</label>
-															<label id="lblValorUnitario" class="control-label">R$ 0,00</label>
 														</div>
 													</div>
 
@@ -617,18 +628,30 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 	if ($_REQUEST['acao']=="alterar"){
 
 		 if ($cod_servico != ""){ ?>
-		<script type="text/javascript">
-			document.frm.tipo_item[0].checked=true;
-			AbreTipoItem('1');
-		</script>
+
+			<script type="text/javascript">
+				document.frm.tipo_item[0].checked=true;
+				AbreTipoItem('1');
+			</script>
+
 		<?php }else{ ?>
-		<script type="text/javascript">
-			document.frm.tipo_item[1].checked=true;
-			AbreTipoItem('2');
-		</script>
 
-		<?php } 
+			<script type="text/javascript">
+				document.frm.tipo_item[1].checked=true;
+				AbreTipoItem('2');
+				CarregarValorProduto('<?php echo $cod_empresa; ?>', document.getElementById('cod_produto').value);
+			</script>
 
+		<?php }  ?>
+
+		<?php if ($quantidade != ""){ ?>
+			<script type="text/javascript">
+				document.getElementById("quantidade").value="<?php echo $quantidade; ?>";
+			</script>
+		<?php } ?>
+
+
+		<?php		 
 		if($flg_desconto_acrescimo != ""){
 		?>
 			<script>SelecionaDescAcres('<?php echo $flg_desconto_acrescimo; ?>');</script>
