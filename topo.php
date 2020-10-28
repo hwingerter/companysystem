@@ -4,7 +4,7 @@ include('funcoes.php');
 
 include('ler_credencial.php');
 
-if ($_SESSION['usuario_id'] == '') { header("location:login.php"); }
+if ($_SESSION['cod_usuario'] == '') { header("location:login.php"); }
 	
 ?>
 <!DOCTYPE html>

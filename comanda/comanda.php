@@ -368,15 +368,7 @@ if ($caixa != "fechado")
 
 								<?php	
 								}
-								?>							
-
-								<?php if ($rs['situacao'] == "1") {?>
-
-								<a class="btn btn-info btn-label" href="comanda_forma_pagamento.php?flg_divida=&cod_comanda=<?php echo $rs['cod_comanda'];?>&cod_cliente=<?php echo $rs['cod_cliente']; ?>&voltar=comanda.php"><i class="fa fa-money"></i>Receber</a>
-
-								<?php } ?>
-
-								
+								?>															
 
 								<a class="btn btn-danger btn-label" onclick="CancelarComanda('<?php echo $rs['cod_comanda'];?>');"><i class="fa fa-times-circle"></i> Cancelar</a>
 							</td>
@@ -505,14 +497,7 @@ if ($caixa != "fechado")
 						<?php	
 						}
 						?>							
-
-						<?php if ($rs['situacao'] == "1") {?>
-
-						<a class="btn btn-info btn-label" href="comanda_pagamentos.php?cod_comanda=<?php echo $rs['cod_comanda'];?>&cod_cliente=<?php echo $rs['cod_cliente']; ?>"><i class="fa fa-money"></i>Pagamentos</a>
-
-						<?php } ?>
-
-						
+					
 
 						<a class="btn btn-danger btn-label" onclick="CancelarComanda('<?php echo $rs['cod_comanda'];?>');"><i class="fa fa-times-circle"></i> Cancelar</a>
 					</td>

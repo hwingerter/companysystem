@@ -8,16 +8,15 @@
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
 
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "credencial_ver") {
-			$credencial_ver = 1;
+	for ($i=0; $i < count($credenciais); $i++) 
+	{ 
+		switch($credenciais[$i])
+		{
+			case "credencial_ver":
+			$credencial_ver = 1;		
 			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "credencial_editar") {
-			$credencial_editar = 1;
+			case "credencial_editar":
+			$credencial_editar = 1;		
 			break;
 		}
 	}
@@ -158,6 +157,7 @@ if (isset($_REQUEST['acao'])){
 					and 		p.cod_area = ".$cod_area."
 					order by 	p.descricao;
 					";
+					//echo $sql2;
 
 					$query2 = mysql_query($sql2);
 					while ($rs2 = mysql_fetch_array($query2)) 
@@ -182,7 +182,7 @@ if (isset($_REQUEST['acao'])){
 								where 		c.cod_permissao = ".$cod_permissao."
 								order by 	c.descricao;
 								";
-
+								//echo $sql3;
 								$query3 = mysql_query($sql3);
 								while ($rs3 = mysql_fetch_array($query3)) 
 								{ 

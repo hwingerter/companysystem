@@ -14,6 +14,8 @@ if ($valor_unitario != "")
 
     $subtotal = number_format($valor_unitario * $quantidade, 2);
 
+    echo  $subtotal;
+
     echo '<input type="hidden" value="'.$subtotal.'" id="ValorUnitario" name="valor">';
     echo '<input type="text" class="form-control" value="'.ValorMysqlPhp($subtotal).'" name="valor" maxlength="10">';
 

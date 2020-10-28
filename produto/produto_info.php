@@ -7,11 +7,7 @@ require_once "../include/funcoes.php";
 require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	
-	
-	
-	
-	
+		
 	for ($x=0; $x<$totalcredencial;$x+=1) {
 		if ($credenciais[$x] == "produto_ver") {
 			$credencial_ver = 1;
@@ -47,8 +43,8 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 	
 	$acao = '';
 
-	if (isset($_REQUEST["cod_grupo_produto"])) { $cod_grupo_produto = $_REQUEST["cod_grupo_produto"]; } else { $cod_grupo_produto = ""; }
-	if (isset($_REQUEST["cod_fornecedor"])) { $cod_fornecedor = $_REQUEST["cod_fornecedor"]; } else { $cod_fornecedor = ""; }
+	if (isset($_REQUEST["cod_grupo_produto"])) { $cod_grupo_produto = "NULL"; }
+	if (isset($_REQUEST["cod_fornecedor"])) { $cod_fornecedor = "'".$_REQUEST["cod_fornecedor"]."'"; } else { $cod_fornecedor = "NULL"; }
 	if (isset($_REQUEST["descricao"])) { $descricao = $_REQUEST["descricao"]; } else { $descricao = ""; }
 	if (isset($_REQUEST["custo"])) { $custo = $_REQUEST["custo"]; } else { $custo = ""; }
 	if (isset($_REQUEST["preco_venda"])) { $preco_venda = $_REQUEST["preco_venda"]; } else { $preco_venda = ""; }
@@ -104,8 +100,8 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			`descontar_custo_produtos`,
 			`obs`)
 			VALUES
-			('".$cod_grupo_produto."',
-			'".$cod_fornecedor."',
+			(NULL,
+			".$cod_fornecedor.",
 			'".$cod_empresa."',
 			'".$descricao."',
 			'".$custo."',
@@ -128,17 +124,21 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			Select 		max(p.cod_produto) as cod_produto
 			from 		produtos p
 			left join 	fornecedores f on f.cod_fornecedor = p.cod_fornecedor
-			where 		f.cod_empresa = ".$cod_empresa;
+			where 		p.cod_empresa = ".$cod_empresa;
 			
+			//echo $sql;die;
+
 			$query 	= mysql_query($sql);
 			$rs 	= mysql_fetch_array($query);
+
 			$cod_produto_inserido = $rs['cod_produto'];	
 
-			if((isset($_REQUEST['retorno'])) && ($_REQUEST['retorno'] == "novo_item_comanda")){
+			if((isset($_REQUEST['retorno'])) && ($_REQUEST['retorno'] == "novo_item_comanda"))
+			{
 				$cod_comanda = $_REQUEST['cod_comanda'];
 				$cod_cliente = $_REQUEST['cod_cliente'];
 
-				echo "<script language='javascript'>window.location='comanda_item_info.php?cod_comanda=".$cod_comanda."&cod_cliente=".$cod_cliente."&cod_produto_inserido=".$cod_produto_inserido."';</script>";	
+				echo "<script language='javascript'>window.location='../comanda/comanda_item_info.php?cod_comanda=".$cod_comanda."&cod_cliente=".$cod_cliente."&cod_produto_inserido=".$cod_produto_inserido."';</script>";	
 
 			}else{
 				echo "<script language='javascript'>window.location='produtos.php?sucesso=1';</script>";
@@ -154,7 +154,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 
 			UPDATE `produtos`
 			SET
-			`cod_grupo_produto` = '".$cod_grupo_produto."',
+			`cod_grupo_produto` = NULL,
 			`cod_fornecedor` = '".$cod_fornecedor."',
 			`cod_empresa` = '".$cod_empresa."',
 			`descricao` = '".$descricao."',
@@ -282,7 +282,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 					<?php ComboFornecedor($cod_fornecedor, $cod_empresa); ?>
 					</div>
 				</div>
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label class="col-sm-2 control-label"><b>Grupo de produtos</b></label>
 					<div class="col-sm-8">
 					<?php ComboGrupoProduto($cod_grupo_produto, $cod_empresa); ?>
@@ -290,7 +290,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 					<div class="col-sm-2">
 						<button class="btn-primary btn" type="button" onclick="javascript:location.href='../grupo_produto_info.php?voltar=<?php echo $voltar; ?>';">Novo</button>
 					</div>
-				</div>				
+				</div>				 -->
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><b>Custo (R$)</b></label>
 					<div class="col-sm-2">
@@ -326,11 +326,11 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 				<div class="form-group" id="caixa_percentual">
 					<label class="col-sm-2 control-label"><b>Comissao Percentual (%)</b></label>
 					<div class="col-md-2">
-						<input type="text" class="form-control" value="<?php echo $comissao_percentual;?>" name="comissao_percentual" maxlength="10">
+						<input type="text" class="form-control" value="<?php echo $comissao_percentual;?>" name="comissao_percentual" maxlength="10" >
 					</div>
 				</div>
 
-				<div class="form-group" id="caixa_fixo" style="display: none;">
+				<div class="form-group" id="caixa_fixo" style="display: block;">
 					<label class="col-sm-2 control-label"><b>Comissao Fixa (R$)</b></label>
 					<div class="col-md-2">
 						<input type="text" class="form-control" value="<?php echo $comissao_fixa;?>" name="comissao_fixa" maxlength="10" onKeyPress="return(moeda(this,'.',',',event));" >
@@ -339,6 +339,10 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 
 					<?php if ($_REQUEST['acao'] == "alterar"){ ?>
 						<script>MudarTipoComissao('<?php echo $cod_tipo_comissao; ?>');</script>
+					<?php } else { ?>
+						<script>
+							document.getElementById("cod_tipo_comissao").value = "2";	
+							MudarTipoComissao('2');</script>
 					<?php } ?>
 
 				<div class="form-group">

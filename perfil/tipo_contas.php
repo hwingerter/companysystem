@@ -46,10 +46,16 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 	if (isset($_REQUEST['excluir'])) { $excluir = $_REQUEST['excluir']; } else { $excluir = ''; }
 	
 	if ($excluir != '') {
+
+		$sql = "delete from tipo_conta_credencial where cod_tipo_conta = ". $excluir;
+		mysql_query($sql); 	
+
+		$sql = "delete from tipo_conta_permissao where cod_tipo_conta = ". $excluir;
+		mysql_query($sql); 	
+
 		$sql = "delete from tipo_conta where cod_tipo_conta = ". $excluir;
-		if ($excluir != 1) { mysql_query($sql); }
-		
-		$excluir = '1';
+		mysql_query($sql); 	
+
 	}
 	
 

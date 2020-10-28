@@ -6,9 +6,9 @@ function CancelarComanda(cod_comanda){
 function CalcularSubTotal(pValorUnitario, pQuantidade)
 {
 
-	console.log($("#ValorUnitario"));
+	console.log($("#lblValorUnitario"));
 
-	var valor_unitario 	= $("#ValorUnitario").val();
+	var valor_unitario 	= $("#lblValorUnitario").val();
 	var quantidade 		= $("#quantidade").val();
 
 	console.log(valor_unitario + " - " + quantidade);
@@ -68,7 +68,7 @@ function CarregarValorServico(cod_empresa, cod_servico){
 
 }
 
-function CarrregarValorProduto(cod_empresa, cod_produto){
+function CarregarValorProduto(cod_empresa, cod_produto){
 
 	$.ajax({
 	    type: "GET",
@@ -78,9 +78,9 @@ function CarrregarValorProduto(cod_empresa, cod_produto){
 	    },
 	    success: function (data){
 		
-			$("#IdValor").html("");
+			$("#lblValorUnitario").html("");
 
-	        $("#IdValor").html(data);
+	        $("#lblValorUnitario").html(data);
 
 	    },
 	    error: function (xhr, ajaxOptions, thrownError) {
@@ -297,7 +297,7 @@ function NovoServico(){
 	var cod_comanda = document.getElementById("cod_comanda").value;
 	var cod_cliente = document.getElementById("cod_cliente").value;
 
-	location.href = "../servico_info.php?retorno=novo_item_comanda&cod_comanda="+ cod_comanda +"&cod_cliente=" + cod_cliente;
+	location.href = "../servicos/servico_info.php?retorno=novo_item_comanda&cod_comanda="+ cod_comanda +"&cod_cliente=" + cod_cliente;
 }
 
 function NovoProduto(){
@@ -305,5 +305,5 @@ function NovoProduto(){
 	var cod_comanda = document.getElementById("cod_comanda").value;
 	var cod_cliente = document.getElementById("cod_cliente").value;
 
-	location.href = "../produto_info.php?retorno=novo_item_comanda&cod_comanda="+ cod_comanda +"&cod_cliente=" + cod_cliente;
+	location.href = "../produto/produto_info.php?retorno=novo_item_comanda&cod_comanda="+ cod_comanda +"&cod_cliente=" + cod_cliente;
 }

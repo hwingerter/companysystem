@@ -35,17 +35,17 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			foreach ($lista as $profissional) {
 				
 				$sql = "select case when count(*) > 0 then 'sim' else 'nao' end as tem_registro from profissional_rendimentos where cod_profissional = ".$profissional;
+				//echo "<br>".$sql;die;
 				$q = mysql_query($sql);
 				$rs = mysql_fetch_array($q);
 
-				$salario 			= $_REQUEST['salario_'.$profissional];
-				$decimo_terceiro 	= $_REQUEST['decimo_terceiro_'.$profissional];
-				$ferias 			= $_REQUEST['ferias_'.$profissional];
+				if (!empty($salario)) { $salario = $salario; }else { $salario = 'NULL'; }
+				if (!empty($decimo_terceiro)) { $decimo_terceiro =  $decimo_terceiro; }else { $decimo_terceiro = 'NULL'; }
+				if (!empty($ferias)) { $ferias =  $ferias; }else { $ferias = 'NULL'; }
 
-				if (!empty($salario)) { $salario =  ValorPhpMysql($salario); }else { $salario = 'NULL'; }
-				if (!empty($decimo_terceiro)) { $decimo_terceiro =  ValorPhpMysql($decimo_terceiro); }else { $decimo_terceiro = 'NULL'; }
-				if (!empty($ferias)) { $ferias =  ValorPhpMysql($ferias); }else { $ferias = 'NULL'; }
-
+				$salario 			= number_format($_REQUEST['salario_'.$profissional], 1);
+				$decimo_terceiro 	= number_format($_REQUEST['decimo_terceiro_'.$profissional], 1);
+				$ferias 			= number_format($_REQUEST['ferias_'.$profissional], 1);
 
 				if ($rs['tem_registro'] == "nao"){
 			
@@ -53,7 +53,9 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 								(cod_empresa, cod_profissional, salario,  decimo_terceiro, ferias) 
 								values (".$cod_empresa.", ".$profissional.", ".$salario.", ".$decimo_terceiro.", ".$ferias."); ";
 
-					mysql_query($sqlInsert);
+					//echo "<br>".$sqlInsert;die;
+
+					mysql_query($sqlInsert) or die (mysql_error());
 
 				}else{
 
@@ -62,9 +64,9 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 						SET 	salario = ".$salario.",  decimo_terceiro = ".$decimo_terceiro.", ferias = ".$ferias."
 						WHERE  	cod_empresa = ".$cod_empresa." AND cod_profissional = ".$profissional.";";
 
-					//echo $sqlUpdate."<br>";
+					//echo "<br>".$sqlUpdate."<br>";die;
 
-					mysql_query($sqlUpdate);
+					mysql_query($sqlUpdate)or die (mysql_error());
 
 				}
 
@@ -116,6 +118,8 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 									where		p.cod_empresa = ".$cod_empresa."
 									order by	p.nome asc;
 									";
+
+									//echo $sql;die;
 
 									$query = mysql_query($sql);
 

@@ -32,7 +32,7 @@ $cod_forma_pagamento	= $_REQUEST['cod_forma_pagamento'];
 $flg_divida 			= $_REQUEST['flg_divida'];
 
 $cod_empresa			= $_SESSION['cod_empresa'];
-$cod_usuario 		 	= $_SESSION['usuario_id'];
+$cod_usuario 		 	= $_SESSION['cod_usuario'];
 $cod_caixa 				= $_SESSION['cod_caixa'];
 
 $voltar 				= $_REQUEST['voltar'];
@@ -47,7 +47,8 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 
 			if (isset($_REQUEST["valor_dinheiro"]) && ($_REQUEST["valor_dinheiro"] != "")) { $valor = ValorPhpMysql($_REQUEST["valor_dinheiro"]); } else { $valor = 'NULL'; }
 
-			if ($flg_divida == "1"){ //pagar divida
+			if ($flg_divida == "1")
+			{ //pagar divida
 
 				$comandas = explode(",", $cod_comanda);			
 
@@ -116,15 +117,15 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 				".$cod_usuario.");
 				";
 
-				//echo $sql."<br>";die;
+				//echo "<br>".$sql."<br>";die;
 
-				mysql_query($sql);
-
+				mysql_query($sql) or die (mysql_error());
+				
 				Comanda_AtualizaSituacao($cod_empresa, $cod_cliente, $cod_comanda, $cod_forma_pagamento);
 
 				Comanda_AdicionaTransacaoAoCaixa($cod_empresa, $cod_caixa, $cod_comanda, 'VENDA', 'VENDA', $valor, $cod_cliente);
 
-				echo "<script language='javascript'>window.location='comanda_pagamentos.php?sucesso=1&cod_comanda=".$cod_comanda."&cod_cliente=".$cod_cliente."';</script>";die;			
+				echo "<script language='javascript'>window.location='comanda_lista.php?sucesso=pagamento_dinheiro&cod_comanda=".$cod_comanda."&cod_cliente=".$cod_cliente."';</script>";die;			
 
 			}
 		

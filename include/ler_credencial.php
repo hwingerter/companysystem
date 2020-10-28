@@ -3,18 +3,29 @@
 require_once "usuario.php";
 
 //RESETANDO CREDENCIAS
-$credencial_ver = 1;
-$credencial_incluir = 1;
-$credencial_editar = 1;
-$credencial_excluir = 1;
 
+$credencial_ver = 0;
+$credencial_incluir = 0;
+$credencial_editar = 0;
+$credencial_excluir = 0;
+$credencial_areas = 0;	
+$credencial_empresa_acessar = 0;			
 
 if(($_SESSION['tipo_conta'] == 1) || ($_SESSION['tipo_conta'] == 2))
 {
+	/*
 	$credencial_ver = 1;
 	$credencial_incluir = 1;
 	$credencial_editar = 1;
 	$credencial_excluir = 1;
+	//$credencial_areas = 1;
+	$credencial_empresa_acessar = 1;		
+
+	$menu_tipo_conta = 1;
+	$menu_credencial = 1;
+	$menu_usuario = 1;
+	$menu_minhas_preferencias = 1;
+	*/
 }
 
 //CREDENCIAIS PERMITIDAS
@@ -27,6 +38,7 @@ where 		t.cod_tipo_conta = ".$_SESSION['tipo_conta']."
 //echo $sql;die;
 $query = mysql_query($sql);
 $registros = mysql_num_rows($query);
+$totalcredencial = $registros;
 if ($registros > 0) {
 	$i = 0;
 	while ($rs = mysql_fetch_array($query)) { 
@@ -107,10 +119,23 @@ if (mysql_num_rows($query) > 0)
 }
 
 //MENU
-$menu_usuario = 0;
 $menu_tipo_conta = 0;
 $menu_credencial = 0;
+$menu_usuarios = 0;
 $menu_minhas_preferencias = 0;
+$menu_licencas = 0;
+
+$menu_clientes = 0;
+$menu_empresas = 0;
+$menu_fornecedores = 0;
+$menu_produtos = 0;
+$menu_grupo_produtos = 0;
+$menu_profissional = 0;
+$menu_tipo_servico = 0;
+$menu_servicos = 0;
+$menu_cartao = 0;
+
+$menu_agenda = 0;
 
 $sql = "
 Select		lp.cod_permissao
@@ -125,20 +150,50 @@ if (mysql_num_rows($query) > 0)
 	{ 
 		switch($rs['cod_permissao'])
 		{
-			case '1':
-				$menu_usuario = 1;
-				break;
 			case '2':
-				$menu_tipo_conta = 1;
-				break;
+			$menu_tipo_conta = 1;
+			break;
 			case '3':
-				$menu_credencial = 1;
-				break;
-				
+			$menu_credencial = 1;
+			break;
 			case '18':
-				$menu_minhas_preferencias = 1;
-				break;
-				
+			$menu_minhas_preferencias = 1;
+			break;
+			case '1':
+			$menu_usuarios = 1;
+			break;
+			case '45':
+			$menu_licencas = 1;
+			break;
+			case '4':
+			$menu_empresas = 1;
+			break;
+			case '5':
+			$menu_clientes = 1;
+			break;
+			case '6':
+			$menu_fornecedores = 1;
+			break;
+			case '7':
+			$menu_produtos = 1;
+			break;
+			case '8':
+			$menu_grupo_produtos = 1;
+			break;
+			case '10':
+			$menu_servicos = 1;
+			break;
+			case '11':
+			$menu_profissional = 1;
+			break;
+			case '12':
+			$menu_tipo_servico = 1;
+			break;	
+			case '13':
+			$menu_cartao = 1;
+			break;
+			case '60':
+			$menu_agenda = 1;
 		}
 
 	}

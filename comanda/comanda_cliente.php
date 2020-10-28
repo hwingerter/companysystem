@@ -19,7 +19,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 	
 	$acao = '';
 	$cod_empresa 			= $_SESSION['cod_empresa'];
-	$cod_usuario_inclusao 	= $_SESSION['usuario_id'];	
+	$cod_usuario_inclusao 	= $_SESSION['cod_usuario'];	
 	$cod_caixa 				= $_SESSION['cod_caixa'];	
 
 if (isset($_REQUEST['acao'])){

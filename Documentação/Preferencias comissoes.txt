@@ -1,9 +1,0 @@
-
-1a comissoes
-
-O valor do desconto será debitado no valor da comissão do vendedor, quando a comissao for do tipo percentual.
-
-2a comissoes
-
-O valor do desconto será acrescido no valor da comissão do vendedor, quando a comissao for do tipo percentual.
-

@@ -7,23 +7,19 @@ require_once "../include/funcoes.php";
 require_once "../include/ler_credencial.php";
 
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	if ($_SESSION['usuario_conta'] == '1') {
-		
-		$credencial_ver = 1;
-		$credencial_incluir = 1;
-		$credencial_editar = 1;
-		$credencial_excluir = 1;
-		
-	}
-	
-	$credencial_ver = 1;
-	$credencial_incluir = 1;
-	$credencial_editar = 1;
-	$credencial_excluir = 1;
 
+	for ($i=0; $i < count($credenciais); $i++) 
+	{ 
+		switch($credenciais[$i])
+		{
+			case "caixa_abrir":
+			$credencial_incluir = 1;		
+			break;		
+		}
+	}
 
 	$cod_empresa	= $_SESSION['cod_empresa'];
-	$cod_usuario 	= $_SESSION['usuario_id'];
+	$cod_usuario 	= $_SESSION['cod_usuario'];
 
 	
 if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica se o usu�rio tem a credencial de incluir ou editar	

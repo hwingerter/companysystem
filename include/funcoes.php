@@ -74,8 +74,8 @@ function ValorMysqlPhp($valor){
 function ValorPhpMysql($valor){
 	
 	$valor = str_replace(".", "", $valor);
-	$valor = str_replace(",", ".", $valor);
-	return $valor;
+	$valor2 = str_replace(",", ".", $valor);
+	return $valor2;
 	
 }
 
@@ -837,16 +837,25 @@ function ComboTipoComissao($cod_tipo_comissao) {
 	$query = mysql_query($sql);
 	$registros = mysql_num_rows($query);
 	if ($registros > 0) {
-		echo "<select name='cod_tipo_comissao' class='form-control' id='cod_tipo_comissao'>";
-		echo "<option value='0'>Selecione o Tipo da Comissão</option>";
+	?>
+	<select name='cod_tipo_comissao' class='form-control' id='cod_tipo_comissao' Onchange='javascript:MudarTipoComissao(this.value);'>
+		
+		<option value='0'>Selecione o Tipo da Comissão</option>
+	
+		<?php
 		while ($rs = mysql_fetch_array($query)){ 
 			echo "<option value='". $rs['cod_tipo_comissao'] ."'";
 			if ($cod_tipo_comissao == $rs['cod_tipo_comissao']) { echo " Selected"; }
 			echo ">" .$rs['nome'] . "</option>";
 		}
-		echo "</select>";
-	} else {
-		echo "N�o tem nenhum nenhum tipo de comissao";
+		?>
+
+	</select>
+	<?php
+	} 
+	else
+	{
+		echo "Não tem nenhum nenhum tipo de comissao";
 	}
 
 }
@@ -1213,7 +1222,7 @@ function ComboProfissional($cod_empresa, $cod_profissional) {
 		}
 		echo "</select>";
 	} else {
-		echo "Nenhum fornecedor encontrado";
+		echo "Nenhum Profissional encontrado";
 	}
 	
 }
@@ -1323,17 +1332,21 @@ function ComboProduto($cod_empresa, $cod_produto) {
 
 	$sql = "
 	select 		p.cod_produto, p.descricao
-	from 		grupo_produtos gp
-	inner join 	produtos p on p.cod_grupo_produto = gp.cod_grupo_produto
-	where 		gp.cod_empresa = ".$cod_empresa."
+	from 		produtos p
+	left join 	grupo_produtos gp on p.cod_grupo_produto = gp.cod_grupo_produto
+	where 		p.cod_empresa = ".$cod_empresa."
 	order by 	p.descricao asc;
 	";
 
 	$query = mysql_query($sql);
 
+	if (mysql_num_rows($query) == 0) {
+		echo "Nenhum produto cadastrado";
+	} else {
+
 	?>
 
-	<select name="cod_produto" id="cod_produto" class="form-control" onChange="CarrregarValorProduto('<?php echo $cod_empresa; ?>', this.value);">
+	<select name="cod_produto" id="cod_produto" class="form-control" onChange="CarregarValorProduto('<?php echo $cod_empresa; ?>', this.value);">
 
 		<option value="" selected> Selecione </option>
 	
@@ -1352,6 +1365,10 @@ function ComboProduto($cod_empresa, $cod_produto) {
 		?>
 
 	</select>
+
+	<?php 
+	}
+	?>
 
 <?php
 }

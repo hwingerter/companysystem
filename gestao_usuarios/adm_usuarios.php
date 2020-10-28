@@ -65,6 +65,9 @@ if ($credencial_ver == '1') { //VERIFICA SE USUÁRIO POSSUI ACESSO A ESSA ÁREA
 	
 ?>
 
+<div class="static-content-wrapper">
+	<div class="static-content">
+
 <div class="page-content">
 
 	<ol class="breadcrumb">                  

@@ -66,7 +66,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 								<div class="row">
 									<div class="col-sm-8 col-sm-offset-2">
 										<button class="btn-primary btn" onclick="javascript:SelecionarFormaPagamento();">Avançar</button>
-										<button class="btn-default btn" onclick="javascript:window.location='comanda_pagamentos.php?flg_divida=<?php echo $flg_divida;?>&cod_comanda=<?php echo $cod_comanda;?>&cod_cliente=<?php echo $cod_cliente;?>&voltar=<?php echo urlencode($voltar); ?>';">Voltar</button>
+										<button class="btn-default btn" onclick="javascript:window.location='comanda_lista.php?cod_comanda=<?php echo $cod_comanda;?>&cod_cliente=<?php echo $cod_cliente;?>';">Voltar</button>
 									</div>
 								</div>
 							</div>

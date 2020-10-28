@@ -12,8 +12,17 @@ $erro = '0';
 
 session_start();
 
-$cod_usuario = $_SESSION['cod_usuario'];
-$EmpresaPrincipal = $_SESSION['cod_empresa'];
+$cod_usuario 		= $_SESSION['cod_usuario'];
+$EmpresaPrincipal 	= 0;
+$cod_tipo_conta 	= $_SESSION['tipo_conta'] ;
+
+if (($cod_tipo_conta == 1) || ($cod_tipo_conta == 1)) 
+{
+	$EhMaster = true;
+} else {
+	$EhMaster = false;
+}
+
 
 if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || ($_REQUEST['acao'] == "trocar_empresa")))
 {
@@ -33,7 +42,7 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 		if ($_REQUEST['cod_empresa'] != "") 
 		{
 			
-			$cod_empresa = limpa($_REQUEST['cod_empresa']);
+			$cod_empresa_suporte = limpa($_REQUEST['cod_empresa']);
 	
 			//$_SESSION['cod_licenca'] = ObterLicencaAtual($cod_empresa);
 
@@ -41,14 +50,15 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 			select 		e.empresa
 			from 		empresas e 
 			inner join 	grupo_empresas g on g.cod_empresa = e.cod_empresa
-			where 		e.cod_empresa = ".$cod_empresa."
+			where 		e.cod_empresa = ".$cod_empresa_suporte."
 			";
 			//echo $sql;die;
 			$query = mysql_query($sql);
 			$rs = mysql_fetch_array($query);
 	
-			$_SESSION['cod_empresa']	= $cod_empresa;
-			$_SESSION['empresa'] 		= $rs['empresa'];
+			$_SESSION['cod_empresa']		= $cod_empresa_suporte;
+			$_SESSION['empresa'] 			= $rs['empresa'];
+			$_SESSION['cod_empresa_suporte']= $cod_empresa_suporte;
 			
 		}
 		else
@@ -69,6 +79,7 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 		from 		empresas e 
 		inner join 	grupo_empresas g on g.cod_empresa = e.cod_empresa
 		where 		e.cod_empresa = ".$cod_empresa."
+		group by e.empresa
 		";
 		//echo $sql;die;
 		$query = mysql_query($sql);
@@ -123,13 +134,13 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 		<div class="col-md-4 col-md-offset-4">
 			<div class="panel panel-default">
 
-				<?php if ($_SESSION['usuario_conta'] != 1) { ?>
+				<?php if ($EhMaster) { ?>
 
-				<div class="panel-heading"><h2>Acessar Filial</h2></div>
-				
+				<div class="panel-heading"><h2>Acessar Empresa</h2></div>
+								
 				<?php } else { ?>
 
-					<div class="panel-heading"><h2>Acessar Empresa</h2></div>
+				<div class="panel-heading"><h2>Acessar Filial</h2></div>	
 
 				<?php } ?>
 
@@ -149,11 +160,11 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 
 									<?php 
 
-									if ($_SESSION['usuario_conta'] == 1)
+									if ($EhMaster) 
 									{
 										$sql = "
 										select		e.cod_empresa, e.empresa
-										from 		empresas e 
+										from 		empresas e
 										";
 									}
 									else
@@ -161,7 +172,7 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 										$sql ="
 										select		e.cod_empresa, e.empresa
 										from 		empresas e
-										inner join 	usuarios_grupos_empresas uge on uge.cod_empresa = e.cod_empresa
+										inner join 	usuarios_empresas uge on uge.cod_empresa = e.cod_empresa
 										inner join 	usuarios u on u.cod_usuario = uge.cod_usuario
 										where 		u.cod_usuario = ".$cod_usuario."
 										";
@@ -179,7 +190,8 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 
 										echo "<select name='cod_empresa' class='form-control' id='cod_empresa'>";
 
-										if ($_SESSION['usuario_conta'] == 1){
+										if ($EhMaster)
+										{
 											echo "<option value=''>Master</option>";
 										}
 										while ($rs = mysql_fetch_array($query)){ 

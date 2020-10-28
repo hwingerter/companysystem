@@ -8,34 +8,28 @@
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
 	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "empresa_ver") {
-			$credencial_ver = 1;
+	for ($i=0; $i < count($credenciais); $i++) 
+	{ 
+		switch($credenciais[$i])
+		{
+			case "empresa_acessar":
+			$credencial_empresa_acessar = 1;		
+			break;
+			case "empresa_ver":
+			$credencial_ver = 1;		
+			break;
+			case "empresa_incluir":
+			$credencial_incluir = 1;		
+			break;
+			case "empresa_editar":
+			$credencial_editar = 1;		
+			break;
+			case "empresa_excluir":
+			$credencial_excluir = 1;		
 			break;
 		}
 	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "empresa_incluir") {
-			$credencial_incluir = 1;
-			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "empresa_editar") {
-			$credencial_editar = 1;
-			break;
-		}
-	}
-	
-	for ($x=0; $x<$totalcredencial;$x+=1) {
-		if ($credenciais[$x] == "empresa_excluir") {
-			$credencial_excluir = 1;
-			break;
-		}
-	}
-	
+
 if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �REA
 	
 	if (isset($_REQUEST['sucesso'])) { $sucesso = $_REQUEST['sucesso']; } else { $sucesso = ''; }
@@ -239,6 +233,15 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 								//CARREGA LISTA
 								$sql = "
 								select		e.cod_empresa, e.empresa, e.telefone, e.situacao, date_format(e.dt_cadastro, '%d/%m/%Y') as dt_cadastro
+											,case
+											when (select count(*) from grupo_empresas ge where ge.cod_filial = e.cod_empresa and ge.cod_empresa <> e.cod_empresa) > 0 then
+												(
+													select 		(select empresa from empresas e2 where e2.cod_empresa = ge.cod_empresa)
+													from 		grupo_empresas ge
+													where 		ge.cod_filial = e.cod_empresa
+												)
+											else ''
+											end matriz
 								from 		empresas e
 								where 		e.cod_empresa <> 1
 								";
@@ -257,8 +260,8 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 									}
 								}
 								$sql .= "
-								group by	e.cod_empresa, e.empresa
-								order by 	e.empresa asc";
+								group by	e.empresa
+								order by 	e.empresa asc ";
 								//echo $sql;
 								$query = mysql_query($sql);
 								$registros = mysql_num_rows($query);
@@ -296,7 +299,16 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 												}
 										?>
 										<tr>
-											<td align="left"><?php echo $rs['empresa']; ?></td>
+											<td align="left"><?php 
+											
+											if ($rs['matriz'] != "") {
+												echo $rs['matriz']." - ".$rs['empresa'];
+											} else {
+												echo $rs['empresa'];
+											}
+											
+											
+											?></td>
 											<td align="left"><?php echo $rs['telefone'];?></td>
 											<td align="left"><?php echo $situacao; ?></td>
 											<td align="left"><?php echo $dt_cadastro; ?></td>
@@ -319,8 +331,9 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 
 												<!--a class="btn btn-default btn-label" href="empresas_filiais.php?cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Filiais</a-->
 
+												<?php if ($credencial_empresa_acessar == "1") {?>
 												<a class="btn btn-default btn-label" href="../login_empresa.php?acao=trocar_empresa&cod_empresa=<?php echo $rs['cod_empresa'];?>"><i class="fa fa-eye"></i> Acessar </a>
-
+												<?php } ?>
 												</td>
 											</tr>
 											<?php

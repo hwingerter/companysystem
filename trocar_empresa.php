@@ -60,9 +60,7 @@ else
 						$sql ="
 						select		e.cod_empresa, e.empresa
 						from 		empresas e
-						inner join 	usuarios_empresas uge on uge.cod_empresa = e.cod_empresa
-						inner join 	usuarios u on u.cod_usuario = uge.cod_usuario
-						where 		u.cod_usuario = ".$cod_usuario."
+						where 		e.cod_empresa in (select g.cod_filial from grupo_empresas g where g.cod_empresa = ".$cod_empresa.")
 						and	 		e.situacao = 'A'
 						";
 
