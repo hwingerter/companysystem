@@ -7,11 +7,6 @@ require_once "../include/funcoes.php";
 require_once "../include/ler_credencial.php";
 
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
-	
-	
-	
-	
-	
 	for ($i=0; $i < count($credenciais); $i++) 
 	{ 
 		switch($credenciais[$i])
