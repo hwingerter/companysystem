@@ -32,7 +32,7 @@
 		$email = '';
 	}
 	if (isset($_REQUEST['senha'])) { $senha = $_REQUEST['senha']; } else { $senha = '';	}
-	if (isset($_REQUEST['senha2'])) { $senha2 = $_REQUEST['senha2']; } else { $senha2 = '';	}
+	if (isset($_REQUEST['confirma_senha'])) { $confirma_senha = $_REQUEST['confirma_senha']; } else { $confirma_senha = '';	}
 	
 	
 if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "cadastrar"))
@@ -45,10 +45,10 @@ if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "cadastrar"))
 	else
 	{
 		$cod_licenca = 1;
-		$nome 	= limpa(trim($nome));
-		$email  = limpa(trim($email));
-		$senha  = limpa(trim($senha));
-		$senha2  = limpa(trim($senha2));
+		$nome 				= limpa(trim($nome));
+		$email  			= limpa(trim($email));
+		$senha  			= limpa(trim($senha));
+		$confirma_senha 	= limpa(trim($confirma_senha));
 		
 		// VERIFICA SE O E-MAIL EXISTE
 		$sql = "Select count(*) as existe from usuarios where email='".$email."'";
@@ -60,7 +60,7 @@ if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "cadastrar"))
 		} else {
 		
 			// Verifica se a senha e igual
-			if ($senha == $senha2) {	
+			if ($senha == $confirma_senha) {	
 			
 				$sql = "
 				select case when count(*) > 0 then 'sim' else 'nao' end as JaExiste 
@@ -101,7 +101,7 @@ if ( (isset($_REQUEST['action'])) &&  ($_REQUEST['action'] == "cadastrar"))
 					$situacao = "A";
 					$dt_cadastro = date('Y-m-d');
 
-					$sql = "insert into empresas 
+					$sql = "insert into empresas  
 					(empresa, telefone, celular, situacao, dt_cadastro, cod_usuario_cadastro) 
 					values ('".limpa($empresa)."', '".limpa($telefone)."', '".limpa($celular)."', '".limpa($situacao)."', '".limpa($dt_cadastro)."','".limpa($cod_usuario_cadastro)."');";
 					//echo $sql;die;
@@ -306,9 +306,11 @@ if ($sucesso == '1')
         <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <!-- The following CSS are included as plugins and can be removed if unused-->
-    
+    <script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/jquery.validate.js"></script>
 	<script type="text/javascript" src="cadastro.js"></script>
+	<script type="text/javascript" src="assets/js/jquery.mask.min.js"></script>
 	
 </head>
 
@@ -388,12 +390,12 @@ if ($sucesso == '1')
 <div class="container" id="registration-form">
 	
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4">
+		<div class="col-md-6 col-md-offset-2">
 			<div class="panel panel-default" style="margin-top:20px;">
 				<div class="panel-heading"><h2>Criar meu cadastro</h2></div>
 				<div class="panel-body">
 
-					<form name="form1" action="cadastro.php" method="post" class="form-horizontal">
+					<form name="frmCadastro" id="frmCadastro" action="cadastro.php" method="post" class="form-horizontal">
 
 						<input type="hidden" name="action" value="cadastrar">
 						<input type="hidden" name="cod_licenca" value="<?php echo $cod_licenca; ?>">						
@@ -423,52 +425,52 @@ if ($sucesso == '1')
 						</div>
 
 						<div class="form-group">
-							<label for="Empresa" class="col-xs-4 control-label">Empresa:</label>
-	                        <div class="col-xs-8">
-	                        	<input type="text" class="form-control" name="empresa" id="Empresa" placeholder="Empresa" maxlength="200" value="<?php echo $empresa;?>">
+							<label for="empresa" class="col-xs-4 control-label">Empresa:</label>
+	                        <div class="col-sm-8">
+	                        	<input type="text" class="form-control" name="empresa" id="empresa" maxlength="100">
 	                        </div>
 						</div>
 						<div class="form-group">
-							<label for="Nome" class="col-xs-4 control-label">Administrador:</label>
-	                        <div class="col-xs-8">
-	                        	<input type="text" class="form-control" name="nome" id="Nome" placeholder="Nome" required value="<?php echo $nome;?>">
+							<label for="nome" class="col-xs-4 control-label">Administrador:</label>
+	                        <div class="col-sm-8">
+	                        	<input type="text" class="form-control" name="nome" id="nome">
 	                        </div>
 						</div>
 						<div class="form-group">
 							<label for="telefone" class="col-xs-4 control-label">Telefone:</label>
-	                        <div class="col-xs-8">
-	                        	<input type="text" class="form-control" name="telefone" id="telefone" placeholder="Telefone" required >
+	                        <div class="col-sm-8">
+	                        	<input type="text" class="form-control" name="telefone" id="telefone">
 	                        </div>
 						</div>
 						<div class="form-group">
 							<label for="celular" class="col-xs-4 control-label">celular:</label>
-	                        <div class="col-xs-8">
-	                        	<input type="text" class="form-control" name="celular" id="celular" placeholder="Celular" required>
+	                        <div class="col-sm-8">
+	                        	<input type="text" class="form-control" name="celular" id="celular">
 	                        </div>
 						</div>	
 
 						<div class="form-group">
-							<label for="Email" class="col-xs-4 control-label">E-mail (Acesso)</label>
-	                        <div class="col-xs-8">
-	                        	<input type="text" class="form-control" name="email" id="Email" placeholder="Email" required >
+							<label for="email" class="col-xs-4 control-label">E-mail (Acesso)</label>
+	                        <div class="col-sm-8">
+	                        	<input type="text" class="form-control" name="email" id="email">
 	                        </div>
 						</div>
 						<div class="form-group">
-							<label for="Password" class="col-xs-4 control-label">Senha:</label>
-	                        <div class="col-xs-8">
-	                        	<input type="password" class="form-control" name="senha" id="Password" placeholder="Password" maxlength="20" required>
+							<label for="senha" class="col-xs-4 control-label">Senha:</label>
+	                        <div class="col-sm-8">
+	                        	<input type="password" class="form-control" name="senha" id="senha"  maxlength="10">
 	                        </div>
 						</div>				
 						<div class="form-group">
-							<label for="Password" class="col-xs-4 control-label">Confirmar Senha:</label>
-	                        <div class="col-xs-8">
-	                        	<input type="password" class="form-control" name="senha2" id="Password2" placeholder="Password" maxlength="20" required>
+							<label for="confirma_senha" class="col-xs-4 control-label">Confirmar Senha:</label>
+	                        <div class="col-sm-8">
+	                        	<input type="password" class="form-control" name="confirma_senha" id="confirma_senha" maxlength="10">
 	                        </div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-xs-12" style="text-align:center;">
-								<a onclick="Cadastrar();" class="btn btn-primary">Cadastrar</a>
+								<input type="submit" class="btn btn-primary" name="signup1" value="Cadastrar">
 							</div>
 						</div>										
 
@@ -487,22 +489,78 @@ if ($sucesso == '1')
 	</div>
 </div>
 
+</body>
 
+<script type="text/javascript">
 
-	<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script> 							<!-- Load jQuery -->
-	<script type="text/javascript" src="assets/js/jqueryui-1.9.2.min.js"></script> 							<!-- Load jQueryUI -->
+$.validator.setDefaults({
+	submitHandler: function(form) {
+		form.submit();
+		return false;
+	}
+});
 
-	<script type="text/javascript" src="assets/js/bootstrap.min.js"></script> 								<!-- Load Bootstrap -->
+$( document ).ready( function () {
 
-	<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+	$('#telefone').mask('(99)99999-9999');
+	$('#celular').mask('(99)99999-9999');
 
-	<script>
-		$(document).ready(function(){
-			$('#telefone').mask('(99)99999-9999');
-			$('#celular').mask('(99)99999-9999');
-		});
-	</script>
-
-	</body>
+	$( "#frmCadastro" ).validate( {
+		rules: {
+			empresa: "required",
+			nome: {
+				required: true,
+				minlength: 5
+			},
+			email: {
+				required: true,
+				minlength: 5,
+				email: true
+			},
+			senha: {
+					required: true,
+					minlength: 5
+					},
+			confirma_senha: {
+					required: true,
+					minlength: 5,
+					equalTo: "#senha"
+			},
+		},
+		messages: {
+			empresa: "(*) Campo Obrigatório",
+			nome: "(*) Campo Obrigatório",
+			email: "Favor preencher um e-mail válido!",
+			senha: {
+					required: "Preencha o campo Senha",
+					minlength: "Sua senha deve ter no mínimo 5 caracteres"
+				},
+			confirma_senha: {
+				required: "Preencha o campo Confirmar Senha",
+				minlength: "Sua senha deve ter no mínimo 5 caracteres",
+				equalTo: "As senhas precisam ser iguais."
+			},
+		},
+		errorElement: "em",
+		errorPlacement: function ( error, element ) {
+		// Add the `help-block` class to the error element
+		error.addClass( "help-block" );
+		error.insertAfter( element );
+		},
+		success: function ( label, element ) {
+			// Add the span element, if doesn't exists, and apply the icon classes to it.
+			//if ( !$( element ).next( "span" )[ 0 ] ) {
+				//error.insertAfter( element );
+			//}
+		},
+		highlight: function ( element, errorClass, validClass ) {
+			$( element ).parents( ".col-sm-8" ).addClass( "has-error" ).removeClass( "has-success" );
+		},
+		unhighlight: function ( element, errorClass, validClass ) {
+			$( element ).parents( ".col-sm-8" ).addClass( "has-success" ).removeClass( "has-error" );
+		}
+	} );
+} );
+</script>
 
 </html>
