@@ -124,7 +124,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			Select 		max(p.cod_produto) as cod_produto
 			from 		produtos p
 			left join 	fornecedores f on f.cod_fornecedor = p.cod_fornecedor
-			where 		f.cod_empresa = ".$cod_empresa;
+			where 		p.cod_empresa = ".$cod_empresa;
 			
 			//echo $sql;die;
 
@@ -133,11 +133,12 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 
 			$cod_produto_inserido = $rs['cod_produto'];	
 
-			if((isset($_REQUEST['retorno'])) && ($_REQUEST['retorno'] == "novo_item_comanda")){
+			if((isset($_REQUEST['retorno'])) && ($_REQUEST['retorno'] == "novo_item_comanda"))
+			{
 				$cod_comanda = $_REQUEST['cod_comanda'];
 				$cod_cliente = $_REQUEST['cod_cliente'];
 
-				echo "<script language='javascript'>window.location='comanda_item_info.php?cod_comanda=".$cod_comanda."&cod_cliente=".$cod_cliente."&cod_produto_inserido=".$cod_produto_inserido."';</script>";	
+				echo "<script language='javascript'>window.location='../comanda/comanda_item_info.php?cod_comanda=".$cod_comanda."&cod_cliente=".$cod_cliente."&cod_produto_inserido=".$cod_produto_inserido."';</script>";	
 
 			}else{
 				echo "<script language='javascript'>window.location='produtos.php?sucesso=1';</script>";
