@@ -17,7 +17,7 @@ if ( (isset($_REQUEST['login'])) &&  (isset($_REQUEST['senha'])) )
 		
 		$senha .= "&D31R#i017$";
 		$senha = md5($senha);
-		
+	
 		$sql = "
 		select 	
 				u.cod_usuario, u.nome, u.tipo_conta, t.descricao as tipo_conta_descricao, u.status
