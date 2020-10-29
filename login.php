@@ -153,7 +153,7 @@
 				senha: "required",
 				senha: {
 					required: true,
-					minlength: 3
+					maxlength: 10
 				}
 			},
 			messages: {
