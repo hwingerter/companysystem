@@ -3,7 +3,7 @@
 	$host		= "127.0.0.1";
 	$usuario	= "root";
 	$password	= "";
-	$dbname		= "claudio_company";
+	$dbname		= "companys_system";
 	
 	/*
 	$host		= "localhost";
@@ -13,7 +13,7 @@
 	*/
 
 	$conexao = mysql_connect ($host, $usuario, $password);
-	$banco	 = mysql_select_db ($dbname, $conexao);
+	$banco	 = mysql_select_db ($dbname, $conexao) or die (mysql_error());
 
 	mysql_set_charset('utf8');
 ?>
