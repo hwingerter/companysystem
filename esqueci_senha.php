@@ -64,18 +64,8 @@ if (isset($_REQUEST["email"]))
 			</body>
 			</html>
 		";
-		// $mensagem = "
-		// 	<p><img src='http://www.companysystem.net.br/sistema/assets/img/COMPANY_SYSTEM_LOGO.png' style='width:120px;' alt=''></p>
-		// 	<p id='resposta'>Prezado(a), $nome</p>
-		// 	<p id='resposta'>Para gerar uma nova senha, <a href='http://www.companysystem.net.br/sistema/atualizar_senha.php?id=$cod_usuario&email=$email'>Clique Aqui</a>.</p>
-		// 	<p id='resposta'>Caso não tenha solicitado este procedimento, pedimos que descarte.</p>
-		// 	<p id='resposta'>Atenciosamente,<br>Equipe Company System.</p>
-		// ";
-
-		//echo $mensagem;die;
 
 		$retorno = EmailEsqueciMinhaSenha($email, $assunto, $mensagem);	
-		//$retorno = Email($assunto, trim($mensagem));	
 
 		$parametros = "?sucesso=4";
 
