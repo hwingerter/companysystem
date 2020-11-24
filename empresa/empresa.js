@@ -70,7 +70,7 @@
     }
 });
 
-        $("#formCadastro").validate( {
+$("#formCadastro").validate( {
             rules: {
                 empresa: {
                     required: true,

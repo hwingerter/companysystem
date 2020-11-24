@@ -2,9 +2,9 @@
 
 	require_once "../include/topo_interno2.php";
 
-require_once "../include/funcoes.php";
+	require_once "../include/funcoes.php";
 
-require_once "../include/ler_credencial.php";
+	require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
 	
@@ -194,13 +194,12 @@ if ($atualizar != '1') {
 }
 	
 ?>
-	 <script src="../js/cidade_ComboAjax.js"></script>
-	<script language='JavaScript'>
-	function Atualizar() {
-		document.forms['frm'].action = "profissional_info.php?atualizar=1";
-		document.forms['frm'].submit();
-	}
-	</script>	 
+
+<script src="../js/cidade_ComboAjax.js"></script>
+<script src="../assets/js/jquery.validate.js"></script>
+<script src="../assets/js/jquery.mask.min.js"></script>
+<script src="profissional.js"></script>
+
 				<div class="static-content-wrapper">
                     <div class="static-content">
                         <div class="page-content">
@@ -226,7 +225,7 @@ if ($atualizar != '1') {
 		</div>
 		<div class="panel-body">
 
-			<form action="profissional_info.php" class="form-horizontal row-border" name='frm' method="post">
+		<form action="profissional_info.php" class="form-horizontal row-border" name='frm' id="formCadastro" method="POST">
 				
               <?php if ($acao=="alterar"){?>
               <input type="hidden" name="id" value="<?php echo $_REQUEST['id']; ?>">
@@ -235,160 +234,164 @@ if ($atualizar != '1') {
               <input type="hidden" name="acao" value="incluir">
               <?php } ?>						
 				
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Apelido</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $apelido;?>" name="apelido" maxlength="100">
-					</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Apelido</b></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" value="<?php echo $apelido;?>" name="apelido" id="apelido" maxlength="100">
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Nome Completo</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $nome;?>" name="nome" maxlength="100">
-					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Nome Completo</b></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" value="<?php echo $nome;?>" name="nome" maxlength="100">
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Telefone</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $telefone;?>" name="telefone" maxlength="100">
-					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Telefone</b></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" value="<?php echo $telefone;?>" name="telefone" id="telefone" maxlength="100">
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Celular</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $celular;?>" name="celular" maxlength="100">
-					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Celular</b></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" value="<?php echo $celular;?>" name="celular" id="celular" maxlength="100">
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>E-mail</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $email;?>" name="email" maxlength="200">
-					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>E-mail</b></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" value="<?php echo $email;?>" name="email" maxlength="200">
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Dia Aniversário</b></label>
-					<div class="col-sm-8">
-					  <select name="dia_aniversario" class="form-control">
-						<option value="">Selecione...</option>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Dia Aniversário</b></label>
+				<div class="col-sm-8">
+					<select name="dia_aniversario" class="form-control">
+					<option value="">Selecione...</option>
 
-						<?php 
-						$i=1;
-						while($i <= 31){
-						?>
-							<option value="<?php echo $i;?>"
-								<?php if ($dia_aniversario == $i) { echo " Selected "; } ?>
-								><?php echo $i; ?></option>
-						<?php 
-						$i++;
-						}
-						?>
-						</select>
-					</div>
+					<?php 
+					$i=1;
+					while($i <= 31){
+					?>
+						<option value="<?php echo $i;?>"
+							<?php if ($dia_aniversario == $i) { echo " Selected "; } ?>
+							><?php echo $i; ?></option>
+					<?php 
+					$i++;
+					}
+					?>
+					</select>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Mês Aniversário</b></label>
-					<div class="col-sm-8">
-					  <select name="mes_aniversario" class="form-control">
-						<option value="">Selecione...</option>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Mês Aniversário</b></label>
+				<div class="col-sm-8">
+					<select name="mes_aniversario" class="form-control">
+					<option value="">Selecione...</option>
 
-						<?php 
-						$i=1;
-						while($i <= 12){
-						?>
-							<option value="<?php echo $i;?>"
-								<?php if ($mes_aniversario == $i) { echo " Selected "; } ?>
-							 ><?php echo RetornaMes($i); ?></option>
-						<?php 
-						$i++;
-						}
-						?>
-						</select>
-					</div>
+					<?php 
+					$i=1;
+					while($i <= 12){
+					?>
+						<option value="<?php echo $i;?>"
+							<?php if ($mes_aniversario == $i) { echo " Selected "; } ?>
+							><?php echo RetornaMes($i); ?></option>
+					<?php 
+					$i++;
+					}
+					?>
+					</select>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>CEP</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $cep;?>" name="cep" maxlength="10">
-					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>CEP</b></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" value="<?php echo $cep;?>" name="cep" id="cep" maxlength="10">
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Endereço</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $endereco;?>" name="endereco" maxlength="200">
-					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Endereço</b></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" value="<?php echo $endereco;?>" name="endereco" id="endereco" maxlength="200">
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Bairro</b></label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" value="<?php echo $bairro;?>" name="bairro" maxlength="200">
-					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Bairro</b></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" value="<?php echo $bairro;?>" name="bairro" id="bairro" maxlength="200">
 				</div>
-				<?php 
-				if ($cidade != '') {
-				?>
-				<script language='JavaScript'>EditaCidade('<?php echo $estado; ?>','<?php echo $cidade; ?>');</script>
-				<?php
-				}
-				?>				
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Estado</b></label>
-					<div class="col-sm-8">
-					  <select name="codestado" Onchange='atualizaCidade(this.value);' class="form-control">
-						<option value="">UF</option>
-	                    <?php
-	                    $query = mysql_query("select * from estados order by uf asc") or die (mysql_error());
-						while($rs = mysql_fetch_array($query)){
-						?>
-						<option value="<?php echo $rs['cod_estado'];?>"
-						<?php if ($estado == $rs['cod_estado']) { echo " Selected"; }?>
-						><?php echo htmlentities($rs['uf']);?></option>
-	                    <?php
-						}
-						?>
-					  </select>						
-					</div>
+			</div>
+			<?php 
+			if ($cidade != '') {
+			?>
+			<script language='JavaScript'>EditaCidade('<?php echo $estado; ?>','<?php echo $cidade; ?>');</script>
+			<?php
+			}
+			?>				
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Estado</b></label>
+				<div class="col-sm-8">
+					<select name="codestado" Onchange='atualizaCidade(this.value);' id="codestado" class="form-control">
+					<option value="">UF</option>
+					<?php
+					$query = mysql_query("select * from estados order by uf asc") or die (mysql_error());
+					while($rs = mysql_fetch_array($query)){
+					?>
+					<option value="<?php echo $rs['cod_estado'];?>"
+					<?php if ($estado == $rs['cod_estado']) { echo " Selected"; }?>
+					><?php echo htmlentities($rs['uf']);?></option>
+					<?php
+					}
+					?>
+					</select>						
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Cidade</b></label>
-					<div class="col-sm-8">
-                    <div id="city">
-				  	<select name="codcidade" class="form-control">
-						<option value="">Selecione</option>
- 					</select>
-					</div>						
-					</div>
-				</div>	
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Observações</b></label>
-					<div class="col-sm-1">
-						<textarea name="obs" class="form-control" style="width:800px; height:200px;"><?php echo $obs; ?></textarea>
-					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Cidade</b></label>
+				<div class="col-sm-8">
+				<div id="city">
+				<select name="codcidade" class="form-control">
+					<option value="">Selecione</option>
+				</select>
+				</div>						
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Mostrar na Agenda</b></label>
-					<div class="col-sm-1">
-						<input type="checkbox" class="form-control" name="mostrar_agenda" value="1"
-							<?php if($mostrar_agenda == 1) { echo "checked"; } ?>
-						>
-					</div>
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Observações</b></label>
+				<div class="col-sm-1">
+					<textarea name="obs" class="form-control" style="width:800px; height:200px;"><?php echo $obs; ?></textarea>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><b>Utiliza Agendamento Online</b></label>
-					<div class="col-sm-1">
-						<input type="checkbox" class="form-control" name="agendamento_online" value="1"
-							<?php if($agendamento_online == 1) { echo "checked"; } ?>
-						>
-					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Mostrar na Agenda</b></label>
+				<div class="col-sm-1">
+					<input type="checkbox" class="form-control" name="mostrar_agenda" value="1"
+						<?php if($mostrar_agenda == 1) { echo "checked"; } ?>
+					>
 				</div>
-			</form>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><b>Utiliza Agendamento Online</b></label>
+				<div class="col-sm-1">
+					<input type="checkbox" class="form-control" name="agendamento_online" value="1"
+						<?php if($agendamento_online == 1) { echo "checked"; } ?>
+					>
+				</div>
+			</div>
+		
 			<div class="panel-footer">
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
-						<button class="btn-primary btn" onclick="javascript:document.forms['frm'].submit();">Gravar</button>
+						<input type="submit" class="btn btn-primary" name="signup1" value="Gravar">
 						<button class="btn-default btn" onclick="javascript:window.location='profissionais.php';">Cancel</button>
 					</div>
 				</div>
 			</div>
+
+		</form>
+
+
 		</div>
 	</div>
 
