@@ -51,6 +51,7 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 			from 		empresas e 
 			inner join 	grupo_empresas g on g.cod_empresa = e.cod_empresa
 			where 		e.cod_empresa = ".$cod_empresa_suporte."
+			and 		e.situacao = 'A'
 			";
 			//echo $sql;die;
 			$query = mysql_query($sql);
@@ -79,6 +80,7 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 		from 		empresas e 
 		inner join 	grupo_empresas g on g.cod_empresa = e.cod_empresa
 		where 		e.cod_empresa = ".$cod_empresa."
+		and 		e.situacao = 'A'
 		group by e.empresa
 		";
 		//echo $sql;die;
@@ -175,6 +177,7 @@ if (isset($_REQUEST['acao']) && (($_REQUEST['acao'] == "selecionar_empresa") || 
 										inner join 	usuarios_empresas uge on uge.cod_empresa = e.cod_empresa
 										inner join 	usuarios u on u.cod_usuario = uge.cod_usuario
 										where 		u.cod_usuario = ".$cod_usuario."
+										and 		e.situacao = 'A'
 										";
 									}
 
