@@ -332,8 +332,8 @@ if ($atualizar != '1') {
 					<div class="col-sm-2">
 						<select name="situacao" id="situacao" class="form-control">
 
-						<option value="A" <?php if($situacao=="A"){echo " selected "; } ?> > Ativa </option>
-						<option value="I" <?php if($situacao=="I"){echo " selected "; } ?> > Bloqueada </option>
+						<option value="A" <?php if($situacao=="A"){echo " selected "; } ?> > Ativar </option>
+						<option value="I" <?php if($situacao=="I"){echo " selected "; } ?> > Inativar </option>
 
 						</select>
 					</div>

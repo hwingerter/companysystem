@@ -293,7 +293,7 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 												if($rs['situacao'] == "A"){
 													$situacao = '<label class="label label-success">Ativa</label>';
 												}elseif($rs['situacao'] == "I"){
-													$situacao = '<label class="label label-warning">Bloqueada</label>';
+													$situacao = '<label class="label label-warning">Inativa</label>';
 												}else{
 													$situacao = '<label class="label label-danger">Excluída</label>';
 												}
