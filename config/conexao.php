@@ -3,7 +3,7 @@
 	$host		= "127.0.0.1";
 	$usuario	= "root";
 	$password	= "";
-	$dbname		= "claudio_company";
+	$dbname		= "companys_system";
 	
 	/*
 	$host		= "localhost";
