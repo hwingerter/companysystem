@@ -233,11 +233,11 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 											<table class="table" border="1" bordercolor="#EEEEEE" style="margin: 0 auto; width: 100%;">
 							                    <thead>
 							                        <tr>
-							                        	<th style="width: 10%;">Descrição</th>
+							                        	<th style="width: 15%;">Descrição</th>
 														<th style="width: 5%;">Quantidade</th>
 														<th style="width: 10%;">Valor Total</th>
-														<th style="width: 20%;">Profissional</th>
-														<th style="width: 10%;">&nbsp;</th>
+														<th style="width: 15%;">Profissional</th>
+														<th style="width: 15%;">&nbsp;</th>
 							                    </thead>
 							                    <tbody>
 												    <?php
@@ -282,13 +282,13 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 															<td align="left"><?php echo $rs['quantidade'];?></td>
 															<td align="left"><?php echo $valor_total;?></td>
 															<td align="left"><?php echo $rs['profissional'];?></td>
-															<td>
+															<td align="center">
 																<a 
 																	class="btn btn-success btn-label" 
 																	href="comanda_item_info.php?acao=alterar&id=<?php echo $rs['cod_comanda_item']; ?>&cod_comanda=<?php echo $cod_comanda; ?>&cod_cliente=<?php echo $cod_cliente;?>">
 																	<i class="fa fa-times-circle"></i>Editar
 																</a>
-
+																&nbsp;
 																<a 
 																	class="btn btn-danger btn-label" 
 																	href="comanda_lista.php?pergunta=<?php echo $rs['cod_comanda_item']; ?>&cod_comanda=<?php echo $cod_comanda; ?>&cod_cliente=<?php echo $cod_cliente; ?>">
@@ -357,7 +357,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 														<th style="width: 12%;">Pago em</th>
 														<th style="width: 12%; text-align:center;">Valor</th>
 														<th style="width: 25%;">Pago por</th>
-														<th style="width: 20%;">&nbsp;</th>
+														<th style="width: 15%;">&nbsp;</th>
 												</thead>
 												<tbody>
 													<?php

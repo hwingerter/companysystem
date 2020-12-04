@@ -311,7 +311,7 @@ if ($caixa != "fechado")
 						}
 					}
 					$sql .= "
-						order by 	c.dt_inclusao desc;
+						order by 	c.dt_inclusao asc;
 					";
 
 					//echo $sql;
@@ -439,7 +439,7 @@ if ($caixa != "fechado")
 				}
 			}
 			$sql .= "
-				order by 	c.dt_inclusao desc
+				order by 	c.dt_inclusao asc
 			";
 
 			//echo $sql;

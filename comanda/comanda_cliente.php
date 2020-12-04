@@ -38,7 +38,7 @@ if (isset($_REQUEST['acao'])){
 		$rs = mysql_fetch_array($query);
 		$nova_comanda = $rs['nova_comanda'];
 
-		echo "<script language='javascript'>window.location='comanda_lista.php?acao=listar_itens&cod_comanda=".$nova_comanda."&cod_cliente=".$cod_cliente."';</script>"; die;
+		echo "<script language='javascript'>window.location='comanda.php';</script>"; die;
 		
 	}
 	
