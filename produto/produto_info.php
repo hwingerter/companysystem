@@ -85,7 +85,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			
 			$sql = "
 
-			INSERT INTO `claudio_company`.`produtos`
+			INSERT INTO `produtos`
 			(`cod_grupo_produto`,
 			`cod_fornecedor`,
 			`cod_empresa`,
