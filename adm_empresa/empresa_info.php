@@ -57,38 +57,37 @@ function ValidarNovaEmpresa($pNomeEmpresa, $cod_empresa)
 
 if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica se o usu�rio tem a credencial de incluir ou editar	
 
+	$acao = '';
 	
+	if (isset($_REQUEST['empresa'])) { $empresa = $_REQUEST['empresa']; } else { $empresa = ''; }
+	if (isset($_REQUEST['tipo_pessoa'])) { $tipo_pessoa = $_REQUEST['tipo_pessoa']; } else { $tipo_pessoa = '';	}
+	if (isset($_REQUEST['cnpj'])) { $cnpj = $_REQUEST['cnpj']; } else { $cnpj = '';	}
+	if (isset($_REQUEST['endereco'])) { $endereco = $_REQUEST['endereco']; } else { $endereco = ''; }
+	if (isset($_REQUEST['cep'])) { $cep = $_REQUEST['cep']; } else { $cep = ''; }
+	if (isset($_REQUEST['codestado'])) { $estado = $_REQUEST['codestado']; } else { $estado = ''; }
+	if (isset($_REQUEST['codcidade'])) { $cidade = $_REQUEST['codcidade']; } else { $cidade = ''; }
+	if (isset($_REQUEST['telefone'])) { $telefone = $_REQUEST['telefone']; } else { $telefone = ''; }
+	if (isset($_REQUEST['inscricao_estadual'])) { $inscricao_estadual = $_REQUEST['inscricao_estadual']; } else { $inscricao_estadual = ''; }
+	if (isset($_REQUEST['inscricao_municipal'])) { $inscricao_municipal = $_REQUEST['inscricao_municipal']; } else { $inscricao_municipal = ''; }
+	if (isset($_REQUEST['situacao'])) { $situacao = $_REQUEST['situacao']; } else { $situacao = ''; }	
+	if (isset($_REQUEST['atualizar'])) { $atualizar = $_REQUEST['atualizar']; } else { $atualizar = ''; }
+
+	if (isset($_REQUEST['cod_licenca'])) { $cod_licenca = $_REQUEST['cod_licenca']; } else { $cod_licenca = ''; }
+	
+	$Erro = "0";
+	$MensagemErro = "";
+
 if ($atualizar != '1') {
 	
 	if (isset($_REQUEST['acao'])) {
-
-		$acao = '';
-	
-		if (isset($_REQUEST['empresa'])) { $empresa = $_REQUEST['empresa']; } else { $empresa = ''; }
-		if (isset($_REQUEST['tipo_pessoa'])) { $tipo_pessoa = $_REQUEST['tipo_pessoa']; } else { $tipo_pessoa = '';	}
-		if (isset($_REQUEST['cnpj'])) { $cnpj = $_REQUEST['cnpj']; } else { $cnpj = '';	}
-		if (isset($_REQUEST['endereco'])) { $endereco = $_REQUEST['endereco']; } else { $endereco = ''; }
-		if (isset($_REQUEST['cep'])) { $cep = $_REQUEST['cep']; } else { $cep = ''; }
-		if (isset($_REQUEST['codestado'])) { $estado = $_REQUEST['codestado']; } else { $estado = ''; }
-		if (isset($_REQUEST['codcidade'])) { $cidade = $_REQUEST['codcidade']; } else { $cidade = ''; }
-		if (isset($_REQUEST['telefone'])) { $telefone = $_REQUEST['telefone']; } else { $telefone = ''; }
-		if (isset($_REQUEST['inscricao_estadual'])) { $inscricao_estadual = $_REQUEST['inscricao_estadual']; } else { $inscricao_estadual = ''; }
-		if (isset($_REQUEST['inscricao_municipal'])) { $inscricao_municipal = $_REQUEST['inscricao_municipal']; } else { $inscricao_municipal = ''; }
-		if (isset($_REQUEST['situacao'])) { $situacao = $_REQUEST['situacao']; } else { $situacao = ''; }	
-		if (isset($_REQUEST['atualizar'])) { $atualizar = $_REQUEST['atualizar']; } else { $atualizar = ''; }
-
-		if (isset($_REQUEST['cod_licenca'])) { $cod_licenca = $_REQUEST['cod_licenca']; } else { $cod_licenca = ''; }
-
-		$situacao = "A";
-		$dt_cadastro = date('Y-m-d');
-		$cod_usuario_cadastro = $_SESSION['cod_usuario'];
-		$cod_grupo = $_SESSION['cod_grupo'];
-
-		$Erro = "0";
-		$MensagemErro = "";
 		
 		if ($_REQUEST['acao'] == "incluir"){
 			
+			$situacao = "A";
+			$dt_cadastro = date('Y-m-d');
+			$cod_usuario_cadastro = $_SESSION['cod_usuario'];
+			$cod_grupo = $_SESSION['cod_grupo'];
+
 			//validar nova empresa
 			if(!ValidarNovaEmpresa($empresa, '')){
 				$Erro = "1";
@@ -333,8 +332,8 @@ if ($atualizar != '1') {
 					<div class="col-sm-2">
 						<select name="situacao" id="situacao" class="form-control">
 
-						<option value="A" <?php if($situacao=="A"){echo " selected "; } ?> > Ativa </option>
-						<option value="I" <?php if($situacao=="I"){echo " selected "; } ?> > Bloqueada </option>
+						<option value="A" <?php if($situacao=="A"){echo " selected "; } ?> > Ativar </option>
+						<option value="I" <?php if($situacao=="I"){echo " selected "; } ?> > Inativar </option>
 
 						</select>
 					</div>

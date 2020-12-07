@@ -1,8 +1,10 @@
-<?php require_once "../include/topo_interno2.php";
+<?php 
 
-require_once "../include/funcoes.php";
+	require_once "../include/topo_interno2.php";
 
-require_once "../include/ler_credencial.php";
+	require_once "../include/funcoes.php";
+
+	require_once "../include/ler_credencial.php";
 	
 	//*********** VERIFICA CREDENCIAIS DE USU�RIOS *************
 
@@ -625,13 +627,14 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 		<?php
 	}
 
-	if ($_REQUEST['acao']=="alterar"){
+	if ( ($_REQUEST['acao']=="alterar") || ($_REQUEST['cod_produto_inserido']!="")){
 
 		 if ($cod_servico != ""){ ?>
 
 			<script type="text/javascript">
 				document.frm.tipo_item[0].checked=true;
 				AbreTipoItem('1');
+				CarregarValorServico('<?php echo $cod_empresa; ?>', document.getElementById('cod_servico').value);
 			</script>
 
 		<?php }else{ ?>

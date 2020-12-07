@@ -233,15 +233,6 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 								//CARREGA LISTA
 								$sql = "
 								select		e.cod_empresa, e.empresa, e.telefone, e.situacao, date_format(e.dt_cadastro, '%d/%m/%Y') as dt_cadastro
-											,case
-											when (select count(*) from grupo_empresas ge where ge.cod_filial = e.cod_empresa and ge.cod_empresa <> e.cod_empresa) > 0 then
-												(
-													select 		(select empresa from empresas e2 where e2.cod_empresa = ge.cod_empresa)
-													from 		grupo_empresas ge
-													where 		ge.cod_filial = e.cod_empresa
-												)
-											else ''
-											end matriz
 								from 		empresas e
 								where 		e.cod_empresa <> 1
 								";
@@ -260,8 +251,8 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 									}
 								}
 								$sql .= "
-								group by	e.empresa
-								order by 	e.empresa asc ";
+								group by	e.cod_empresa, e.empresa
+								order by 	e.empresa asc";
 								//echo $sql;
 								$query = mysql_query($sql);
 								$registros = mysql_num_rows($query);
@@ -293,22 +284,13 @@ if ($credencial_ver == '1') { //VERIFICA SE USU�RIO POSSUI ACESSO A ESSA �RE
 												if($rs['situacao'] == "A"){
 													$situacao = '<label class="label label-success">Ativa</label>';
 												}elseif($rs['situacao'] == "I"){
-													$situacao = '<label class="label label-warning">Bloqueada</label>';
+													$situacao = '<label class="label label-warning">Inativa</label>';
 												}else{
 													$situacao = '<label class="label label-danger">Excluída</label>';
 												}
 										?>
 										<tr>
-											<td align="left"><?php 
-											
-											if ($rs['matriz'] != "") {
-												echo $rs['matriz']." - ".$rs['empresa'];
-											} else {
-												echo $rs['empresa'];
-											}
-											
-											
-											?></td>
+											<td align="left"><?php echo $rs['empresa']; ?></td>
 											<td align="left"><?php echo $rs['telefone'];?></td>
 											<td align="left"><?php echo $situacao; ?></td>
 											<td align="left"><?php echo $dt_cadastro; ?></td>
