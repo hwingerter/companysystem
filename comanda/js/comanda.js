@@ -1,44 +1,17 @@
 
-function CancelarComanda(cod_comanda){
-	location.href = "comanda.php?cancelar_comanda=" + cod_comanda;
-}
+function AbreTipoItem(TipoItem){
 
-function CalcularSubTotal(pValorUnitario, pQuantidade)
-{
+	document.getElementById("CaixaServico").style.display = "none";
+	document.getElementById("CaixaProduto").style.display = "none";
 
-	console.log($("#lblValorUnitario"));
+	if (TipoItem == "1"){
+		document.getElementById("CaixaServico").style.display = "block";
+		document.getElementById("CaixaProduto").style.display = "none";		
+	}else{
+		document.getElementById("CaixaServico").style.display = "none";
+		document.getElementById("CaixaProduto").style.display = "block";		
+	}
 
-	var valor_unitario 	= $("#lblValorUnitario").val();
-	var quantidade 		= $("#quantidade").val();
-
-	console.log(valor_unitario + " - " + quantidade);
-
-	$("#CarregandoSubTotal").hide();
-	$("#SubTotal").hide();
-
-	$.ajax({
-	    type: "GET",
-	    url: "ajaxCacularValorComanda.php?valor_unitario="+ valor_unitario +"&quantidade="+ quantidade +"&"+new Date().getTime(),
-	    beforeSend: function () {
-	        $("#CarregandoSubTotal").show();
-	    },
-	    success: function (data){
-		
-			$("#SubTotal").html(data);
-
-			setInterval(function(){ 
-				
-				$("#CarregandoSubTotal").hide();			
-				$("#SubTotal").show();
-		
-			}, 2000);	
-
-	    },
-	    error: function (xhr, ajaxOptions, thrownError) {
-	        console.log("error: xhr: " + xhr.status + " - thrownError: " + thrownError);
-	    },
-	});
-	
 }
 
 function CarregarValorServico(cod_empresa, cod_servico){
@@ -91,21 +64,34 @@ function CarregarValorProduto(cod_empresa, cod_produto){
 
 }
 
-function AbreTipoItem(TipoItem){
+function CalcularSubTotal(pValorUnitario, pQuantidade)
+{
 
-	document.getElementById("CaixaServico").style.display = "none";
-	document.getElementById("CaixaProduto").style.display = "none";
+	var valor_unitario 	= $("#txtValorUnitario").val();
+	var quantidade 		= $("#quantidade").val();
 
-	if (TipoItem == "1"){
-		document.getElementById("CaixaServico").style.display = "block";
-		document.getElementById("CaixaProduto").style.display = "none";		
-	}else{
-		document.getElementById("CaixaServico").style.display = "none";
-		document.getElementById("CaixaProduto").style.display = "block";		
-	}
+	$("#CarregandoSubTotal").hide();
+	$("#SubTotal").hide();
 
+	$.ajax({
+	    type: "GET",
+	    url: "ajaxCacularValorComanda.php?acao=calcular_subtotal&valor_unitario="+ valor_unitario +"&quantidade="+ quantidade +"&"+new Date().getTime(),
+	    beforeSend: function () {
+	        $("#lblCarregandoSubTotal").show();
+	    },
+	    success: function (data){
+		
+			$("#lblSubtotal").html(data);
+			$("#lblCarregandoSubTotal").hide();			
+			$("#lblSubtotal").show();
+
+	    },
+	    error: function (xhr, ajaxOptions, thrownError) {
+	        console.log("error: xhr: " + xhr.status + " - thrownError: " + thrownError);
+	    },
+	});
+	
 }
-
 
 function SelecionaDescAcres(TipoItem){
 
@@ -122,18 +108,41 @@ function SelecionaDescAcres(TipoItem){
 
 }
 
+function CalcularAcrescimo()
+{
+
+	var valor_subtotal 	= $("#lblSubtotal").text();
+	var valor_acrescimo	= $("#valor_acrescimo").val();
+
+	var subtotal = parseFloat(valor_subtotal) + parseFloat(valor_acrescimo);
+
+	$("#CarregandoSubTotal").hide();
+	$("#SubTotal").hide();
+
+	$.ajax({
+	    type: "GET",
+	    url: "ajaxCacularValorComanda.php?acao=calcular_acrescimo&valor_subtotal="+ valor_subtotal +"&valor_acrescimo="+ valor_acrescimo +"&"+new Date().getTime(),
+	    beforeSend: function () {
+	        $("#lblCarregandoSubTotal").show();
+	    },
+	    success: function (data){
+		
+			$("#lblSubtotal").html(data);
+			$("#lblCarregandoSubTotal").hide();			
+			$("#lblSubtotal").show();
+
+	    },
+	    error: function (xhr, ajaxOptions, thrownError) {
+	        console.log("error: xhr: " + xhr.status + " - thrownError: " + thrownError);
+	    },
+	});
+
+}
+
 function RemoverDescontoEAcrescimo(id, cod_comanda, cod_cliente){
 
 	location.href = "comanda_item_info.php?acao=alterar&id="+ id +"&pergunta_remover=" + id + "&cod_comanda=" +cod_comanda + "&cod_cliente=" + cod_cliente;
 
-	/*
-	document.frm.flg_desconto_acrescimo[0].checked = false;
-	document.frm.flg_desconto_acrescimo[1].checked = false;
-
-	document.frm.percentual_desconto.value = "";
-	document.frm.valor_desconto.value = "";
-	document.frm.valor_ascrescimo.value = "";
-	*/
 }
 
 function Calcular()
@@ -306,4 +315,8 @@ function NovoProduto(){
 	var cod_cliente = document.getElementById("cod_cliente").value;
 
 	location.href = "../produto/produto_info.php?retorno=novo_item_comanda&cod_comanda="+ cod_comanda +"&cod_cliente=" + cod_cliente;
+}
+
+function CancelarComanda(cod_comanda){
+	location.href = "comanda.php?cancelar_comanda=" + cod_comanda;
 }

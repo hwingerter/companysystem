@@ -528,7 +528,7 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 
 													<div class="form-group">
 														<label class="col-sm-2 control-label"><b>Quantidade</b></label>
-														<div class="col-sm-1">
+														<div class="col-sm-2">
 															<select name="quantidade" id="quantidade" class="form-control" onChange="CalcularSubTotal();">
 
 															<option value="" selected> ... </option>
@@ -559,9 +559,6 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 																<div class="checkbox-inline">
 																	<input type="radio" name="flg_desconto_acrescimo" id="tipo_item" value="2" <?php if($flg_desconto_acrescimo  == "2") {echo " checked "; } ?> onclick="SelecionaDescAcres('2');">&nbsp;Acréscimo
 																</div>
-																<div class="checkbox-inline">
-																	<input type="button" class="btn-danger btn" onclick="RemoverDescontoEAcrescimo('<?php echo $id; ?>', '<?php echo $cod_comanda; ?>', '<?php echo $cod_cliente; ?>');" value="Remover Desconto/Acréscimo">
-																</div>
 															</div>
 														</div>
 													</div>
@@ -569,14 +566,14 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 													<div id="caixa_desconto" style="display:none;">
 														<div class="form-group">
 															<label class="col-sm-2 control-label"><b>%</b></label>
-															<div class="col-sm-8">
+															<div class="col-sm-2">
 															  <input type="text" class="form-control" value="<?php echo $percentual_desconto;?>" name="percentual_desconto" maxlength="10">				
 															</div>
 														</div>
 
 														<div class="form-group">
 															<label class="col-sm-2 control-label"><b>R$</b></label>
-															<div class="col-sm-8">
+															<div class="col-sm-2">
 															  <input type="text" class="form-control" value="<?php echo $valor_desconto;?>" name="valor_desconto" maxlength="10" onKeyPress="return(moeda(this,'.',',',event));">				
 															</div>
 														</div>
@@ -585,8 +582,21 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 													<div id="caixa_acrescimo" style="display:none;">
 														<div class="form-group">
 															<label class="col-sm-2 control-label"><b>R$</b></label>
-															<div class="col-sm-8">
-															  <input type="text" class="form-control" value="<?php echo $valor_acrescimo;?>" name="valor_acrescimo" maxlength="10" onKeyPress="return(moeda(this,'.',',',event));">				
+															<div class="col-sm-2">
+															  <input type="text" class="form-control" value="<?php echo $valor_acrescimo;?>" name="valor_acrescimo" id="valor_acrescimo" maxlength="10" onKeyPress="return(moeda(this,'.',',',event));" onBlur="CalcularAcrescimo();">				
+															</div>
+															<div class="col-sm-2">
+																<input type="button" class="btn-danger btn" onclick="RemoverDescontoEAcrescimo('<?php echo $id; ?>', '<?php echo $cod_comanda; ?>', '<?php echo $cod_cliente; ?>');" value="Remover Desconto/Acréscimo">
+															</div>
+														</div>
+													</div>
+
+													<div id="caixa_subtotal" style="display:block;">
+														<div class="form-group">
+															<label class="col-sm-2 control-label"><b>SubTotal</b></label>
+															<div class="col-sm-2">
+															<label id="lblCarregandoSubTotal" style="display:none;" class="label label-primary">Calculando...</label>
+															<label id="lblSubtotal" class="control-label">R$ 0,00</label>
 															</div>
 														</div>
 													</div>

@@ -29,7 +29,7 @@ if ($cod_servico != "")
 
     
     //echo '<input type="hidden" value="'.$rs["valor"].'" id="ValorUnitario" name="valor">';
-    echo '<input type="text" class="form-control" value="'.$preco_unitario.'" name="valor" maxlength="10">';
+    echo '<input type="text" class="form-control" value="'.$preco_unitario.'" name="txtValorUnitario" id="txtValorUnitario" maxlength="10">';
 
 }
 
