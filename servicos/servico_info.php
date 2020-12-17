@@ -55,13 +55,36 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 		if (isset($_REQUEST["nome"])) { $nome = $_REQUEST["nome"]; } else { $nome = ""; }
 		if (isset($_REQUEST["custo_produtos"])) { $custo_produtos = $_REQUEST["custo_produtos"]; } else { $custo_produtos = "0"; }
 		if (isset($_REQUEST["preco_venda"])) { $preco_venda = ValorPhpMysql($_REQUEST["preco_venda"]); } else { $preco_venda = "0"; }
-		if (isset($_REQUEST["desconto_maximo"])) { $desconto_maximo = $_REQUEST["desconto_maximo"]; } else { $desconto_maximo = "0"; }
-		if (isset($_REQUEST["desconto_promocional"])) { $desconto_promocional = $_REQUEST["desconto_promocional"]; } else { $desconto_promocional = "0"; }
 		if (isset($_REQUEST["duracao_aproximada"])) { $duracao_aproximada = $_REQUEST["duracao_aproximada"]; } else { $duracao_aproximada = "0"; }
 		if (isset($_REQUEST["cod_tipo_comissao"])) { $cod_tipo_comissao = $_REQUEST["cod_tipo_comissao"]; } else { $cod_tipo_comissao = "1"; }
 		if (isset($_REQUEST["descontar_custo_produtos"])) { $descontar_custo_produtos = $_REQUEST["descontar_custo_produtos"]; } else { $descontar_custo_produtos = ""; }
 		if (isset($_REQUEST["obs"])) { $obs = $_REQUEST["obs"]; } else { $obs = ""; }
-		
+
+		if (isset($_REQUEST["desconto_maximo"]))
+		{
+			if (($_REQUEST["desconto_maximo"] != "") && ($_REQUEST["desconto_maximo"] != "0,00"))
+			{
+				$desconto_maximo = ValorPhpMysql($_REQUEST["desconto_maximo"]);
+			}
+			else
+			{
+				$desconto_promocional = "NULL";
+			}
+	
+		}
+
+		if (isset($_REQUEST["desconto_promocional"]))
+		{
+			if (($_REQUEST["desconto_promocional"] != "") && ($_REQUEST["desconto_promocional"] != "0,00"))
+			{
+				$desconto_promocional = ValorPhpMysql($_REQUEST["desconto_promocional"]);
+			}
+			else
+			{
+				$desconto_promocional = "NULL";
+			}
+	
+		}
 
 		if($cod_tipo_comissao == "1"){
 
@@ -111,8 +134,8 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			'".limpa($nome)."',
 			'".limpa($custo_produtos)."',
 			'".limpa($preco_venda)."',
-			'".limpa($desconto_maximo)."',
-			'".limpa($desconto_promocional)."',
+			".$desconto_maximo.",
+			".$desconto_promocional.",
 			'".limpa($duracao_aproximada)."',
 			'".limpa($cod_tipo_comissao)."',
 			".limpa($comissao_percentual).",
@@ -155,8 +178,8 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			`nome` = '".limpa($nome)."',
 			`custo_produtos` = '".limpa($custo_produtos)."',
 			`preco_venda` = '".limpa($preco_venda)."',
-			`desconto_maximo` = '".limpa($desconto_maximo)."',
-			`desconto_promocional` = '".limpa($desconto_promocional)."',
+			`desconto_maximo` = ".$desconto_maximo.",
+			`desconto_promocional` = ".$desconto_promocional.",
 			`duracao_aproximada` = '".limpa($duracao_aproximada)."',
 			`cod_tipo_comissao` = '".limpa($cod_tipo_comissao)."',
 			`comissao_percentual` = ".limpa($comissao_percentual).",
@@ -166,7 +189,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			WHERE `cod_servico` = ".$id.";
 			";
 
-			//echo $sql; die;
+			//echo "<br>".$sql; die;
 
 			mysql_query($sql);
 			
@@ -198,8 +221,8 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 					$nome = $rs["nome"];
 					$custo_produtos = $rs["custo_produtos"];
 					$preco_venda = number_format($rs['preco_venda'], 2, ',', '.');
-					$desconto_maximo = $rs["desconto_maximo"];
-					$desconto_promocional = $rs["desconto_promocional"];
+					$desconto_maximo = ValorMysqlPhp($rs["desconto_maximo"]);
+					$desconto_promocional = ValorMysqlPhp($rs["desconto_promocional"]);
 					$duracao_aproximada = $rs["duracao_aproximada"];
 					$cod_tipo_comissao = $rs["cod_tipo_comissao"];
 					$comissao_percentual = $rs["comissao_percentual"];
@@ -287,25 +310,25 @@ $voltar = urlencode("servicos/servico_info.php");
 					<div class="form-group">
 						<label class="col-sm-2 control-label"><b>Custo com Produtos (R$)</b></label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" value="<?php echo $custo_produtos;?>" name="custo_produtos" maxlength="200">
+							<input type="text" class="form-control" value="<?php echo $custo_produtos;?>" name="custo_produtos" maxlength="200" onKeyPress="return(moeda(this,'.',',',event));">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label"><b>Preco de Venda (R$)</b></label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" value="<?php echo $preco_venda;?>" name="preco_venda" maxlength="10">
+							<input type="text" class="form-control" value="<?php echo $preco_venda;?>" name="preco_venda" maxlength="10" onKeyPress="return(moeda(this,'.',',',event));">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label"><b>Desconto Maximo (%)</b></label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" value="<?php echo $desconto_maximo;?>" name="desconto_maximo" maxlength="10">
+							<input type="text" class="form-control" value="<?php echo $desconto_maximo;?>" name="desconto_maximo" maxlength="10" onKeyPress="return(moeda(this,'.',',',event));">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label"><b>Desconto Promocional (%)</b></label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" value="<?php echo $desconto_promocional;?>" name="desconto_promocional" maxlength="10">
+							<input type="text" class="form-control" value="<?php echo $desconto_promocional;?>" name="desconto_promocional" maxlength="10" onKeyPress="return(moeda(this,'.',',',event));">
 						</div>
 					</div>
 					<div class="form-group">

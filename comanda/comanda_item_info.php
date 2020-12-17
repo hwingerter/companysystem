@@ -33,9 +33,9 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 	
 		if ($_REQUEST['acao'] == "incluir_comanda"){
 
-			if (isset($_REQUEST['cod_profissional']) && ($_REQUEST['cod_profissional'] != "")) { $cod_profissional = "'".limpa($_REQUEST['cod_profissional'])."'"; } else { $cod_profissional = 'NULL'; }
+			if (isset($_REQUEST['cod_profissional']) && ($_REQUEST['cod_profissional'] != "")) { $cod_profissional = limpa($_REQUEST['cod_profissional']); } else { $cod_profissional = 'NULL'; }
 			
-			if (isset($_REQUEST["valor"])) { $valor = ValorPhpMysql($_REQUEST["valor"]); } else { $valor = 'NULL'; }
+			if (isset($_REQUEST["subtotal"])) { $valor = $_REQUEST["subtotal"]; } else { $valor = 'NULL'; }
 
 			if (isset($_REQUEST["quantidade"])) { $quantidade = $_REQUEST["quantidade"]; } else { $quantidade = "NULL"; }
 
@@ -49,27 +49,27 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 				$cod_produto = $_REQUEST['cod_produto'];
 			}
 
-			$percentual_desconto = "NULL";
+			$desconto_percentual = "NULL";
 			$valor_desconto = "NULL";
 			$valor_acrescimo = "NULL";
 
 			if ($_REQUEST['flg_desconto_acrescimo'] == "1"){
 
-				if ($_REQUEST['percentual_desconto'] != ""){
-					$percentual_desconto = $_REQUEST['percentual_desconto'];
+				if ($_REQUEST['desconto_percentual'] != ""){
+					$desconto_percentual = ValorPhpMysql($_REQUEST['desconto_percentual']);
 					$valor_desconto = "NULL";
 				}
 
 				if ($_REQUEST['valor_desconto'] != ""){
-					$percentual_desconto = "NULL";
-					$valor_desconto = ValorPhpMysql($_REQUEST['valor_desconto']);
+					$desconto_percentual = "NULL";
+					$valor_desconto = $_REQUEST['valor_desconto'];
 				}
 
 				$valor_acrescimo = "NULL";
 
 			}elseif ($_REQUEST['flg_desconto_acrescimo'] == "2"){
 
-				$percentual_desconto = "NULL";
+				$desconto_percentual = "NULL";
 				$valor_desconto = "NULL";
 
 				if ($_REQUEST['valor_acrescimo'] != ""){
@@ -78,6 +78,14 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 					$valor_acrescimo = "NULL";
 				}
 			}
+
+			/*
+			echo "<bR>percentual_desconto ".$desconto_percentual."<br>";
+			echo "valor_desconto ".$valor_desconto."<br>";
+			echo "valor_acrescimo ".$valor_acrescimo."<br>";
+			*/
+			//die;
+			
 		
 			/*COMISSÃO*/
 
@@ -184,7 +192,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 				".$valor.", 
 				".$quantidade.",
 				".$flg_desconto_acrescimo.",
-				".$percentual_desconto.",
+				".$desconto_percentual.",
 				".$valor_desconto.",
 				".$valor_acrescimo.",
 				".$cod_tipo_comissao.",
@@ -192,16 +200,18 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 				now())
 				;";
 
-			//echo $sql; die;
+			//echo "<br>".$sql;die;
 
-			mysql_query($sql);
+			if (!(mysql_query($sql))) {
+				echo "<script language='javascript'>alert('Ocorreu um erro.".mysql_error()."');history.back(-1);</script>";die;
+			}
 		
 			echo "<script language='javascript'>window.location='comanda_lista.php?cod_comanda=".$cod_comanda."&cod_cliente=".$cod_cliente."&sucesso=1';</script>";
 			
 		}else if ($_REQUEST['acao'] == "atualizar"){
 			
 			if (isset($_REQUEST['cod_profissional']) && ($_REQUEST['cod_profissional'] != "")) { $cod_profissional = "'".limpa($_REQUEST['cod_profissional'])."'"; } else { $cod_profissional = 'NULL'; }
-			if (isset($_REQUEST["valor"]) && ($_REQUEST['valor'] != "")) { $valor = ValorPhpMysql($_REQUEST["valor"]); } else { $valor = 'NULL'; }
+			if (isset($_REQUEST["subtotal"]) && ($_REQUEST['subtotal'] != "")) { $valor = $_REQUEST["subtotal"]; } else { $valor = 'NULL'; }
 			if (isset($_REQUEST["quantidade"])) { $quantidade = $_REQUEST["quantidade"]; } else { $quantidade = "NULL"; }
 
 			if (isset($_REQUEST["flg_desconto_acrescimo"])) { $flg_desconto_acrescimo = "'".$_REQUEST["flg_desconto_acrescimo"]."'"; } else { $flg_desconto_acrescimo = "NULL"; }
@@ -215,19 +225,19 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 				$cod_produto = $_REQUEST['cod_produto'];
 			}
 
-			$percentual_desconto = "NULL";
+			$desconto_percentual = "NULL";
 			$valor_desconto = "NULL";
 			$valor_acrescimo = "NULL";
 
 			if ($_REQUEST['flg_desconto_acrescimo'] == "1"){
 
-				if ($_REQUEST['percentual_desconto'] != ""){
-					$percentual_desconto = $_REQUEST['percentual_desconto'];
+				if ($_REQUEST['desconto_percentual'] != ""){
+					$desconto_percentual = $_REQUEST['desconto_percentual'];
 					$valor_desconto = "NULL";
 				}
 
 				if ($_REQUEST['valor_desconto'] != ""){
-					$percentual_desconto = "NULL";
+					$desconto_percentual = "NULL";
 					$valor_desconto = ValorPhpMysql($_REQUEST['valor_desconto']);
 				}
 
@@ -253,6 +263,9 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			where 	cod_empresa = ".$cod_empresa." 
 			and 	cod_profissional = ".$cod_profissional."
 			";
+
+			//echo $sql;die;
+
 			$query = mysql_query($sql);
 			$total = mysql_num_rows($query);
 
@@ -264,6 +277,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			}
 			else
 			{
+
 				if($cod_servico != "NULL")
 				{
 					$sql = "
@@ -317,7 +331,7 @@ if (($credencial_incluir == '1') || ($credencial_editar == '1')) { // Verifica s
 			`valor` = ".$valor.", 
 			`quantidade` = ".$quantidade.",
 			`flg_desconto_acrescimo` = ".$flg_desconto_acrescimo.",
-			`percentual_desconto` = ".$percentual_desconto.",
+			`percentual_desconto` = ".$desconto_percentual.",
 			`valor_desconto` = ".$valor_desconto.",
 			`valor_acrescimo` = ".$valor_acrescimo.",
 			`cod_tipo_comissao` = ".$cod_tipo_comissao.",
@@ -461,7 +475,7 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 											</div>
 											<div class="panel-body">
 
-												<form action="comanda_item_info.php" class="form-horizontal row-border" name='frm' method="post">
+												<form action="comanda_item_info.php" class="form-horizontal row-border" name='frm' method="post" onsubmit="return ValidaComanda();">
 
 									              <input type="hidden" name="cod_empresa" id="cod_empresa" value="<?php echo $cod_empresa; ?>">
 									              <input type="hidden" name="cod_comanda" id="cod_comanda" value="<?php echo $cod_comanda; ?>">
@@ -520,7 +534,7 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 
 													<div class="form-group">
 														<label class="col-sm-2 control-label"><b>Valor Unitário</b></label>
-														<div class="col-sm-2">
+														<div class="col-sm-6">
 															<label id="lblCarregandoValorUnitario" style="display:none;" class="label label-primary">Carregando...</label>
 															<label id="lblValorUnitario" class="control-label">R$ 0,00</label>
 														</div>
@@ -528,7 +542,7 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 
 													<div class="form-group">
 														<label class="col-sm-2 control-label"><b>Quantidade</b></label>
-														<div class="col-sm-1">
+														<div class="col-sm-2">
 															<select name="quantidade" id="quantidade" class="form-control" onChange="CalcularSubTotal();">
 
 															<option value="" selected> ... </option>
@@ -554,13 +568,10 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 															<label class="col-sm-3 control-label"><b>Selecione</b></label>
 															<div class="col-sm-8">
 																<div class="checkbox-inline">
-																	<input type="radio" name="flg_desconto_acrescimo" id="tipo_item" value="1" <?php if($flg_desconto_acrescimo  == "1") {echo " checked "; } ?> onclick="SelecionaDescAcres('1');" >&nbsp;Desconto 
+																	<input type="radio" name="flg_desconto_acrescimo" id="tipo_item" value="1" <?php if($flg_desconto_acrescimo  == "1") {echo "  checked "; } ?> onclick="SelecionaDescAcres('1');" >&nbsp;Desconto 
 																</div>
 																<div class="checkbox-inline">
 																	<input type="radio" name="flg_desconto_acrescimo" id="tipo_item" value="2" <?php if($flg_desconto_acrescimo  == "2") {echo " checked "; } ?> onclick="SelecionaDescAcres('2');">&nbsp;Acréscimo
-																</div>
-																<div class="checkbox-inline">
-																	<input type="button" class="btn-danger btn" onclick="RemoverDescontoEAcrescimo('<?php echo $id; ?>', '<?php echo $cod_comanda; ?>', '<?php echo $cod_cliente; ?>');" value="Remover Desconto/Acréscimo">
 																</div>
 															</div>
 														</div>
@@ -569,15 +580,18 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 													<div id="caixa_desconto" style="display:none;">
 														<div class="form-group">
 															<label class="col-sm-2 control-label"><b>%</b></label>
-															<div class="col-sm-8">
-															  <input type="text" class="form-control" value="<?php echo $percentual_desconto;?>" name="percentual_desconto" maxlength="10">				
+															<div class="col-sm-2">
+															  <input type="text" class="form-control" value="<?php echo $percentual_desconto;?>" name="desconto_percentual" id="desconto_percentual" maxlength="10" onKeyPress="return(moeda(this,'.',',',event));" onBlur="CalcularDescontoPercentual();">				
+															</div>
+															<div class="col-sm-6">
+																<label id="lblDescontoPercentual" class="control-label"></label>
 															</div>
 														</div>
 
 														<div class="form-group">
 															<label class="col-sm-2 control-label"><b>R$</b></label>
-															<div class="col-sm-8">
-															  <input type="text" class="form-control" value="<?php echo $valor_desconto;?>" name="valor_desconto" maxlength="10" onKeyPress="return(moeda(this,'.',',',event));">				
+															<div class="col-sm-2">
+															  <input type="text" class="form-control" value="<?php echo $valor_desconto;?>" name="desconto_valor" id="desconto_valor" maxlength="10" onKeyPress="return(moeda(this,'.',',',event));" onBlur="CalcularDescontoValor();">				
 															</div>
 														</div>
 													</div>
@@ -585,22 +599,35 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 													<div id="caixa_acrescimo" style="display:none;">
 														<div class="form-group">
 															<label class="col-sm-2 control-label"><b>R$</b></label>
-															<div class="col-sm-8">
-															  <input type="text" class="form-control" value="<?php echo $valor_acrescimo;?>" name="valor_acrescimo" maxlength="10" onKeyPress="return(moeda(this,'.',',',event));">				
+															<div class="col-sm-2">
+															  <input type="text" class="form-control" value="<?php echo $valor_acrescimo;?>" name="valor_acrescimo" id="valor_acrescimo" maxlength="12" onKeyPress="return(moeda(this,'.',',',event));" onBlur="CalcularAcrescimo();">				
+															</div>
+															<div class="col-sm-2">
+																<input type="button" id="btnRemoverAcrescimo" class="btn-danger btn" onclick="RemoverAcrescimo('<?php echo $id; ?>', '<?php echo $cod_comanda; ?>', '<?php echo $cod_cliente; ?>');" value="Remover Acréscimo">
 															</div>
 														</div>
 													</div>
 
-												</form>
+													<div id="caixa_subtotal" style="display:block;">
+														<div class="form-group">
+															<label class="col-sm-2 control-label"><b>SubTotal</b></label>
+															<div class="col-sm-2">
+															<label id="lblCarregandoSubTotal" style="display:none;" class="label label-primary">Calculando...</label>
+															<label id="lblSubtotal" class="control-label">R$ 0,00</label>
+															</div>
+														</div>
+													</div>
 
 												<div class="panel-footer">
 													<div class="row">
 														<div class="col-sm-8 col-sm-offset-2">
-															<button class="btn-primary btn" onclick="javascript:document.forms['frm'].submit();">Gravar</button>
+															<input type="submit" class="btn-primary btn" id="btnGravar" value="Gravar">
 															<button class="btn-default btn" onclick="javascript:window.location='comanda_lista.php?cod_comanda=<?php echo $cod_comanda;?>&cod_cliente=<?php echo $cod_cliente;?>';">Voltar</button>
 														</div>
 													</div>
 												</div>
+
+												</form>
 
 											</div>
 										</div>
@@ -649,16 +676,28 @@ if (isset($_REQUEST['cod_produto_inserido']) && ($_REQUEST['cod_produto_inserido
 
 		<?php if ($quantidade != ""){ ?>
 			<script type="text/javascript">
-				document.getElementById("quantidade").value="<?php echo $quantidade; ?>";
+				document.getElementById("quantidade").value = "<?php echo $quantidade; ?>";
 			</script>
 		<?php } ?>
 
 
 		<?php		 
-		if($flg_desconto_acrescimo != ""){
+		if ($flg_desconto_acrescimo == "1")
+		{
 		?>
-			<script>SelecionaDescAcres('<?php echo $flg_desconto_acrescimo; ?>');</script>
+			<script>
+				SelecionaDescAcres('<?php echo $flg_desconto_acrescimo; ?>');
+			</script>
+
 		<?php
+		}elseif ($flg_desconto_acrescimo == "2") 
+		{
+		?>
+			<script>
+				SelecionaDescAcres('<?php echo $flg_desconto_acrescimo; ?>');
+			</script>
+
+		<?php 
 		}
 
 	}
